@@ -15,5 +15,5 @@ class Item(models.Model):
 
 class ItemImage(models.Model):
     alt = models.CharField(max_length=255, blank=False)
-    image = PreviewImageField(upload_to=settings.UPLOAD_PATH)
+    image = models.ImageField(upload_to=settings.UPLOAD_PATH)
     
