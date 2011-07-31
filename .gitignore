@@ -1,3 +1,5 @@
 *.py[co]
 *.po
 
+src/local_settings.py
+src/.settings

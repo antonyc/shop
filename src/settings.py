@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'catalog',
     'south',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -144,3 +145,5 @@ LOGGING = {
         },
     }
 }
+
+from local_settings import *
