@@ -17,6 +17,11 @@ DATABASES = {
         'PASSWORD': 'password',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'TEST_CHARSET': 'utf8',
+        'TEST_COLLATION': 'utf8_general_ci',
+        'OPTIONS': {
+            'init_command': 'SET storage_engine=INNODB; SET names utf8;'
+        }, 
     }
 }
 
@@ -100,7 +105,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'shop.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -110,12 +115,17 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'catalog',
+    'orders',
+    'administration',
+    'pages',
     'south',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -145,5 +155,7 @@ LOGGING = {
         },
     }
 }
+
+THUMBNAIL_SIZE = (110, 110,)
 
 from local_settings import *

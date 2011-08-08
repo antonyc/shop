@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load url from future %}
+{% load i18n %}
+<html xmlns="http://www.w3.org/1999/xhtml"><head>{% load i18n %}{% load url from future %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{% trans 'store warehouse' %}{% endblock %}</title>
+    <script type="text/javascript" src="http://yandex.st/jquery/1.6.2/jquery.min.js"></script>
+    {% block script %}{% endblock %}
+    {% block css %}{% endblock %}
+</head>
+<body>
+	<div>
+	<div class="b-head">
+	<ul>
+		<li><a href="{% url 'list_orders' %}">{% trans 'Orders' %}</a></li>
+		<li><a href="{% url 'list_items' %}">{% trans 'Items' %}</a></li>
+		<li><a href="{% url 'list_categories' %}">{% trans 'Categories' %}</a></li>
+		<li><a href="{% url 'list_pages' %}">{% trans 'Pages' %}</a></li>
+	</ul>
+	</div>
+	{% block contents %}{% endblock %}
+	</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends "administration_base.html" %}
+{% load i18n %}
+{% block contents %}
+	<h2>{% trans 'Do you really want to delete this item?' %}</h2>
+	<p>{{ item.name }}</p>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<input type="submit" value="{% trans 'Delete' %}" />
+	</form>
+{% endblock %}

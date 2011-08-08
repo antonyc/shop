@@ -1,0 +1,31 @@
+{% extends "administration_base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% block contents %}
+<a href="{% url 'add_category' %}">{% trans 'add category' %}</a>
+{% if is_paginated %}
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if paginator.has_previous %}
+	            <a href="?page={{ paginator.previous_page_number }}">{% trans 'previous' %}</a>
+	        {% endif %}
+	
+	        <span class="current">
+	            {% trans 'Page' %} {{ paginator.number }} {% trans 'of' %} {{ paginator.paginator.num_pages }}.
+	        </span>
+	
+	        {% if paginator.has_next %}
+	            <a href="?page={{ paginator.next_page_number }}">{% trans 'next' %}</a>
+	        {% endif %}
+	    </span>
+	</div>
+{% endif %}
+<ul>
+{% for category in object_list %}
+	<li>{{ category.name }} 
+		<a href="{% url 'edit_category' id=category.id %}">{% trans 'edit category' %}</a>,
+		<a href="{% url 'delete_category' id=category.id %}">{% trans 'delete category' %}</a>
+	</li>
+{% endfor %}
+</ul>
+{% endblock %}

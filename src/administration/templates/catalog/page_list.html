@@ -1,0 +1,31 @@
+{% extends "administration_base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% block contents %}
+<a href="{% url 'add_page' %}">{% trans 'add item' %}</a>
+{% if is_paginated %}
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if paginator.has_previous %}
+	            <a href="?page={{ paginator.previous_page_number }}">{% trans 'previous' %}</a>
+	        {% endif %}
+	
+	        <span class="current">
+	            {% trans 'Page' %} {{ paginator.number }} {% trans 'of' %} {{ paginator.paginator.num_pages }}.
+	        </span>
+	
+	        {% if paginator.has_next %}
+	            <a href="?page={{ paginator.next_page_number }}">{% trans 'next' %}</a>
+	        {% endif %}
+	    </span>
+	</div>
+{% endif %}
+<ul>
+{% for item in object_list %}
+	<li>{{ item.name }} 
+		<a href="{% url 'edit_item' id=item.id %}">{% trans 'edit item' %}</a>,
+		<a href="{% url 'delete_item' id=item.id %}">{% trans 'delete item' %}</a>
+	</li>
+{% endfor %}
+</ul>
+{% endblock %}

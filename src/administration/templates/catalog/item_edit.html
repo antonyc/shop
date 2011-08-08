@@ -1,0 +1,43 @@
+{% extends "administration_base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% block contents %}
+<form action="" method="POST">
+{% csrf_token %}
+<fieldset>
+<legend>{% trans 'New item' %}</legend>
+<ul>
+{{ form.as_ul }}
+</ul>
+<input type="submit" value="{% trans 'send' %}" />
+</fieldset>
+</form>
+{% if images|length %}
+<div class="b-item-images">
+	<ul>
+	{% for image in images %}
+	<li><div class="">
+		<a href="{{ image.url }}"><img src="{{ image.object.thumbnail }}" alt="{{ image.alt }}" /></a>
+		<form action="{% url 'delete_item_image' id=image.object.id %}" method="POST">
+			{% csrf_token %}
+			<input type="submit" value="{% trans 'delete' %}" />
+		</form>
+	</div></li>
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+{% if item.id %}
+<div>
+<form action="{% url 'upload_item_image' id=item.id %}" enctype="multipart/form-data" method="POST">
+{% csrf_token %}
+<fieldset>
+	<legend>{% trans 'Upload image' %}</legend>
+	<ul>
+	{{ image_form.as_ul }}
+	</ul>
+<input type="submit" value="{% trans 'upload' %}" />
+</form>
+</div>
+{% endif %}
+{% endblock %}

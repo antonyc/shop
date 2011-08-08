@@ -1,0 +1,25 @@
+{% extends "administration_base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load humanize %)
+{% block contents %}
+<h2>{% trans 'Order' %}</h2>
+{% trans 'Author' %} {{ order.user }}
+<ul>
+	{% for order_item in order.orderitem_set.all %} 
+	<li>{{ order_item.item.name }} {% trans 'quantity' %}: {{ order_item.quantity }}
+		<form action="{% url 'edit_order_item' id=order_item.id %}" method="POST">{% csrf_token %}
+			<label>{% trans 'quantity' %}<input type="text" value="{{ order_item.quantity }}" /></label>
+			<input type="submit" value="{% trans 'change' %}" />
+		</form> 
+		<form action="{% url 'delete_order_item' id=order_item.id %}" method="POST">{% csrf_token %}
+			<input type="submit" value="{% trans 'delete' %}" />
+		</form> 
+	</li>
+	{% endfor %}
+</ul>
+<form action="{% url 'order_status' id=order.id  %}" method="POST">{% csrf_token %}
+<input type="hidden" value="{{ delete_status }}" name="status" />
+<input type="submit" value="{% trans 'delete order' %}" />
+</form>
+{% endblock %}
