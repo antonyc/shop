@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load loginza_widget %}
+{% load i18n %}{% load url from future %}
+{% block script %}
+<script src="http://s1.loginza.ru/js/widget.js" type="text/javascript"></script>
+{% if get_data %}<script src="{{ STATIC_URL }}blocks/loginza/loginza.js" type="text/javascript"></script>{% endif %}
+{% endblock %}
+{% block contents %}
+	<div>
+	{% loginza_iframe lang="ru" %}
+	</div>
+	{% if get_data %}
+	<div class="b-get-loginza-data" onclick="return {url: '{% url 'loginza_login' %}'}"></div>
+	{% endif %}
+{% endblock %}

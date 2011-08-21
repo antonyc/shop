@@ -50,4 +50,4 @@ def translit(s):
     """
     Accepts only unicode, works on pypi "trans" module
     """
-    return re.sub(replacement_regexp, '-', s.encode('trans'))
+    return re.sub(replacement_regexp, '-', s.encode('trans')).strip('_')

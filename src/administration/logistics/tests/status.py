@@ -13,6 +13,8 @@ class StatusOrdersTest(TestCase):
         items = Item.objects.all()[:2]
         self.order = get(Order, user=self.user, status=NEW)
         self.orders_item = []
+        self.user = User.objects.create_superuser('zver', 'anton.chaporgin@list.ru', '1')
+        self.client.login(username='zver', password='1')
         for item in items:
             self.orders_item.append(get(OrderItem,item=item,
                 order=self.order,

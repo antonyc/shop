@@ -4,33 +4,23 @@ Created on 31.07.2011
 @author: chapson
 '''
 from django.conf import settings
-from django.views.generic.list import ListView
-from django.views.generic.base import TemplateView
 from django.utils.translation import ugettext
 from django.core.paginator import Paginator
 from pages.models import Page, RedirectPage
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.forms.models import ModelForm
-from django.utils import simplejson
 from utils.strings import parse_markup
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
-from utils import is_staff
+from administration.views import AdminTemplateView, AdminListView
 
 class PageForm(ModelForm):
     class Meta:
         model = Page
         fields = ('body', 'title')
 
-class EditPageView(TemplateView):
+class EditPageView(AdminTemplateView):
     template_name = 'catalog/page_edit.html'
 
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-#        print 'user'
-        return super(EditPageView, self).dispatch(*args, **kwargs)
-    
     def get(self, request, id=None, *args, **kwargs):
         params = {}
         if id is None:
@@ -73,14 +63,9 @@ class EditPageView(TemplateView):
             return self.render_to_response(params)
 
 
-class ListPagesView(ListView):
+class ListPagesView(AdminListView):
     template_name = 'catalog/page_list.html'
     model = Page
     queryset = Page.objects.all().order_by('-created_at')
     paginate_by = 50
     allow_empty = True
-    
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-#        print 'user'
-        return super(ListPagesView, self).dispatch(*args, **kwargs)

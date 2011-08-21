@@ -1,15 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-{% load url from future %}
-{% load i18n %}
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load url from future %}{% load i18n %}
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}{% trans 'Storefront' %}{% endblock %}</title>
-    <script type="text/javascript" src="http://yandex.st/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://yandex.st/jquery/1.5.2/jquery.min.js"></script>
     {% block script %}{% endblock %}
     {% block css %}{% endblock %}
 </head>
 <body>
-	<div>
+<div>
+	<div class="b-authentication" onclick="return {}">
+		{% if request.user.is_authenticated %}
+			{% trans 'Вы' %} {{ request.user.email }}
+			<a href="{% url 'user_logout' %}">{% trans 'logout' %}</a>
+		{% else %}
+			{% trans 'New user' %}
+		{% endif %}
+		
+	</div>
 	<div class="b-head">
 	<ul>
 		<li><a href="{% url 'list_orders' %}">{% trans 'Orders' %}</a></li>
@@ -19,6 +28,6 @@
 	</ul>
 	</div>
 	{% block contents %}{% endblock %}
-	</div>
+</div>
 </body>
 </html>

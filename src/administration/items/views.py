@@ -5,8 +5,6 @@ Created on 31.07.2011
 '''
 from django.conf import settings
 from catalog.models import Item, Category, ItemImage
-from django.views.generic.list import ListView
-from django.views.generic.base import TemplateView
 from django.utils.translation import ugettext
 from django.forms import Form, fields
 from django.forms.widgets import Textarea
@@ -16,9 +14,7 @@ from django.core.urlresolvers import reverse
 from utils.strings import translit
 from administration.categories.views import categories_choices
 from administration.images.views import ItemImageForm
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
-from utils import is_staff
+from administration.views import AdminListView, AdminTemplateView
 
 class ViewMixin(object):
     errors = []
@@ -32,15 +28,12 @@ class ViewMixin(object):
         context['errors'] = self.errors
         return self.render_to_response(context)
 
-class ListItemsView(ListView):
+class ListItemsView(AdminListView):
     model = Item
     queryset = Item.objects.all().order_by('-created_at')
     paginate_by = 50
     allow_empty = True 
 
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-        return super(ListItemsView, self).dispatch(*args, **kwargs)
 
 
 class EditForm(Form):
@@ -53,13 +46,9 @@ class EditForm(Form):
         super(EditForm, self).__init__(*args, **kwargs)
         self.fields['categories'].choices = categories_choices()
 
-class EditItemsView(TemplateView):
+class EditItemsView(AdminTemplateView):
     template_name = 'catalog/item_edit.html'
     params = {}
-
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-        return super(EditItemsView, self).dispatch(*args, **kwargs)
 
     def get(self, request, id=None, *args, **kwargs):
         if id is None:
@@ -118,14 +107,9 @@ class EditItemsView(TemplateView):
             self.params['form'] = form
             return self.render_to_response(self.params, status=409)
         
-class DeleteItemsView(TemplateView):
+class DeleteItemsView(AdminTemplateView):
     template_name = 'catalog/item_delete.html'
     params = {}
-
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-        return super(DeleteItemsView, self).dispatch(*args, **kwargs)
-
     
     def get(self, request, id):
         try:

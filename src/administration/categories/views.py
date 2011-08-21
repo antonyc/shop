@@ -5,8 +5,6 @@ Created on 31.07.2011
 @author: chapson
 '''
 from catalog.models import Item, Category
-from django.views.generic.list import ListView
-from django.views.generic.base import TemplateView
 from django.utils.translation import ugettext
 from django.forms import Form, fields
 from django.forms.widgets import Textarea
@@ -14,9 +12,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template.defaulttags import url
 from django.core.urlresolvers import reverse
 from utils.strings import translit
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
-from utils import is_staff
+from administration.views import AdminListView, AdminTemplateView
 
 class ViewMixin(object):
     errors = []
@@ -30,15 +26,11 @@ class ViewMixin(object):
         context['errors'] = self.errors
         return self.render_to_response(context)
 
-class ListCategoriesView(ListView):
+class ListCategoriesView(AdminListView):
     model = Category
     queryset = Category.objects.all().order_by('-created_at')
     paginate_by = 50
     allow_empty = True
-
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-        return super(ListCategoriesView, self).dispatch(*args, **kwargs)
 
 def categories_choices(no=None):
     result = [('', ugettext('No parent'))]
@@ -56,14 +48,9 @@ class EditForm(Form):
         super(EditForm, self).__init__(*args, **kwargs)
         self.fields['parent'].choices = categories_choices()
 
-class EditCategoryView(TemplateView):
+class EditCategoryView(AdminTemplateView):
     template_name = 'catalog/category_edit.html'
     params = {}
-
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-#        print 'user'
-        return super(EditCategoryView, self).dispatch(*args, **kwargs)
     
     def get(self, request, id=None, *args, **kwargs):
         if id is None:
@@ -121,15 +108,9 @@ class EditCategoryView(TemplateView):
             self.params['form'] = form
             return self.render_to_response(self.params, status=409)
         
-class DeleteCategoryView(TemplateView):
+class DeleteCategoryView(AdminTemplateView):
     template_name = 'catalog/category_delete.html'
     params = {}
-
-
-    @method_decorator(user_passes_test(is_staff))
-    def dispatch(self, *args, **kwargs):
-#        print 'user'
-        return super(DeleteCategoryView, self).dispatch(*args, **kwargs)
 
     def get(self, request, id):
         try:

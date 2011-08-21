@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^administration/', include('administration.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('users.urls')),
+    url(r'^loginza/', include('loginza.urls')),
 )
 
 

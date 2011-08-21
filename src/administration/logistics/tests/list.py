@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from catalog.models import Item
-'''
-Created on 31.07.2011
+from django.contrib.auth.models import User
 
-@author: chapson
-'''
-
-class DeleteOrdersTest(TestCase):
+class ListOrdersTest(TestCase):
     fixtures = ['categories.json']
     def setUp(self):
-        pass
+        self.user = User.objects.create_superuser('chapson', 'mrdark@list.ru', '1')
+        self.client.login(username='chapson', password='1')
     
     def test_list_items(self):
         result = self.client.get('/administration/orders/')

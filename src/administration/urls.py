@@ -8,7 +8,6 @@ from administration.logistics.views import ListOrdersView, EditOrderItemView,\
     EditOrderView, StatusOrderView, DeleteOrderItemView
 from administration.admin_pages.views import EditPageView, ListPagesView
 
-
 urlpatterns = patterns('',
     url(r'items/$', ListItemsView.as_view(), name='list_items'),
     url(r'items/(?P<id>\d+)/edit/$', EditItemsView.as_view(), name='edit_item'),

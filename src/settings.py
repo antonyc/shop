@@ -126,11 +126,20 @@ INSTALLED_APPS = (
     'orders',
     'administration',
     'pages',
+    'users',
+    'loginza',
     'south',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+)
+
+AUTH_PROFILE_MODULE = 'users.UserProfile'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'loginza.authentication.LoginzaBackend',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -157,5 +166,8 @@ LOGGING = {
 }
 
 THUMBNAIL_SIZE = (110, 110,)
+
+LOGINZA_DEFAULT_PROVIDERS_SET = 'google,facebook,vkontakte,twitter'
+LOGINZA_AMNESIA_PATHS = ('/accounts/final_step/','/accounts/login/')
 
 from local_settings import *
