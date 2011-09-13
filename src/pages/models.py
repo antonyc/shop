@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from django.contrib.auth.models import User
 from utils.strings import translit
@@ -26,6 +28,12 @@ class Page(models.Model):
                 self.url = url
         return self.url
     
+    def __unicode__(self):
+        return u'%s: %s' % (self.url[:50], self.title[:20])
+    
 class RedirectPage(models.Model):
     from_url = models.CharField(max_length=254, blank=False, unique=True)
     to_page = models.ForeignKey(Page, blank=False)
+    
+    def __unicode__(self):
+        return u'%s to %s' % (self.from_url, self.to_page.url)

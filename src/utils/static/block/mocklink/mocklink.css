@@ -1,0 +1,6 @@
+.block-mocklink{
+    text-decoration: none;
+    border-bottom: 1px dotted blue;
+    color: blue;
+    cursor: pointer;
+}

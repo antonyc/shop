@@ -3,6 +3,8 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+SERVER_EMAIL = 'shop@amadika.ru'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -11,7 +13,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.contrib.gis.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'amadika_shop',                      # Or path to database file if using sqlite3.
         'USER': 'shop_admin',                      # Not used with sqlite3.
         'PASSWORD': 'password',                  # Not used with sqlite3.
@@ -101,6 +103,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -122,6 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.gis',
     'catalog',
     'orders',
     'administration',
@@ -129,6 +133,10 @@ INSTALLED_APPS = (
     'users',
     'loginza',
     'south',
+    'utils',
+    'cart',
+    'geonames',
+    'geocoding',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -154,15 +162,28 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'default': {
+            'class': 'logging.SysLogHandler'
+        },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins', 'default'],
             'level': 'ERROR',
             'propagate': True,
         },
+        'admin_must_know': {
+            'handlers': ['mail_admins'],
+            'level': 'DEBUG',
+            'propagate': 0,
+        }
+    },
+    'root': {
+        'handlers': ['default'],
+        'level': 'INFO',
     }
+
 }
 
 THUMBNAIL_SIZE = (110, 110,)

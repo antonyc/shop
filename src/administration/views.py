@@ -17,6 +17,7 @@ class AdminListView(ListView):
         return super(AdminListView, self).render_to_response(context, **response_kwargs)
 
 class AdminTemplateView(TemplateView):
+    params = {}
     @method_decorator(user_passes_test(is_staff))
     def dispatch(self, *args, **kwargs):
         self.request = args[0]

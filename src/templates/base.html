@@ -4,7 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}{% trans 'Storefront' %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.10.custom.css" type="text/css" />
     <script type="text/javascript" src="http://yandex.st/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.10.custom.min.js"></script>
     {% block script %}{% endblock %}
     {% block css %}{% endblock %}
 </head>
@@ -14,18 +16,7 @@
 		{% if request.user.is_authenticated %}
 			{% trans 'Вы' %} {{ request.user.email }}
 			<a href="{% url 'user_logout' %}">{% trans 'logout' %}</a>
-		{% else %}
-			{% trans 'New user' %}
 		{% endif %}
-		
-	</div>
-	<div class="b-head">
-	<ul>
-		<li><a href="{% url 'list_orders' %}">{% trans 'Orders' %}</a></li>
-		<li><a href="{% url 'list_items' %}">{% trans 'Items' %}</a></li>
-		<li><a href="{% url 'list_categories' %}">{% trans 'Categories' %}</a></li>
-		<li><a href="{% url 'list_pages' %}">{% trans 'Pages' %}</a></li>
-	</ul>
 	</div>
 	{% block contents %}{% endblock %}
 </div>

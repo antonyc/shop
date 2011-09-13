@@ -11,7 +11,8 @@ class ItemImageUploadTest(TestCase):
     def setUp(self):
         self.item = Item(name="A cosmic ship",
              description=DESCRIPTION_1,
-             url="a-cosmic-ship")
+             url="a-cosmic-ship",
+             price=20)
         self.item.save()
         self.item.categories = Category.objects.all()[:2]
         self.item.save()

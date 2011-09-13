@@ -7,16 +7,7 @@
 <fieldset>
 <legend>{% trans 'Page' %}</legend>
 <ul>
-	<li>
-<label>{% trans 'Title' %}
-<input type="text" name="title" value="{{ page.title }}" />
-</label>
-	</li>
-	<li>
-<label>{% trans 'text' %}
-<textarea name="body">{{ page.body }}</textarea>
-</label>
-	</li>
+	{{ form.as_ul }}
 </ul>
 <input type="submit" value="{% trans 'send' %}" />
 </fieldset>

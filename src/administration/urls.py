@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from administration.deliveries.views import ListDeliveriesView, EditDeliveryView
 from administration.items.views import ListItemsView, EditItemsView,\
     DeleteItemsView
 from administration.categories.views import ListCategoriesView, EditCategoryView,\
@@ -27,5 +28,8 @@ urlpatterns = patterns('',
     url(r'pages/add/$', EditPageView.as_view(), name='add_page'),
     url(r'pages/(?P<id>\d+)/edit/$', EditPageView.as_view(), name='edit_page'),
     url(r'pages/$', ListPagesView.as_view(), name='list_pages'),
+    url(r'deliveries/(?P<id>\d+)/delete/$', ListDeliveriesView.as_view(), name='delete_delivery'),
+    url(r'deliveries/(?P<id>\d+)/edit/$', EditDeliveryView.as_view(), name='edit_delivery'),
+    url(r'deliveries/add/$', EditDeliveryView.as_view(), name='add_delivery'),
+    url(r'deliveries/$', ListDeliveriesView.as_view(), name='show_deliveries'),
 )
-

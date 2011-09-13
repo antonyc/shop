@@ -48,7 +48,6 @@ class UserMapManager(models.Manager):
                         username = '%s%d' % (username, existing_user.id)
                     except User.DoesNotExist:
                         break
-
                 user = User.objects.create_user(
                     username,
                     email

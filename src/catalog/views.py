@@ -1,4 +1,6 @@
-# Create your views here.
+# -*- coding: utf-8 -*-
 
-def show_item(request):
+from utils.base_view import BaseTemplateView
+
+class ShowItemView(BaseTemplateView):
     pass

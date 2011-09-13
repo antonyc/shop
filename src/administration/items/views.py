@@ -42,13 +42,14 @@ class EditForm(Form):
     categories = fields.MultipleChoiceField(choices=(), 
                                             label=ugettext("Categories"), 
                                             required=False)
+    price = fields.FloatField(min_value=0, required=True, label=ugettext("Price"))
     def __init__(self, *args, **kwargs):
         super(EditForm, self).__init__(*args, **kwargs)
         self.fields['categories'].choices = categories_choices()
 
 class EditItemsView(AdminTemplateView):
     template_name = 'catalog/item_edit.html'
-    params = {}
+
 
     def get(self, request, id=None, *args, **kwargs):
         if id is None:
@@ -62,7 +63,8 @@ class EditItemsView(AdminTemplateView):
                 raise Http404()
         form = EditForm(initial={'name': item.name,
                                  'description': item.description,
-                                 'categories': list})
+                                 'categories': list,
+                                 'price': item.price,})
         self.params['form'] = form
         self.params['image_form'] = ItemImageForm(instance=ItemImage(item=item))
         images = []
@@ -87,6 +89,7 @@ class EditItemsView(AdminTemplateView):
         if form.is_valid():
             item.name = form.cleaned_data['name']
             item.description = form.cleaned_data['description']
+            item.price = form.cleaned_data['price']
             cnt = 0
             url = translit(item.name).lower()
             if not item.id:

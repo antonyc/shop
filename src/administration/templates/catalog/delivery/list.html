@@ -1,0 +1,45 @@
+{% extends "administration_base.html" %}
+{% load url from future %}{% load i18n %}{% load order_tags %}{% load util_tags %}
+{% block script %}
+    <script src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map.js' %}"></script>
+    <script src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map__map.js' %}"></script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'delivery_list' 'delivery_list.css' %}" />
+{% endblock %}
+{% block contents %}
+<a href="{% url 'add_delivery' %}">{% trans 'add delivery' %}</a>
+{% if is_paginated %}
+	<div class="pagination">
+	    <span class="step-links">
+	        {% if paginator.has_previous %}
+	            <a href="?page={{ paginator.previous_page_number }}">{% trans 'previous' %}</a>
+	        {% endif %}
+	
+	        <span class="current">
+	            {% trans 'Page' %} {{ paginator.number }} {% trans 'of' %} {{ paginator.paginator.num_pages }}.
+	        </span>
+	
+	        {% if paginator.has_next %}
+	            <a href="?page={{ paginator.next_page_number }}">{% trans 'next' %}</a>
+	        {% endif %}
+	    </span>
+	</div>
+{% endif %}
+<table class="{% class_block 'delivery_list' %}">
+{% for delivery in object_list %}
+	<tr>
+        <td class="{% class_block 'delivery_list__name' %}">{{ delivery.name }}</td>
+        <td class="{% class_block 'delivery_list__description' %}">
+            <div>{{ delivery.description }}</div>
+            {% if delivery.dynamic_properties.has_point %}
+                {% delivery_map delivery %}
+            {% endif %}
+        </td>
+        <td class="{% class_block 'delivery_list__links' %}"><a href="{% url 'edit_delivery' id=delivery.id %}">{% trans 'edit' %}</a>,
+            <a href="{% url 'delete_delivery' id=delivery.id %}">{% trans 'delete' %}</a>
+        </td>
+	</tr>
+{% endfor %}
+</table>
+{% endblock %}

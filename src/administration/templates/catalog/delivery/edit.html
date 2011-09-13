@@ -1,0 +1,23 @@
+{% extends "administration_base.html" %}
+{% load url from future %}{% load i18n %}{% load order_tags %}{% load util_tags %}
+{% block script %}
+    <script src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map.js' %}"></script>
+    <script src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map__map.js' %}"></script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'delivery_list' 'delivery_list.css' %}" />
+{% endblock %}
+{% block contents %}
+<form action="" method="POST">
+{% csrf_token %}
+<fieldset>
+    <legend>{% trans 'New delivery' %}</legend>
+    <ul>
+    {{ form.as_ul }}
+    </ul>
+    {% trans 'click map to add point which users will see at checkout' %}
+    {% delivery_map delivery 'editable' 'visible' 0 %}
+    <input type="submit" value="{%   trans 'send' %}" />
+</fieldset>
+</form>
+{% endblock %}

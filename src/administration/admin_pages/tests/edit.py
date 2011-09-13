@@ -20,13 +20,12 @@ class EditPageTest(TestCase):
         result = self.client.get('/administration/pages/add/')
         self.failUnlessEqual(result.status_code, 200, "This is a correct request")
         
-        title = u"Новая супер страница"
+        title = u"Новая супер страница!"
         post = {'body': BODY, 'title': title}
         result = self.client.post('/administration/pages/add/', post)
         self.failUnlessEqual(result.status_code, 302, "A correct request which redirects")
         self.failUnlessEqual(Page.objects.filter(url=translit(title)).count(), 1, "Must have created page")
         page = Page.objects.get(url=translit(title))
-        self.failUnless(page.formatted_body, "Must have filled formatted body")
         self.failUnless(page.formatted_body, "Must have filled formatted body")
         self.failUnlessEqual(self.user, page.author, "The author must be chapson")
         self.failUnlessEqual(self.user.username, page.last_user, "The last_user must be chapson")
@@ -64,14 +63,14 @@ class EditPageTest(TestCase):
         renewed_page = Page.objects.get(id=old_page.id)
         self.failIfEqual(renewed_page.title, old_page.title, "Must have changed title")
         self.failUnlessEqual(renewed_page.author, old_page.author, "Author must stay the same")
-        self.failIfEqual(renewed_page.updated_at, old_page.updated_at, "Must have changed 'updated_at'")
+        self.failUnless(renewed_page.updated_at > old_page.updated_at, "Must have changed 'updated_at'")
         self.failUnlessEqual(renewed_page.last_user, 'zver', "Must have changed 'last_user'")
         self.failIfEqual(renewed_page.url, old_page.url, "Must have changed title")
         after_redirects = RedirectPage.objects.all().count()
         self.failUnlessEqual(before_redirects + 1, after_redirects, "Must have added 1 redirect")
         redirect = RedirectPage.objects.get(from_url=old_page.url)
         self.failUnlessEqual(redirect.to_page, renewed_page, "Redirect must lead to URL of new page")
-        
+
 BODY = u"""
 === заголовок ===
 [[new page]]

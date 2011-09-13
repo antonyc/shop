@@ -22,17 +22,20 @@ def return_callback(request):
     f.close()
 
     data = json.loads(result)
-
     if 'error_type' in data:
         signals.error.send(request, error=LoginzaError(data))
         return redirect(_return_path(request))
 
     identity = models.Identity.objects.from_loginza_data(data)
+    
     user_map = models.UserMap.objects.for_identity(identity, request)
     response = redirect(_return_path(request))
+    print request.user
     if request.user.is_anonymous():
         user = auth.authenticate(user_map=user_map)
         results = signals.authenticated.send(request, user=user, identity=identity)
+        print 'user',user
+        print 'results',results
         for callback, result in results:
             if isinstance(result, http.HttpResponse):
                 response = result

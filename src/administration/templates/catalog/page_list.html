@@ -22,9 +22,8 @@
 {% endif %}
 <ul>
 {% for item in object_list %}
-	<li>{{ item.name }} 
-		<a href="{% url 'edit_item' id=item.id %}">{% trans 'edit item' %}</a>,
-		<a href="{% url 'delete_item' id=item.id %}">{% trans 'delete item' %}</a>
+	<li>{{ item.title }} 
+		<a href="{% url 'edit_page' id=item.id %}">{% trans 'edit page' %}</a>
 	</li>
 {% endfor %}
 </ul>

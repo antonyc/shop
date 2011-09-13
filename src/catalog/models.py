@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import os
 from PIL import Image
 from django.conf import settings
 from django.db import models
-from catalog.utils.model_fields import PreviewImageField
+from catalog_utils.model_fields import PreviewImageField
 from django.utils.translation import ugettext
 from mptt.models import MPTTModel
 
@@ -13,6 +15,10 @@ class Category(MPTTModel):
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children')
     created_at = models.DateTimeField(auto_now_add=True)
     
+class ItemPublicManager(models.Manager):
+    def get_query_set(self):
+        return super(ItemPublicManager, self).get_query_set().filter(hidden=False,deleted=False)
+
 class Item(models.Model):
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(blank=False)
@@ -21,6 +27,10 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     hidden = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
+    price = models.FloatField(blank=False)
+    
+    public_objects = ItemPublicManager()
+    objects = models.Manager()
     
     def __unicode__(self):
         print u"%s: %s" % (self.id, self.name[:40])

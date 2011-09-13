@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django_dynamic_fixture import get
 from django.test import TestCase
 from catalog.models import Item, Category
 from django.contrib.auth.models import User
@@ -6,7 +7,7 @@ from django.contrib.auth.models import User
 class DeleteItemTest(TestCase):
     fixtures = ['categories.json']
     def setUp(self):
-        self.item = Item(name="A cosmic ship",
+        self.item = get(Item, name="A cosmic ship",
              description=DESCRIPTION_1,
              url="a-cosmic-ship")
         self.item.save()

@@ -6,6 +6,7 @@ class LoginzaBackend(object):
     supports_anonymous_user = False
 
     def authenticate(self, user_map=None):
+        print 'backend',user_map
         return user_map.user
 
     def get_user(self, user_id):

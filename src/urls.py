@@ -19,6 +19,10 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('users.urls')),
     url(r'^loginza/', include('loginza.urls')),
+    url(r'^page/', include('pages.urls')),
+    url(r'^catalog/', include('catalog.urls')),
+    url(r'^cart/', include('cart.urls')),
+    url(r'^geocoding/', include('geocoding.urls')),
 )
 
 

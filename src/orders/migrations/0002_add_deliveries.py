@@ -1,27 +1,31 @@
 # encoding: utf-8
 import datetime
+from django_dynamic_fixture import get
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
+from orders.models import Delivery, DT_BY_SHOPPER
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        
-        # Adding field 'OrderItem.created_at'
-        db.add_column('orders_orderitem', 'created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default='2011-08-07 13:08:00', blank=True), keep_default=False)
-
-        # Adding field 'Order.created_at'
-        db.add_column('orders_order', 'created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default='2011-08-07 13:08:00', blank=True), keep_default=False)
+        self.delivery = get(Delivery, name="Self pick up",
+                            description="Pick it up yourself",
+                            type=DT_BY_SHOPPER,
+                            price=0)
+        self.delivery.dynamic_properties['address'] = {'text': {'country': 2017370,
+                                                                'city': 2023469,
+                                                                'street': u"Пугачева",
+                                                                'building': "4а",
+                                                                'office': "5",
+                                                                "description": "Say the right name and get it free",
+                                                                },
+                                                       "point": {'lat': 52.16, 'lon': 104.17}
+                                                       }
 
     def backwards(self, orm):
-        
-        # Deleting field 'OrderItem.created_at'
-        db.delete_column('orders_orderitem', 'created_at')
+        Delivery.objects.all().delete()
 
-        # Deleting field 'Order.created_at'
-        db.delete_column('orders_order', 'created_at')
 
     models = {
         'auth.group': {
@@ -74,6 +78,7 @@ class Migration(SchemaMigration):
             'hidden': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'price': ('django.db.models.fields.FloatField', [], {}),
             'url': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'})
         },
         'contenttypes.contenttype': {
@@ -83,10 +88,33 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        'orders.address': {
+            'Meta': {'object_name': 'Address'},
+            'address_line1': ('django.db.models.fields.CharField', [], {'max_length': '45'}),
+            'address_line2': ('django.db.models.fields.CharField', [], {'max_length': '45', 'blank': 'True'}),
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'country': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
+            'exact_geo_info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'postal_code': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'state_province': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'})
+        },
+        'orders.delivery': {
+            'Meta': {'object_name': 'Delivery'},
+            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'price': ('django.db.models.fields.FloatField', [], {}),
+            'status': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '20'})
+        },
         'orders.order': {
             'Meta': {'object_name': 'Order'},
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'delivery': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['orders.Delivery']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'status': ('django.db.models.fields.IntegerField', [], {'default': '3'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
         'orders.orderitem': {
@@ -95,6 +123,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'item': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['catalog.Item']"}),
             'order': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['orders.Order']"}),
+            'price': ('django.db.models.fields.FloatField', [], {}),
             'quantity': ('django.db.models.fields.PositiveIntegerField', [], {'default': '1'})
         }
     }
