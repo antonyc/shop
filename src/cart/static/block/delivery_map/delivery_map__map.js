@@ -108,8 +108,8 @@ jQuery(function(){
             mapIsActive = true;
         }
         this.prepareInputs = function(point){
-            _this.input_lon = $('<input type="hidden" name="address_lon" />');
-            _this.input_lat = $('<input type="hidden" name="address_lat" />');
+            _this.input_lon = $('<input type="hidden" name="address-lon" />');
+            _this.input_lat = $('<input type="hidden" name="address-lat" />');
             _this.append(_this.input_lon);
             _this.append(_this.input_lat);
             console.log(point)

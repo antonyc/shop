@@ -36,16 +36,16 @@ class DeliveriesEditTestCase(BaseTestCase):
                                              'description': description,
                                              'type': DeliveryTypes.shopper,
                                              'price': 20,
-                                             'address_country': self.russian_federation.geonameid,
-                                             'address_country__text': u"Россия",
-                                             'address_city': self.irkutsk.geonameid,
-                                             'address_city__text': u"Иркутск",
-                                             'address_street': u"Трудовая",
-                                             'address_building': "2",
-                                             'address_office': '',
-                                             'address_description': "U got some description here, lad",
-                                             'address_lat': 52.17,
-                                             'address_lon': 104.16})
+                                             'address-country': self.russian_federation.geonameid,
+                                             'address-country__text': u"Россия",
+                                             'address-city': self.irkutsk.geonameid,
+                                             'address-city__text': u"Иркутск",
+                                             'address-street': u"Трудовая",
+                                             'address-building': "2",
+                                             'address-office': "",
+                                             'address-description': u"Войдите на пятый этаж",
+                                             'address-lat': 52.17,
+                                             'address-lon': 104.16})
         self.failUnlessEqual(result.status_code, 302, "This is a correct request which redirects")
         renewed_delivery = Delivery.public_objects.get(id=self.delivery.id)
         self.failUnlessEqual(renewed_delivery.name, name, "Must have changed name")
@@ -80,12 +80,14 @@ class DeliveriesEditTestCase(BaseTestCase):
                 'description': description,
                 'type': DeliveryTypes.mail,
                 'price': 20,
-                'address_country': self.russian_federation.geonameid,
-                'address_city': self.irkutsk.geonameid,
-                'address_street': u"Трудовая",
-                'address_building': "2",
-                'address_office': '',
-                'address_description': "U got some description here, lad",
+                'address-country': self.russian_federation.geonameid,
+                'address-country__text': u"Российская федерация",
+                'address-city': self.irkutsk.geonameid,
+                'address-city__text': u"Иркутск",
+                'address-street': u"Трудовая",
+                'address-building': "2",
+                'address-office': '',
+                'address-description': "U got some description here, lad",
                 }
         before_deliveries = Delivery.public_objects.all().count()
         result = self.client.post(add_url, post)
@@ -95,6 +97,7 @@ class DeliveriesEditTestCase(BaseTestCase):
         delivery = Delivery.public_objects.order_by('-id')[0]
         self.failUnlessEqual(delivery.name, name, "Must have this name")
         self.failUnlessEqual(unicode(self.russian_federation.geonameid), delivery.dynamic_properties['address']['text']['country'], "Country must be correct")
+        self.failUnlessEqual(u"Российская федерация", delivery.dynamic_properties['address']['text']['country__text'], "Country must be correct")
 
     def test_add_with_unresolved_address(self):
         add_url = reverse('add_delivery')
@@ -106,12 +109,12 @@ class DeliveriesEditTestCase(BaseTestCase):
                 'description': description,
                 'type': DeliveryTypes.mail,
                 'price': 20,
-                'address_country': no_country,
-                'address_city': no_city,
-                'address_street': u"Трудовая",
-                'address_building': "200",
-                'address_office': "321",
-                'address_description': "U got some description here, lad",
+                'address-country__text': no_country,
+                'address-city__text': no_city,
+                'address-street': u"Трудовая",
+                'address-building': "200",
+                'address-office': "321",
+                'address-description': "U got some description here, lad",
                 }
         before_deliveries = Delivery.public_objects.all().count()
         result = self.client.post(add_url, post)
@@ -120,8 +123,8 @@ class DeliveriesEditTestCase(BaseTestCase):
         self.failUnlessEqual(before_deliveries + 1,after_deliveries, "Must have added 1 delivery")
         delivery = Delivery.public_objects.order_by('-id')[0]
         self.failUnlessEqual(delivery.name, name, "Must have this name")
-        self.failUnlessEqual(delivery.dynamic_properties['address']['text']['country'], no_country, "Country must be correct")
-        self.failUnlessEqual(delivery.dynamic_properties['address']['text']['city'], no_city, "City must be correct")
+        self.failUnlessEqual(delivery.dynamic_properties['address']['text']['country__text'], no_country, "Country must be correct")
+        self.failUnlessEqual(delivery.dynamic_properties['address']['text']['city__text'], no_city, "City must be correct")
         result = self.client.get(reverse('show_deliveries'))
         self.failUnlessEqual(result.status_code, 200, "Must be a correct request")
 
@@ -133,8 +136,8 @@ class DeliveriesEditTestCase(BaseTestCase):
                 'description': description,
                 'type': DeliveryTypes.mail,
                 'price': 20,
-                'address_lat': 52.17,
-                'address_lon': 104.16
+                'address-lat': 52.17,
+                'address-lon': 104.16
                 }
         before_deliveries = Delivery.public_objects.all().count()
         result = self.client.post(add_url, post)

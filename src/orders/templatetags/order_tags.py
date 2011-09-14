@@ -5,30 +5,35 @@ from geocoding.models import Geomodel
 from utils import policy
 from orders.models import get_address
 from utils.templatetags.util_tags import class_block
+from administration.deliveries.views import AddressForm
 from django import template
 register = template.Library()
 
 __author__ = 'chapson'
 
 @register.simple_tag
-def delivery_text_address(delivery, editable=False, map_visible=False, show_address=True):
+def delivery_address(delivery, editable=False):
     text = ''
     editable = int(bool(editable))
-    map_visible = bool(map_visible)
-    show_address = int(bool(show_address))
-    if delivery.dynamic_properties.has_address and show_address:
-        addr = get_address(delivery.dynamic_properties)
-        address = []
-        for element in ('country', 'city', 'street', 'building', 'office'):
-            if addr.get(element,None): address.append(addr[element])
-        description = addr.get('description', '')
-        klass = class_block('delivery_map__text')
-        if delivery.dynamic_properties['address'].get('point') or editable:
-            klass += ' ' + class_block('mocklink')
-        text = """<span class="%(blockname)s">%(address)s</span> %(description)s""" % {'address': ', '.join(address),
-                                                                                       'blockname': klass,
-                                                                                       'description': description}
-
+#    print delivery.dynamic_properties.has_text_address()
+    has_text_address = delivery.dynamic_properties.has_text_address()
+    if has_text_address or editable:
+        result = []
+        if has_text_address:
+            addr = get_address(delivery.dynamic_properties)
+        else:
+            addr = {}
+        initial = {}
+        for element in ('country', 'country__text', 'city__text', 'city', 'street', 'building', 'office', 'description'):
+            if addr.get(element, None):
+                initial[element] = addr[element]
+            else:
+                initial[element] = ''
+        form = AddressForm(initial=initial, prefix="address")
+        
+        text += "<div class=\"%(klass)s\" onclick=\"return {}\"><ul>%(form)s</ul></div>" % {'form': form.as_ul(),
+                                                                      'klass': class_block('delivery_address')}
+    return text
 @register.simple_tag
 def delivery_map(delivery, editable=False, map_visible=False, show_link=True):
     text = ''

@@ -28,6 +28,7 @@ class GeoSelectionHandleView(BaseTemplateView):
     def resolve_country(self, subject, language, *args, **kwargs):
         variants = Geoalternate.objects.filter(variant__istartswith=subject).\
             filter(models.Q(isolanguage=language)|models.Q(isolanguage='')).\
+            filter(geoname__typ=GeoPlaceType.country).\
             order_by('-preferred', 'short', 'variant',).\
             values('variant', 'isolanguage', 'geoname_id', 'preferred')[:100]
         hash = []
@@ -56,7 +57,7 @@ class GeoSelectionHandleView(BaseTemplateView):
         try:
             country = Geomodel.objects.get(typ=GeoPlaceType.country, geonameid=country_gid)
         except Geomodel.DoesNotExist:
-            return Http404()
+            raise Http404()
         variants_qs = Geoalternate.objects.filter(variant__istartswith=subject).\
                         filter(geoname__typ=GeoPlaceType.city, geoname__country_code=country.country_code).\
                         filter(models.Q(isolanguage=language)|models.Q(isolanguage=''))
@@ -73,7 +74,10 @@ class GeoSelectionHandleView(BaseTemplateView):
                 if len(results) == MAX_AUTOCOMPLETE_RESULTS:
                     break
         if len(results) == 0:
-            results = Geomodel.objects.filter(name__istartswith=subject, typ=GeoPlaceType.city).\
+            results = Geomodel.objects.filter(name__istartswith=subject,
+                                              typ=GeoPlaceType.city,
+                                              country_code=country.country_code
+                                              ).\
                 order_by('name').\
                 values('name', 'geonameid')[:MAX_AUTOCOMPLETE_RESULTS]
             results = list(results)
@@ -84,9 +88,9 @@ class GeoSelectionHandleView(BaseTemplateView):
     
     @method_decorator(check_referer)
     def get(self, request, fclass, *args, **kwargs):
-        subject = self.request.GET.get('subject', '')
+        subject = self.request.GET.get('term', '')
         if len(subject) < 1:
-            return Http404()
+            raise Http404()
         strategies = {'country': self.resolve_country,
                       'city': self.resolve_city}
         strategy = strategies.get(fclass)

@@ -31,6 +31,9 @@ class DynamicPropertiesManager(MongoManager):
         document = self.fetchDocument()
         return 'address' in document
 
+    def has_text_address(self):
+        return 'text' in self.fetchDocument().get('address',{})
+
     def has_point(self):
         return 'point' in self.fetchDocument().get('address',{})
 
@@ -78,8 +81,10 @@ def get_address(obj):
     result = {}
     address = obj['address']['text']
     result['country'] = address.get('country', None)
+    result['country__text'] = address.get('country__text', None)
     if isinstance(result['country'], int):
         result['country'] = get_geomodel_in_language(result['country'])
+    result['city__text'] = address.get('city__text', None)
     result['city'] = address.get('city', None)
     if isinstance(result['city'], int):
         result['city'] = get_geomodel_in_language(result['city'])

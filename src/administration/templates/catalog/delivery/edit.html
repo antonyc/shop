@@ -3,6 +3,7 @@
 {% block script %}
     <script src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map.js' %}"></script>
     <script src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map__map.js' %}"></script>
+    <script src="{{ STATIC_URL }}{% load_block_file 'delivery_address' 'delivery_address.js' %}"></script>
 {% endblock %}
 {% block css %}
     <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'delivery_list' 'delivery_list.css' %}" />
@@ -15,6 +16,7 @@
     <ul>
     {{ form.as_ul }}
     </ul>
+    {% delivery_address delivery 'editable' %}
     {% trans 'click map to add point which users will see at checkout' %}
     {% delivery_map delivery 'editable' 'visible' 0 %}
     <input type="submit" value="{%   trans 'send' %}" />

@@ -5,7 +5,7 @@ Created on 31.07.2011
 @author: chapson
 '''
 from catalog.models import Item, Category
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext, ugettext_lazy
 from django.forms import Form, fields
 from django.forms.widgets import Textarea
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -27,6 +27,16 @@ class EditForm(forms.Form):
     description = fields.CharField(max_length=255, required=True, label=ugettext('Description'))
     type = fields.ChoiceField(choices=delivery_types, required=True, label=ugettext("Type"))
     price = fields.FloatField(required=True, initial=0, label=ugettext("Price"))
+
+class AddressForm(forms.Form):
+    country__text = fields.CharField(max_length=50, label=ugettext_lazy("Country"))
+    country = fields.CharField(max_length=10, widget=fields.HiddenInput)
+    city__text = fields.CharField(max_length=50, label=ugettext_lazy("City"))
+    city = fields.CharField(max_length=10, widget=fields.HiddenInput)
+    street = fields.CharField(max_length=50, label=ugettext_lazy("Street"))
+    building = fields.CharField(max_length=50, label=ugettext_lazy("Building"))
+    office = fields.CharField(max_length=50, label=ugettext_lazy("Office"))
+    description = fields.CharField(max_length=50, label=ugettext_lazy("Description"))
 
 class EditDeliveryView(AdminTemplateView):
     template_name = 'catalog/delivery/edit.html'
@@ -55,20 +65,24 @@ class EditDeliveryView(AdminTemplateView):
     def post(self, *args, **kwargs):
         def get_address_text(post):
             result = {}
-            fields = ['country', 'city', 'street', 'building', 'office', 'description']
+            fields = ['country', 'city', 'street', 'city__text', 'country__text', 'building', 'office', 'description']
             for field in fields:
-                value = post.get('address_'+field)
+                value = post.get('address-'+field)
                 if value is not None:
                     if field in ('country', 'city'):
                         if isinstance(value, int):
                             value = int(value)
                     result[field] = value
+            if not result.get('city__text') and result.get('city'):
+                result['city'] = ''
+            if not result.get('country__text') and result.get('country'):
+                result['country'] = ''
             return result
         def get_address_point(post):
             result = {}
-            if all('address_'+_ in post and post['address_'+_] for _ in ('lat', 'lon')):
-                result = {'lat': float(post['address_lat']),
-                          'lon': float(post['address_lon']),}
+            if all(post.get('address-'+_, False) for _ in ('lat', 'lon')):
+                result = {'lat': float(post['address-lat']),
+                          'lon': float(post['address-lon']),}
             return result
         initial={'name': self.delivery.name,
                  'description': self.delivery.description,
@@ -84,7 +98,7 @@ class EditDeliveryView(AdminTemplateView):
             self.delivery.save()
             text_address = get_address_text(self.request.POST)
             point_address = get_address_point(self.request.POST)
-            print 'point',self.request.POST
+#            print 'addre',self.delivery.dynamic_properties['address'], text_address
             if text_address:
                 address = self.delivery.dynamic_properties['address']
                 address['text'] = address.get('text', {})

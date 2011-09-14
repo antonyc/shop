@@ -2,7 +2,7 @@ from django.db import models
 # Create your models here.
 from collections import namedtuple
 geo_place_types = ('country', 'city')
-GeoPlaceType = namedtuple('GeoPlaceType', ' '.join(geo_place_types))._make((0, 4))
+GeoPlaceType = namedtuple('GeoPlaceType', ' '.join(geo_place_types))._make((1, 4))
 GEOMODEL_TYPES = [(GeoPlaceType.country, geo_place_types[0]),
                   (GeoPlaceType.city, geo_place_types[1])]
 
