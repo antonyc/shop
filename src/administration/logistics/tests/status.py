@@ -21,10 +21,8 @@ class StatusOrdersTest(TestCase):
                 quantity=2))
     
     def test_delete_order(self):
-        before_orders = Order.objects.all().count()
+        before_orders = Order.public_objects.all().count()
         result = self.client.post('/administration/orders/%d/status/' % self.order.id, {'status': DELETED,})
         self.failUnlessEqual(result.status_code, 302, "This is a correct request which redirects")
-        after_orders = Order.objects.all().count()
-#        print before_orders - 1, after_orders
-#        print Order.objects.all()[0].status
+        after_orders = Order.public_objects.all().count()
         self.failUnlessEqual(before_orders - 1, after_orders, "Must have deleted 1 order")

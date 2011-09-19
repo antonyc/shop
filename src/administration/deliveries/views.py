@@ -14,6 +14,7 @@ from django.core.urlresolvers import reverse
 from orders.models import Delivery, delivery_types, status_choices
 from django import forms
 from administration.views import AdminListView, AdminTemplateView
+from utils.base_view import get_address_text
 
 class ListDeliveriesView(AdminListView):
     template_name = 'catalog/delivery/list.html'
@@ -30,17 +31,15 @@ class EditForm(forms.Form):
 
 class AddressForm(forms.Form):
     country__text = fields.CharField(max_length=50, label=ugettext_lazy("Country"))
-    country = fields.CharField(max_length=10, widget=fields.HiddenInput)
+    country = fields.IntegerField(widget=fields.HiddenInput)
     city__text = fields.CharField(max_length=50, label=ugettext_lazy("City"))
-    city = fields.CharField(max_length=10, widget=fields.HiddenInput)
+    city = fields.IntegerField(widget=fields.HiddenInput)
     street = fields.CharField(max_length=50, label=ugettext_lazy("Street"))
     building = fields.CharField(max_length=50, label=ugettext_lazy("Building"))
     office = fields.CharField(max_length=50, label=ugettext_lazy("Office"))
-    description = fields.CharField(max_length=50, label=ugettext_lazy("Description"))
+    description = fields.CharField(max_length=50, label=ugettext_lazy("How to find"))
 
-class EditDeliveryView(AdminTemplateView):
-    template_name = 'catalog/delivery/edit.html'
-
+class SingleItemView(AdminTemplateView):
     def dispatch(self, *args, **kwargs):
         delivery_id = kwargs.pop('id', None)
         if delivery_id is not None:
@@ -51,7 +50,20 @@ class EditDeliveryView(AdminTemplateView):
         else:
             self.delivery = Delivery()
         self.params['delivery'] = self.delivery
-        return super(EditDeliveryView, self).dispatch(*args, **kwargs)
+        return super(SingleItemView, self).dispatch(*args, **kwargs)
+
+class DeleteDeliveryView(SingleItemView):
+    template_name = 'catalog/delivery/delete.html'
+
+    def get(self, *args, **kwargs):
+        return self.render_to_response(self.params)
+
+    def post(self, *args, **kwargs):
+        self.delivery.delete()
+        return HttpResponseRedirect(reverse('show_deliveries'))
+
+class EditDeliveryView(SingleItemView):
+    template_name = 'catalog/delivery/edit.html'
 
     def get(self, *args, **kwargs):
         form = EditForm(initial={'name': self.delivery.name,
@@ -63,21 +75,6 @@ class EditDeliveryView(AdminTemplateView):
         return self.render_to_response(self.params)
 
     def post(self, *args, **kwargs):
-        def get_address_text(post):
-            result = {}
-            fields = ['country', 'city', 'street', 'city__text', 'country__text', 'building', 'office', 'description']
-            for field in fields:
-                value = post.get('address-'+field)
-                if value is not None:
-                    if field in ('country', 'city'):
-                        if isinstance(value, int):
-                            value = int(value)
-                    result[field] = value
-            if not result.get('city__text') and result.get('city'):
-                result['city'] = ''
-            if not result.get('country__text') and result.get('country'):
-                result['country'] = ''
-            return result
         def get_address_point(post):
             result = {}
             if all(post.get('address-'+_, False) for _ in ('lat', 'lon')):
@@ -98,7 +95,6 @@ class EditDeliveryView(AdminTemplateView):
             self.delivery.save()
             text_address = get_address_text(self.request.POST)
             point_address = get_address_point(self.request.POST)
-#            print 'addre',self.delivery.dynamic_properties['address'], text_address
             if text_address:
                 address = self.delivery.dynamic_properties['address']
                 address['text'] = address.get('text', {})

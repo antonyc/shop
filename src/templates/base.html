@@ -1,24 +1,35 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-{% load url from future %}{% load i18n %}
+{% load url from future %}{% load i18n %}{% load util_tags %}
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}{% trans 'Storefront' %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.10.custom.css" type="text/css" />
-    <script type="text/javascript" src="http://yandex.st/jquery/1.5.2/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.10.custom.min.js"></script>
-
-    {% block script %}{% endblock %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/custom-theme/jquery-ui-1.8.16.custom.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'flash' 'flash.css' %}" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'mocklink' 'mocklink.css' %}"/>
     {% block css %}{% endblock %}
+    <style type="text/css">.ui-widget{font-size: 0.9em;}</style>
+    <script type="text/javascript" src="http://yandex.st/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'flash' 'flash.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'no_second_submit' 'no_second_submit.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'cart' 'simple_cart.js' %}"></script>
+    {% block script %}{% endblock %}
+
 </head>
 <body>
-<div>
-	<div class="b-authentication" onclick="return {}">
+<div class="am-flash">
+    <ul class="am-flash__list"></ul>
+</div>
+<div class="body">
+    <div class="b-authentication" onclick="return {}">
 		{% if request.user.is_authenticated %}
-			{% trans 'Вы' %} {{ request.user.email }}
+			{% trans 'Вы' %} {{ request.user.get_profile.full_name }}
 			<a href="{% url 'user_logout' %}">{% trans 'logout' %}</a>
 		{% endif %}
 	</div>
+    <div class="{% class_block 'simple_cart' %}" onclick="return {price: {{ simple_cart_total_price|floatformat:0 }}}">{% trans 'In total:' %} <span class="{% class_block 'simple_cart__price' %}">{{ simple_cart_total_price|floatformat:0 }}</span> <a href="{% url 'cart_show' %}">{% trans 'checkout' %}</a></div>
 	{% block contents %}{% endblock %}
 </div>
 </body>

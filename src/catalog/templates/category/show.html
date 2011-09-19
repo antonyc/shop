@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load loginza_widget %}{% load catalog_tags %}{% load order_tags %}
+{% load i18n %}{% load url from future %}{% load util_tags %}
+{% block script %}
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'item' 'item_add_to_cart.js' %}"></script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'item' 'item_with_image.css' %}" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'item' 'items_list.css' %}" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'catalog' 'catalog_category.css' %}" />
+{% endblock %}
+{% block contents %}
+    <table>
+        <tr>
+        <td>
+            <div class="{% class_block 'catalog_category' %}">
+                <ul>
+                {% for cat in parent_categories %}
+                    {% if cat.has_items %}
+                    <li>{% include 'category/category_item.html' with category=cat %}
+                        <ul>
+                        {% for child in cat.children.all %}
+                            {% if child.has_items %}
+                            <li>{% include 'category/category_item.html' with category=child %}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </td>
+        <td>
+    {% for crumb in breadcrumbs %}
+        <a href="{{ crumb.url }}">{{ crumb.text }}</a>
+    {% endfor %}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if paginator.has_previous %}
+                    <a href="?page={{ paginator.previous_page_number }}">{% trans 'previous' %}</a>
+                {% endif %}
+
+                <span class="current">
+                    {% trans 'Page' %} {{ paginator.number }} {% trans 'of' %} {{ paginator.paginator.num_pages }}.
+                </span>
+
+                {% if paginator.has_next %}
+                    <a href="?page={{ paginator.next_page_number }}">{% trans 'next' %}</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+    <div class="{% class_block 'items_list' %}">
+    <ul>
+    {% for item in object_list %}
+        <li><div class="{% class_block 'item_with_image' %}">
+            <div class="{% class_block 'item_with_image__image' %}">
+            <a href="{% url 'show_item' url=item.url %}">
+
+            <img src="{%  image_thumbnail item.has_images 'bigger' %}" alt="{% blocktrans with label=item.name %}{{ label }} on the image{% endblocktrans %}" />
+                </a>
+                </div>
+            <span class="{% class_block 'item_with_image__name' %}"><a href="{% url 'show_item' url=item.url %}">{{ item.name }}</a></span>
+            <div class="{% class_block 'item_add_to_cart' %}" onclick="return {quantity: {% get_quantity item cart_quantities %}}">
+                <form method="POST" action="{% url 'cart_item_quantity' url=item.url %}">{% csrf_token %}
+                    <input type="hidden" name="quantity" value="+1" />
+                    <input type="submit" value="{% trans 'add to cart' %}" />
+                </form>
+                <div class="{% class_block 'item_add_to_cart__link' %}"></div>
+            </div>
+        </div></li>
+    {% endfor %}
+    </ul>
+    </div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

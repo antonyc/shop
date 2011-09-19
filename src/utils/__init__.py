@@ -59,6 +59,9 @@ class MongoManager(object):
         del doc[key]
         self.save()
 
+    def __str__(self):
+        return repr(self.fetchDocument())
+
     def save(self):
         doc = self.fetchDocument()
         doc['_id'] = self.obj.pk
@@ -67,3 +70,4 @@ class MongoManager(object):
 
     def removeDocument(self):
         self.collection.remove(self.obj.pk)
+

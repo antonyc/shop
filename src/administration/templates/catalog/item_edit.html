@@ -2,6 +2,7 @@
 {% load url from future %}
 {% load i18n %}
 {% block contents %}
+    {{ item.url }}
 <form action="" method="POST">
 {% csrf_token %}
 <fieldset>
@@ -37,6 +38,7 @@
 	{{ image_form.as_ul }}
 	</ul>
 <input type="submit" value="{% trans 'upload' %}" />
+    </fieldset>
 </form>
 </div>
 {% endif %}

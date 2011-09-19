@@ -1,4 +1,6 @@
 # Django settings for shop project.
+from collections import namedtuple
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -137,6 +139,7 @@ INSTALLED_APPS = (
     'cart',
     'geonames',
     'geocoding',
+    'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -196,7 +199,14 @@ LOGGING = {
 
 }
 
-THUMBNAIL_SIZE = (110, 110,)
+ImageSize = namedtuple('ImageSize', 'width height')
+
+
+THUMBNAILS = {'big': ImageSize._make((400, 400)),
+              'bigger': ImageSize._make((150, 150)),
+              'common': ImageSize._make((110, 110,)),
+              'small': ImageSize._make((60, 60))}
+THUMBNAIL_SIZE = THUMBNAILS['common']
 
 LOGINZA_DEFAULT_PROVIDERS_SET = 'google,facebook,vkontakte,twitter'
 LOGINZA_AMNESIA_PATHS = ('/accounts/final_step/','/accounts/login/')

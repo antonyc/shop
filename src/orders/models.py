@@ -19,20 +19,21 @@ status_choices = ((StatusChoices.deleted, ugettext_lazy('deleted')),
     (StatusChoices.normal, 'normal'))
 
 dt_list = ('shopper', 'courier', 'mail')
-DeliveryTypes = namedtuple('DeliveryTypes', ' '.join(dt_list))._make(range(len(dt_list)))
+DeliveryTypes = namedtuple('DeliveryTypes', ' '.join(dt_list))._make(dt_list)
 delivery_types = ((DeliveryTypes.shopper, ugettext_lazy('by shopper himself')),
                   (DeliveryTypes.courier, ugettext_lazy('courier delivery')),
                   (DeliveryTypes.mail, ugettext_lazy('by mail')))
 
 
-class DynamicPropertiesManager(MongoManager):
+class DeliveryPropertiesManager(MongoManager):
     default_document = defaultdict(dict)
     def has_address(self):
         document = self.fetchDocument()
         return 'address' in document
 
     def has_text_address(self):
-        return 'text' in self.fetchDocument().get('address',{})
+        text = self.fetchDocument().get('address',{}).get('text', {})
+        return text.get('country', text.get('country__text', False))
 
     def has_point(self):
         return 'point' in self.fetchDocument().get('address',{})
@@ -52,7 +53,7 @@ class Delivery(models.Model):
     objects = models.Manager()
     public_objects = DeliveryManager()
 
-    dynamic_properties = MongoPatch(DynamicPropertiesManager, 'delivery')
+    dynamic_properties = MongoPatch(DeliveryPropertiesManager, 'delivery')
 
     def delete(self, using=None):
         self.dynamic_properties.removeDocument()
@@ -83,11 +84,11 @@ def get_address(obj):
     result['country'] = address.get('country', None)
     result['country__text'] = address.get('country__text', None)
     if isinstance(result['country'], int):
-        result['country'] = get_geomodel_in_language(result['country'])
+        result['country__text'] = get_geomodel_in_language(result['country'])
     result['city__text'] = address.get('city__text', None)
     result['city'] = address.get('city', None)
     if isinstance(result['city'], int):
-        result['city'] = get_geomodel_in_language(result['city'])
+        result['city__text'] = get_geomodel_in_language(result['city'])
     street = address.get('street', None)
     if street: result['street'] = street
     building = address.get('building', None)
@@ -98,20 +99,35 @@ def get_address(obj):
     if description: result['description'] = description
     return result
 
-
-
+statuses = "deleted cancelled new processed delivered".split(" ")
 DELETED = 0
+CANCELLED = 2
 NEW = 3
 PROCESSED = 6
 DELIVERED = 9
-STATUSES = ((DELETED,'deleted'),
-            (NEW, 'new'),
-            (PROCESSED,'processed'),
-            (DELIVERED,'delivered'),)
+statuses_tuple = (DELETED, CANCELLED, NEW, PROCESSED, DELIVERED)
+OrderStatuses = namedtuple('OrderStatuses', " ".join(statuses))._make(statuses_tuple)
+
+STATUSES = ((DELETED, ugettext_lazy('deleted')),
+            (CANCELLED, ugettext_lazy('cancelled')),
+            (NEW, ugettext_lazy('new')),
+            (PROCESSED, ugettext_lazy('processed')),
+            (DELIVERED, ugettext_lazy('delivered')),)
 
 class OrderManager(models.Manager):
     def get_query_set(self):
         return super(OrderManager, self).get_query_set().filter(status__gt=DELETED)
+
+class OrderPropertiesManager(MongoManager):
+    default_document = defaultdict(dict)
+
+    def has_address(self):
+        document = self.fetchDocument()
+        return 'address' in document
+
+    def has_text_address(self):
+        text = self.fetchDocument().get('address',{}).get('text', {})
+        return text.get('country', text.get('country__text', False))
 
 class Order(models.Model):
     user = models.ForeignKey(User, blank=False)
@@ -119,7 +135,22 @@ class Order(models.Model):
     status = models.IntegerField(choices=STATUSES, default=NEW)
     delivery = models.ForeignKey(Delivery, blank=False)
     
-    objects = OrderManager()
+    objects = models.Manager()
+    public_objects = OrderManager()
+
+    dynamic_properties = MongoPatch(OrderPropertiesManager, 'order')
+
+    def __unicode__(self):
+        status = dict(zip(statuses_tuple, statuses)).get(self.status, 'unknown')
+        return "%d by \"%s\" status \"%s\"" % (self.id, self.user, status)
+
+    def delete(self, using=None):
+        self.dynamic_properties.removeDocument()
+        super(Order, self).delete()
+
+    def save(self):
+        super(Order, self).save()
+        self.dynamic_properties.save()
 
 class OrderItem(models.Model):
     item = models.ForeignKey(Item, blank=False)
@@ -127,7 +158,13 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     price = models.FloatField(blank=False)
-    
+
+class OrderComment(models.Model):
+    order = models.ForeignKey(Order, editable=False)
+    user = models.ForeignKey(User, editable=False)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+
 class Address(models.Model):
     """Model to store addresses for accounts"""
     address_line1 = models.CharField(max_length = 45, help_text=ugettext_lazy("Address Line 1"))

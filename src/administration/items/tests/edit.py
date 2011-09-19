@@ -33,6 +33,7 @@ class EditItemTest(TestCase):
         self.failUnlessEqual(before_items+1, after_items, "Must have added 1 Item")
         created = Item.objects.all()[before_items]
         self.failUnlessEqual(created.url, translit(created.name).lower(), "Must have transliterated URL")
+        self.failUnless(created.formatted_description, "Must have filled description")
         self.failUnlessEqual(created.price, 200.12, "Must have changed price")
         
         before_items = int(Item.objects.count())

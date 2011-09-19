@@ -130,7 +130,6 @@ class LoginView(TemplateView):
         form = AuthenticationForm(data=request.POST)
         
         if form.is_valid():
-            print 'valid'
             user = auth.authenticate(username=form.cleaned_data['username'],
                          password=form.cleaned_data['password'])
             auth.login(request, user)

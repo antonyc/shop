@@ -1,0 +1,34 @@
+.block-gallery__container img{
+    border: none;
+    border-width: 0;
+}
+
+.block-gallery__container{
+    width: 400px;
+}
+
+.block-gallery{
+
+}
+
+.block-gallery .thumbs{
+    padding: 0;
+    margin: 0;
+}
+
+.block-gallery .thumbs li{
+    float: left;
+    display: block;
+    width: 70px;
+}
+
+.block-gallery__item_link{
+    display: block;
+}
+
+.block-gallery__item_link img{
+    display: block;
+    margin: 0 auto;
+}
+
+

@@ -1,0 +1,12 @@
+.block-item_with_image{
+        font-size: smaller;
+}
+.block-item_with_image__image img{
+    display: block;
+    margin: 0 auto;
+    
+}
+
+.block-item_with_image__name{
+    font-size: small;
+}

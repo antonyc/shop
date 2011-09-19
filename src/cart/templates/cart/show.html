@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load i18n %}{% load url from future %}
+{% load order_tags %}{% load util_tags %}{% load catalog_tags %}
+{% block script %}
+    <script src="http://api-maps.yandex.ru/1.1/index.xml?key=ADMMbU4BAAAAA_iqHgMAes1ZOmqz_0hTPrJj_q1OW_tMKEEAAAAAAAAAAAApj2OvgPA7gmVnYXgxkKW-IJn6iw==&modules=pmap"
+            type="text/javascript"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'delivery_address' 'delivery_address.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'delivery_map' 'delivery_map__map.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'cart' 'cart.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'cart' 'cart_item.js' %}"></script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'mocklink' 'mocklink.css' %}"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'delivery_list' 'delivery_list.css' %}"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'cart' 'cart.css' %}"/>
+{% endblock %}
+
+{% block contents %}
+    <form action="" method="POST">{% csrf_token %}
+        <div class="{% class_block 'cart' %}" onclick="return {}">
+            <h2>{% trans 'Goods' %}</h2>
+            {% if errors.item %}
+                {% trans 'There is a problem with list of goods' %}
+                <ul>
+                    {% for error in errors.item %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <table>
+                <tbody>
+                {% for item in items %}
+                    <tr class="{% class_block 'cart_item' %}"
+                        onclick="return {id: {{ item.obj.id }}, url: '{% url 'cart_item_quantity' url=item.obj.url %}', quantity: {{ item.quantity }}, token: '{{ csrf_token }}'}">
+                        <td>
+                            {% if item.obj.has_images %}
+                                <image src="{% get_item_main_image item.obj %}" alt="{{ item.obj.name }}"/>
+                            {% endif %}
+                        </td>
+                        <td style="width: 100%;">
+                            <a href="{% url 'show_item' url=item.obj.url %}">{{ item.obj.name }}</a>
+                        </td>
+                        <td>
+                            <div class="{% class_block 'cart_item__quantity' %}"><input maxlength="2"
+                                                                                        name="cart_item_id_{{ item.obj.id }}"
+                                                                                        value="{{ item.quantity }}"/></div>
+                        </td>
+                        <td>
+                            <div class="{% class_block 'cart_item__remove' %}">
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <h2>{% trans 'Delivery' %}</h2>
+            {% if errors.delivery %}
+                {% trans 'There is a problem with delivery' %}
+                <ul>
+                    {% for error in errors.delivery %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if delivery_types.shopper %}
+                <h3>{% trans 'Customer pick-up' %}</h3>
+                <ul class="{% class_block 'delivery__type_shopper' %} {% class_block 'delivery__with_address' %}">
+                {% for delivery in delivery_types.shopper %}
+                    <li class="{% class_block 'delivery__with_address' %}_{{ delivery.id }}">
+                        <input maxlength="2" type="radio" value="{{ delivery.id }}"
+                               {% ifequal delivery_chosen delivery.id %}checked=""{% endifequal %}
+                               id="delivery_id_{{ delivery.id }}" name="delivery_id"/>
+
+                        {% include 'cart/simple_delivery.html' %}
+                    </li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+            {% if delivery_types.courier %}
+                <h3>{% trans 'Courier' %}</h3>
+                <ul class="{% class_block 'delivery__with_no_address' %}">
+                    {% for delivery in delivery_types.courier %}
+                        <li><input type="radio" value="{{ delivery.id }}"
+                                   {% ifequal delivery_chosen delivery.id %}checked=""
+                                   {% endifequal %}id="delivery_id_{{ delivery.id }}"
+                                   name="delivery_id"/> {% include 'cart/simple_delivery.html' %}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if delivery_types.mail %}
+                <h3>{% trans 'By mail' %}</h3>
+                <ul class="{% class_block 'delivery__with_no_address' %}">
+                {% for delivery in delivery_types.mail %}
+                    <li><input type="radio" value="{{ delivery.id }}"
+                               {% ifequal delivery_chosen delivery.id %}checked=""{% endifequal %}
+                               id="delivery_id_{{ delivery.id }}"
+                               name="delivery_id"/> {% include 'cart/simple_delivery.html' %}</li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+            <div class="{% class_block 'address_form' %}">
+                <h2>{% trans 'Address' %}</h2>
+
+                <div class="{% class_block 'delivery_address' %}" onclick="return {}">
+                    {{ address_form.as_ul }}
+                </div>
+                <h2>{% trans 'Comment' %}</h2>
+                <textarea class="{% class_block 'delivery__comment' %}" name="comment"></textarea>
+            </div>
+        </div>
+        <input type="submit" value="{% trans 'create order' %}"/>
+    </form>
+{% endblock %}

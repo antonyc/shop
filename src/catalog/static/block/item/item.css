@@ -1,0 +1,14 @@
+.block-item__price .integer{
+    font-weight: bold;
+}
+
+.block-item__price .remainder{
+    vertical-align: super;
+    text-decoration: underline;
+    font-size: x-small;
+}
+
+.block-item_add_to_cart__link a{
+    display: block;
+    
+}

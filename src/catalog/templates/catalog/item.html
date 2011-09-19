@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load loginza_widget %}{% load catalog_tags %}{% load order_tags %}
+{% load i18n %}{% load url from future %}
+{% load util_tags %}
+{% block script %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.gallerific.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'gallery' 'gallery.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'item' 'item_add_to_cart.js' %}"></script>
+
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'gallery' 'gallery.css' %}" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'item' 'item.css' %}" />
+
+{% endblock %}
+{% block contents %}
+    <table>
+        <tr>
+        <td>
+            <div class="{% class_block 'gallery__container' %}"></div>
+        </td><td>
+    <div class="{% class_block 'gallery' %}">
+        <ul class="thumbs noscript">
+            <li>
+                <a class="thumb {% class_block 'gallery__item_link' %}" href="{% image_thumbnail main_image 'big' %}">
+                    <img src="{%  image_thumbnail main_image 'small' %}" alt="{{ main_image.alt }}" />
+                </a>
+            </li>
+        {% for image in other_images %}
+            <li>
+                <a class="thumb {% class_block 'gallery__item_link' %}" href="{% image_thumbnail image 'big' %}">
+                    <img src="{%  image_thumbnail image 'small' %}" alt="{{ image.alt }}" /></a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+        <h1>{{ item.name }}</h1>
+        {% trans 'Your price' %} <span class="{% class_block 'item__price' %}">{% decorate_currency item.price %}</span>
+        <div class="{% class_block 'item_add_to_cart' %}" onclick="return {quantity: {{ quantity }}}">
+            <form method="POST" action="{% url 'cart_item_quantity' url=item.url %}">{% csrf_token %}
+                <input type="hidden" name="quantity" value="+1" />
+                <input type="submit" value="{% trans 'add to cart' %}" />
+            </form>
+            <div class="{% class_block 'item_add_to_cart__link' %}"></div>
+        </div>
+    </td>
+
+    </tr>
+    </table>
+            {{ item.formatted_description|safe }}
+{% endblock %}

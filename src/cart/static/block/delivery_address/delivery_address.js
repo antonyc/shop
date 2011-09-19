@@ -1,4 +1,4 @@
-jQuery(function(){
+ jQuery(function(){
     var countriesCache = [],
         citiesCache = [],
         formPrefix = "address-",

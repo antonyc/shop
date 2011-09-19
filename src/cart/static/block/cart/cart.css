@@ -1,0 +1,28 @@
+.block-delivery__comment{
+    width: 50%;
+    height: 300px;
+    font-size: larger;
+}
+
+.block-delivery__nearest span.block-delivery__description{
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.block-cart_item__quantity{
+    width: 70px;
+}
+
+.block-cart_item__quantity .minus, .block-cart_item__quantity .plus{
+    padding: 0 5px;
+    border: none;
+    background-color: yellow;
+    unselectable: on;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.block-cart_item__quantity input{
+    width: 20px;
+}

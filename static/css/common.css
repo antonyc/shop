@@ -1,0 +1,17 @@
+.body{
+    width: 800px;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+table td{
+    vertical-align: top;
+}
+
+h1{
+    clear: both;
+    font-size: 1em;
+}

@@ -18,6 +18,7 @@ from django.utils.log import NullHandler
 from mwlib.xhtmlwriter import log
 log = NullHandler()
 from mwlib.dummydb import DummyDB
+from xml.dom import minidom
 import StringIO
 from django.utils.encoding import smart_unicode
 import trans
@@ -82,13 +83,22 @@ class MyWriter(Writer):
         tree[0].text = tree[0].text.strip()
         return tree
 
-def parse_markup(body, title='Some article'):
+def parse_markup(body, title='Some article', strip_title=False):
     db = DummyDB()
     if body.endswith(chr(13)+chr(10)):
         body = body.replace(chr(13)+chr(10),chr(10))
     p = parseString(title, body, db)
     result = MyWriter().write(p)
+#    if strip_title and result._children[0].tag == 'h1':
+#        result._children = result._children[1:]
     result = ET.tostring(result)
+    if strip_title:
+        parse = minidom.parseString(result)
+        h1 = parse.childNodes[0].childNodes[0]
+        if h1.tagName == 'h1':
+            parse.childNodes[0].removeChild(h1)
+            res = parse.toxml()
+            result = res[res.find('?>')+2:]
     return unicode(BeautifulStoneSoup(result, convertEntities=BeautifulStoneSoup.HTML_ENTITIES))
 
 replacement_regexp = re.compile(r'(\W+)', re.IGNORECASE)

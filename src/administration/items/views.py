@@ -11,7 +11,7 @@ from django.forms.widgets import Textarea
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template.defaulttags import url
 from django.core.urlresolvers import reverse
-from utils.strings import translit
+from utils.strings import translit, parse_markup
 from administration.categories.views import categories_choices
 from administration.images.views import ItemImageForm
 from administration.views import AdminListView, AdminTemplateView
@@ -89,6 +89,7 @@ class EditItemsView(AdminTemplateView):
         if form.is_valid():
             item.name = form.cleaned_data['name']
             item.description = form.cleaned_data['description']
+            item.formatted_description = parse_markup(item.description.replace("\r\n", "\n").strip(), '')
             item.price = form.cleaned_data['price']
             cnt = 0
             url = translit(item.name).lower()

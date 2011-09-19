@@ -6,9 +6,9 @@ from orders.models import Delivery, DT_BY_SHOPPER
 from utils.base_testcase import BaseTestCase
 from django.contrib.auth.models import User
 
-class DeliveriesTestCase(BaseTestCase):
+class DeliveriesShowTestCase(BaseTestCase):
     def setUp(self):
-        super(DeliveriesTestCase, self).setUp()
+        super(DeliveriesShowTestCase, self).setUp()
         self.setGeoNames()
         self.delivery = get(Delivery, name="Self pick up",
                             description="Pick it up yourself",

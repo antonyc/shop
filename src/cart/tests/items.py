@@ -15,8 +15,11 @@ class CartItemsTest(TestCase):
     def test_quantity(self):
         item = Item.public_objects.all()[0]
         post = {'quantity': 2}
+        headers = {'HTTP_X_REQUESTED_WITH': True}
         self.failIf('cart' in self.client.session, "Must be no cart yet")
-        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}), post)
+        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}),
+                                  post,
+                                  **headers)
         self.failUnlessEqual(result.status_code, 200, "A correct request")
         data = simplejson.loads(result.content)
         self.failUnless('cart' in data, "Must have 'cart' in data")
@@ -40,7 +43,9 @@ class CartItemsTest(TestCase):
         
         item2 = Item.public_objects.all()[1]
         post = {'quantity': 4}
-        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item2.url}), post)
+        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item2.url}),
+                                  post,
+                                  **headers)
         self.failUnlessEqual(result.status_code, 200, "A correct request")
         cart = self.client.session['cart']
         self.failUnless('items' in cart, "Must have items in cart")
@@ -50,8 +55,9 @@ class CartItemsTest(TestCase):
         self.failUnlessEqual(items[1]['url'], item2.url, "Must have url in items")
         
         post = {'quantity': 0}
-        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item2.url}), post)
-        self.failUnlessEqual(result.status_code, 200, "A correct request")
+        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item2.url}),
+                                  post)
+        self.failUnlessEqual(result.status_code, 302, "A correct request")
         cart = self.client.session['cart']
         self.failUnless('items' in cart, "Must have items in cart")
         items = cart['items']
@@ -60,10 +66,15 @@ class CartItemsTest(TestCase):
         
     def test_relative_quantity(self):
         item = Item.public_objects.all()[0]
+        headers = {'HTTP_X_REQUESTED_WITH': True}
         post = {'quantity': "+1"}
-        self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}), post)
+        self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}),
+                         post,
+                         **headers)
         post = {'quantity': "+2"}
-        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}), post)
+        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}),
+                                  post,
+                                  **headers)
         self.failUnlessEqual(result.status_code, 200, "A correct request")
         
         self.failUnless('cart' in self.client.session, "Cart must be enabled")
@@ -73,7 +84,9 @@ class CartItemsTest(TestCase):
         self.failUnlessEqual(3, items[0]['quantity'], "Must have 3 items")
         
         post = {'quantity': "-1"}
-        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}), post)
+        result = self.client.post(reverse('cart_item_quantity', kwargs={'url': item.url}),
+                                  post,
+                                  **headers)
         cart = self.client.session['cart']
         items = cart['items']
         self.failUnlessEqual(2, items[0]['quantity'], "Must have 2 items")

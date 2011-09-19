@@ -51,7 +51,7 @@ class DeliveriesEditTestCase(BaseTestCase):
         self.failUnlessEqual(renewed_delivery.name, name, "Must have changed name")
         self.failUnlessEqual(renewed_delivery.description, description, "Must have changed description")
         self.failUnlessEqual(renewed_delivery.price, 20, "Must have changed price")
-        self.failUnlessEqual(int(renewed_delivery.type), DeliveryTypes.shopper, "Must not have changed type")
+        self.failUnlessEqual(renewed_delivery.type, DeliveryTypes.shopper, "Must not have changed type")
         self.failUnlessEqual(renewed_delivery.dynamic_properties['address']['text']['street'], u"Трудовая", "Address must be new")
         self.failUnlessEqual(renewed_delivery.dynamic_properties['address']['point']['lat'], 52.17, "Point must be new")
 
@@ -96,7 +96,7 @@ class DeliveriesEditTestCase(BaseTestCase):
         self.failUnlessEqual(before_deliveries + 1,after_deliveries, "Must have added 1 delivery")
         delivery = Delivery.public_objects.order_by('-id')[0]
         self.failUnlessEqual(delivery.name, name, "Must have this name")
-        self.failUnlessEqual(unicode(self.russian_federation.geonameid), delivery.dynamic_properties['address']['text']['country'], "Country must be correct")
+        self.failUnlessEqual(self.russian_federation.geonameid, delivery.dynamic_properties['address']['text']['country'], "Country must be correct")
         self.failUnlessEqual(u"Российская федерация", delivery.dynamic_properties['address']['text']['country__text'], "Country must be correct")
 
     def test_add_with_unresolved_address(self):
@@ -147,5 +147,5 @@ class DeliveriesEditTestCase(BaseTestCase):
         delivery = Delivery.public_objects.order_by('-id')[0]
         self.failUnlessEqual(delivery.description, description, "Must have this description")
         self.failUnlessEqual(delivery.price, 20, "Must have this price")
-        self.failUnlessEqual(int(delivery.type), DeliveryTypes.mail, "Must have this delivery type")
+        self.failUnlessEqual(delivery.type, DeliveryTypes.mail, "Must have this delivery type")
         self.failUnlessEqual(delivery.dynamic_properties['address']['point']['lat'], 52.17, "Latitude must be this one")
