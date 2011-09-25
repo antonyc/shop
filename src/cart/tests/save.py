@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from django.contrib.auth.models import User
+from business_events.models import Event
 from catalog.models import Item
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
@@ -9,6 +10,7 @@ from utils.base_testcase import BaseTestCase
 
 comment = u""" Captain, captain, smile!
         Cause your smile is the flag of the ship! """
+
 
 class CartSaveTest(BaseTestCase):
     def setUp(self):
@@ -46,6 +48,13 @@ class CartSaveTest(BaseTestCase):
         self.failUnless(order.dynamic_properties.has_text_address, "Order must have text address")
         self.failUnlessEqual(order.dynamic_properties['address']['text']['country__text'], u"Россия", "Must be correct country name")
         self.failUnlessEqual(order.dynamic_properties['address']['text']['city__text'], u"Иркутск", "Must be correct city name")
+        events = Event.objects.all()
+        self.failUnlessEqual(events.count(), 1, "Must have created 1 event")
+        event = events[0]
+        self.failUnlessEqual(event.user, self.user1)
+        properties = event.dynamic_properties.fetchDocument()['event']
+        self.failUnlessEqual(properties['order_id'], order.id)
+        self.failIf('cart' in self.client.session, "Cart must be empty")
 
     def test_simple_bad_requests(self):
         counter = Order.objects.filter(user=self.user1)

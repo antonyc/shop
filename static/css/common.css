@@ -15,3 +15,11 @@ h1{
     clear: both;
     font-size: 1em;
 }
+
+.js-visible{
+    display: none;
+}
+
+.spinner{
+    display: none;
+}

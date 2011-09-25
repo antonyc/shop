@@ -28,8 +28,7 @@ delivery_types = ((DeliveryTypes.shopper, ugettext_lazy('by shopper himself')),
 class DeliveryPropertiesManager(MongoManager):
     default_document = defaultdict(dict)
     def has_address(self):
-        document = self.fetchDocument()
-        return 'address' in document
+        return 'address' in self
 
     def has_text_address(self):
         text = self.fetchDocument().get('address',{}).get('text', {})
@@ -139,6 +138,10 @@ class Order(models.Model):
     public_objects = OrderManager()
 
     dynamic_properties = MongoPatch(OrderPropertiesManager, 'order')
+
+    @property
+    def text_status(self):
+        return dict(STATUSES).get(self.status, ugettext_lazy('unknown status'))
 
     def __unicode__(self):
         status = dict(zip(statuses_tuple, statuses)).get(self.status, 'unknown')

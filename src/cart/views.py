@@ -5,13 +5,14 @@ from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from itertools import ifilter
 from administration.deliveries.views import AddressForm
+from business_events.models import Event
 from loginza.decorators import login_required
 from utils.base_view import BaseTemplateView, set_cart, get_address_text
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from catalog.models import Item
 import datetime
 from django.utils.translation import ugettext
-from orders.models import Delivery, Order, OrderItem
+from orders.models import Delivery, Order, OrderItem, OrderStatuses
 
 def dump_item(item):
     return {'url': item.url,
@@ -65,7 +66,6 @@ class CartQuantityView(BaseTemplateView):
         #PRICE
         price = 0
         for item in cart['items']:
-            print item['price'], item['quantity']
             price += item['price']*item['quantity']
 
         cart['price'] = cart['total_price'] = price
@@ -89,12 +89,9 @@ class CartQuantityView(BaseTemplateView):
         else:
             return self.redirect_to_referrer()
 
-
-
-
 class ShowCartView(BaseTemplateView):
     template_name = 'cart/show.html'
-
+    count_visits = True
     def prepare_cart_params(self):
         cart = set_cart(self.request.session)
         items = []
@@ -113,7 +110,7 @@ class ShowCartView(BaseTemplateView):
         for delivery in deliveries:
             template_dt[delivery.type].append(delivery)
         self.params['address_form'] = AddressForm(prefix="address", initial=cart['address'])
-        
+
     def get(self, *args, **kwargs):
         self.prepare_cart_params()
         return self.render_to_response(self.params)
@@ -166,13 +163,19 @@ class ShowCartView(BaseTemplateView):
             return self.render_to_response(self.params)
         order = Order(delivery=delivery, user=self.request.user)
         order.save()
-
         for item in order_items:
             order_item = OrderItem(item=item, quantity=post['cart_item_id_'+str(item.id)], price=item.price)
             order.orderitem_set.add(order_item)
-        for key in cart['address']:
-            order.dynamic_properties['address']['text'] = cart['address']
         order.save()
+        for key in cart['address']:
+            order.dynamic_properties['address'] = {'text': cart['address']}
+        order.dynamic_properties.save()
+        event = Event(user=self.request.user)
+        event.save()
+        event.dynamic_properties['event'] = {'order_id': order.id,
+                                             'type': 'order_created'}
+        event.save()
+        del self.request.session['cart']
         url = reverse('view_order', kwargs={'id': order.id})
         if self.request.is_ajax:
             return HttpResponse(simplejson.dumps({'url': url}),

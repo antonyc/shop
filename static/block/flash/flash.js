@@ -7,7 +7,7 @@ flash = new function() {
         var m = jQuery('<li class="' + _class + '">' + message + '</li>');
         jQuery('.am-flash .am-flash__list').append(m);
         setTimeout(function() {
-            jQuery(m).remove();
+            jQuery(m).fadeOut();
         }, timeout);
     }
     this.show = function(message, timeout) {

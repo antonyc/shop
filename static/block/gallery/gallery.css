@@ -1,10 +1,17 @@
 .block-gallery__container img{
     border: none;
     border-width: 0;
+
 }
 
 .block-gallery__container{
     width: 400px;
+    height: 400px;
+}
+
+.block-gallery__container .image-wrapper{
+
+    
 }
 
 .block-gallery{

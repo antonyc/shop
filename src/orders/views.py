@@ -15,7 +15,7 @@ class OrderView(BaseTemplateView):
             self.obj = Order.public_objects.select_related(depth=2).get(id=id)
         except Order.DoesNotExist:
             raise Http404
-        if request.user != self.obj.user:
+        if request.user != self.obj.user and not request.user.is_staff and not request.user.is_superuser:
             return HttpResponse(status=403)
         return super(OrderView, self).dispatch(*args, **kwargs)
 

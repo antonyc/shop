@@ -7,6 +7,7 @@ from django.conf import settings
 from utils.base_view import BaseTemplateView, set_cart
 
 class ItemView(BaseTemplateView):
+    count_visits = True
     def dispatch(self, *args, **kwargs):
         url = kwargs.pop('url')
         try:
@@ -34,6 +35,7 @@ class ShowItemView(ItemView):
 class ShowCategoryView(BaseTemplateView):
     template_name = 'category/show.html'
     paginate_by = 20
+    count_visits = True
     def get(self, request, *args, **kwargs):
         url = kwargs.pop('url', None)
         parents = Category.objects.filter(parent=None)

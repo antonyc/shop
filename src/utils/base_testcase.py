@@ -28,13 +28,18 @@ class BaseTestCase(TestCase):
 
 
     def setUpUsers(self):
-        self.user = User.objects.create_superuser('chapson', 'mrdark@list.ru', '1')
-        self.user1 = User.objects.create_superuser('zver', 'anton@list.ru', '1')
+        self.user = User.objects.create_superuser('chapson', 'mrdark@yandex.ru', '1')
+        self.user1 = User.objects.create_superuser('zver', 'anton@yandex.ru', '1')
         profile = self.user1.get_profile()
         profile.first_name = "Roman"
         profile.last_name = "Zver"
         profile.save()
-
+        self.common_user = User.objects.create_user('common', 'chapson@yandex.ru.ru', '1')
+        profile = self.common_user.get_profile()
+        profile.first_name = "Coommon"
+        profile.last_name = "User"
+        profile.save()
+        
     categories_set = False
     def setUpCategories(self):
         if self.categories_set:
@@ -73,10 +78,13 @@ class BaseTestCase(TestCase):
         if self.deliveries_set:
             return
         self.deliveries_set = True
-        self.delivery = get(Delivery, name="Customer pickup",
+        self.delivery = get(Delivery,
+                            ignore_fields=['dynamic_properties'],
+                            name="Customer pickup",
                             status=StatusChoices.normal,
                             type=DeliveryTypes.shopper,
-                            price=1)
+                            price=1,
+                            description='')
 
     geonames_set = False
     def setGeoNames(self):

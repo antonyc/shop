@@ -83,7 +83,7 @@ class MyWriter(Writer):
         tree[0].text = tree[0].text.strip()
         return tree
 
-def parse_markup(body, title='Some article', strip_title=False):
+def parse_markup(body, title='Some article', strip_title=False, **kwargs):
     db = DummyDB()
     if body.endswith(chr(13)+chr(10)):
         body = body.replace(chr(13)+chr(10),chr(10))

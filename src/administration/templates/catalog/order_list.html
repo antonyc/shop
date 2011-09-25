@@ -23,7 +23,8 @@
 {% endif %}
 <ul>
 {% for order in object_list %}
-	<li>{{ order.created_at|date }} {{ order.user }}</li>
+	<li>{{ order.created_at|date:"DATETIME_FORMAT" }} {{ order.user }}.
+        {% trans 'Order is' %} <em>{{ order.text_status }}</em> <a href="{% url 'edit_order' id=order.id %}">{% trans 'edit' %}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

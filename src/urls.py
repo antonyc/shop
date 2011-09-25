@@ -3,6 +3,8 @@ from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from catalog.views import ShowCategoryView
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -17,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^orders/', include('orders.urls')),
     url(r'^cart/', include('cart.urls')),
     url(r'^geocoding/', include('geocoding.urls')),
+    url(r'^$', ShowCategoryView.as_view())
 )
 
 

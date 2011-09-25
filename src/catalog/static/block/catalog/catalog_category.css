@@ -1,3 +1,16 @@
 .block-catalog_category{
     width: 250px;
 }
+
+.block-catalog_category ul{
+    padding-top: 0;
+    margin: 0;
+}
+
+.block-catalog_category > ul{
+    padding-left: 0;
+}
+
+.block-catalog_category li{
+    list-style: none;
+}

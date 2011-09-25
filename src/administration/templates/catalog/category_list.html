@@ -22,10 +22,7 @@
 {% endif %}
 <ul>
 {% for category in object_list %}
-	<li>{{ category.name }} 
-		<a href="{% url 'edit_category' id=category.id %}">{% trans 'edit category' %}</a>,
-		<a href="{% url 'delete_category' id=category.id %}">{% trans 'delete category' %}</a>
-	</li>
+    <li style="margin-left: {{ category.level }}0px">{% include 'admin/category/category_item.html' with category=category %}</li>
 {% endfor %}
 </ul>
 {% endblock %}

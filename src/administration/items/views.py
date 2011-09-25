@@ -128,5 +128,6 @@ class DeleteItemsView(AdminTemplateView):
             item = Item.objects.get(id=id)
         except Item.DoesNotExist:
             raise Http404()
-        item.delete()
+        item.deleted = True
+        item.save()
         return HttpResponseRedirect(reverse('list_items'))

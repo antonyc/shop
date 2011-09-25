@@ -139,6 +139,8 @@ INSTALLED_APPS = (
     'cart',
     'geonames',
     'geocoding',
+    'email_generators',
+    'business_events',
     'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',

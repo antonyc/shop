@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'flash' 'flash.css' %}" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'mocklink' 'mocklink.css' %}"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'wide_table' 'wide_table.css' %}"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'top_menu' 'top_menu.css' %}"/>
     {% block css %}{% endblock %}
     <style type="text/css">.ui-widget{font-size: 0.9em;}</style>
     <script type="text/javascript" src="http://yandex.st/jquery/1.5.2/jquery.min.js"></script>
@@ -15,8 +17,8 @@
     <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'flash' 'flash.js' %}"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'no_second_submit' 'no_second_submit.js' %}"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'cart' 'simple_cart.js' %}"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/common.js"></script>
     {% block script %}{% endblock %}
-
 </head>
 <body>
 <div class="am-flash">
@@ -29,8 +31,17 @@
 			<a href="{% url 'user_logout' %}">{% trans 'logout' %}</a>
 		{% endif %}
 	</div>
-    <div class="{% class_block 'simple_cart' %}" onclick="return {price: {{ simple_cart_total_price|floatformat:0 }}}">{% trans 'In total:' %} <span class="{% class_block 'simple_cart__price' %}">{{ simple_cart_total_price|floatformat:0 }}</span> <a href="{% url 'cart_show' %}">{% trans 'checkout' %}</a></div>
+    <div>
+        <span class="{% class_block 'top_menu' %}">
+            {% for element in top_menu %}
+                <span>{{ element|safe }}</span>
+            {% endfor %}
+        </span>
+        <span class="{% class_block 'simple_cart' %}" onclick="return {price: {{ simple_cart_total_price|floatformat:0 }}, items: {{ simple_cart_item_quantity }}}">{% trans 'In total:' %} <span class="{% class_block 'simple_cart__quantity' %}">{{ simple_cart_item_quantity }}</span> {% trans 'for' %} <span class="{% class_block 'simple_cart__price' %}">{{ simple_cart_total_price|floatformat:0 }}</span> <a href="{% url 'cart_show' %}">{% trans 'checkout' %}</a></span>
+
+    </div>
 	{% block contents %}{% endblock %}
 </div>
+{% if count_visits %}{{ count_visits|safe }}{% endif %}
 </body>
 </html>

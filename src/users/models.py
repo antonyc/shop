@@ -12,6 +12,10 @@ def resolve_last_name(identity):
     data = loads(identity.data or '{}')
     return data.get('name', {}).get('last_name', '')
 
+def resolve_ui_lang(identity):
+    data = loads(identity.data or '{}')
+    return data.get('language', 'ru')[:2]
+
 resolver_map = {'first_name': resolve_first_name,
                 'last_name': resolve_last_name}
 
@@ -39,6 +43,9 @@ class UserProfile(models.Model):
 
     res_first_name = LoginzaDataResolution('first_name')
     res_last_name = LoginzaDataResolution('last_name')
+    res_ui_lang = LoginzaDataResolution('ui_lang')
+
+    ui_lang = models.CharField(max_length=2, default="ru")
 
     @property
     def full_name(self):

@@ -96,12 +96,18 @@ class EditDeliveryView(SingleItemView):
             text_address = get_address_text(self.request.POST)
             point_address = get_address_point(self.request.POST)
             if text_address:
-                address = self.delivery.dynamic_properties['address']
+                if self.delivery.dynamic_properties.has_address():
+                    address = self.delivery.dynamic_properties['address']
+                else:
+                    address = {}
                 address['text'] = address.get('text', {})
                 address['text'].update(text_address)
                 self.delivery.dynamic_properties['address'] = address
             if point_address:
-                address = self.delivery.dynamic_properties['address']
+                if self.delivery.dynamic_properties.has_address():
+                    address = self.delivery.dynamic_properties['address']
+                else:
+                    address = {}
                 address['point'] = address.get('point', {})
                 address['point'].update(point_address)
                 self.delivery.dynamic_properties['address'] = address

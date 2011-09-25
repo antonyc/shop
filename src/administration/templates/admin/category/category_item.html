@@ -1,0 +1,4 @@
+{% load url from future %}{% load i18n %}
+{{ category.name }}
+<a href="{% url 'edit_category' id=category.id %}">{% trans 'edit category' %}</a>,
+<a href="{% url 'delete_category' id=category.id %}">{% trans 'delete category' %}</a>

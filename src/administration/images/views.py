@@ -25,12 +25,12 @@ class ItemImageForm(ModelForm):
 
 class UploadItemImageView(AdminTemplateView):
     params = {}
-    
     def post(self, request, id, *args, **kwargs):
         try:
             item = Item.objects.get(id=id)
         except Item.DoesNotExist:
             raise Http404()
+
         form = ItemImageForm(request.POST, request.FILES, 
                              instance=ItemImage(item=item))
         if form.is_valid():

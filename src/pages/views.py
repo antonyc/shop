@@ -5,6 +5,7 @@ from django.http import Http404
 
 class ShowPageView(BaseTemplateView):
     template_name = 'pages/show.html'
+    count_visits = True
     def get(self, request, url, *args, **kwargs):
         try:
             page = Page.objects.get(url=url)

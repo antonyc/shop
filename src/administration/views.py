@@ -21,6 +21,10 @@ class AdminTemplateView(TemplateView):
     @method_decorator(user_passes_test(is_staff))
     def dispatch(self, *args, **kwargs):
         self.request = args[0]
+        if self.request.META.get('HTTP_X_REQUESTED_WITH'):
+            self.request.is_ajax = True
+        else:
+            self.request.is_ajax = False
         return super(AdminTemplateView, self).dispatch(*args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
+from business_events.models import Event
 from catalog.models import Item
 from django_dynamic_fixture import get
 from orders.models import OrderItem, Order, NEW
@@ -22,7 +23,10 @@ class StatusOrdersTest(TestCase):
     
     def test_delete_order(self):
         before_orders = Order.public_objects.all().count()
+        events = Event.objects.all()
+        count_events = events.count()
         result = self.client.post('/administration/orders/%d/status/' % self.order.id, {'status': DELETED,})
         self.failUnlessEqual(result.status_code, 302, "This is a correct request which redirects")
         after_orders = Order.public_objects.all().count()
         self.failUnlessEqual(before_orders - 1, after_orders, "Must have deleted 1 order")
+        self.failUnlessEqual(events.count(), count_events+1, "Must have created 1 event")

@@ -1,7 +1,20 @@
 .am-flash{
     position: absolute;
     top: 0;
-    left: 550px;
+    left: 350px;
     max-width: 400px;
-    background-color: #ffffff;
+    background-color: #fef1ec;
+    padding: 0 20px;
 }
+
+.am-flash__list{
+    padding: 0;
+    margin: 0;
+}
+
+.am-flash__list li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+

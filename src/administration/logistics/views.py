@@ -5,13 +5,15 @@ Created on 31.07.2011
 '''
 from django.conf import settings
 from django.utils.translation import ugettext
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from business_events.models import Event
 from orders.models import Order, OrderItem, STATUSES, DELETED
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.forms.models import ModelForm
 from django.utils import simplejson
 from administration.views import AdminTemplateView
+
 
 class ListOrdersView(AdminTemplateView):
     template_name = 'catalog/order_list.html'
@@ -25,8 +27,16 @@ class ListOrdersView(AdminTemplateView):
             self.params['object_list'] = qs
         else:
             self.params['is_paginated'] = True
-            self.params['object_list'] = Paginator(qs, self.paginate_by)
+            paginator = Paginator(qs, self.paginate_by)
+            try:
+                page = self.request.GET.get('page', 1)
+                objects = paginator.page(page)
+            except (EmptyPage, InvalidPage):
+                objects = paginator.page(paginator.num_pages)
+            self.params['paginator'] = objects
+            self.params['object_list'] = objects.object_list
         return self.render_to_response(self.params)
+
 
 class EditOrderView(AdminTemplateView):
     template_name = 'catalog/order_edit.html'
@@ -40,57 +50,69 @@ class EditOrderView(AdminTemplateView):
         params['delete_status'] = DELETED
         return self.render_to_response(params)
 
+
 class OrderItemForm(ModelForm):
     class Meta:
         model = OrderItem
         fields = ('quantity',)
-    
-class EditOrderItemView(AdminTemplateView):
-    def is_ajax(self, request):
-        return 'X-Requested-With' in request.META and request.META['X-Requested-With'] == 'XMLHttpRequest'
 
+
+class EditOrderItemView(AdminTemplateView):
     def post(self, request, id, *args, **kwargs):
         try:
             order_item = OrderItem.objects.get(id=id)
         except OrderItem.DoesNotExist:
             raise Http404()
+        else:
+            previous = {'quantity': order_item.quantity}
         form = OrderItemForm(request.POST, 
                              instance=order_item)
         if form.is_valid():
             order_item = form.save()
-            if not self.is_ajax(request):
-                return HttpResponseRedirect(reverse('edit_order_item', args=[order_item.item_id])) 
+            event = Event(user=request.user,
+                          notify=True)
+            event.save()
+            event.dynamic_properties['event'] = {'type': 'order_item_change',
+                                                 'status': {'was': previous['quantity'],
+                                                            'now': order_item.quantity},
+                                                 'order_id': order_item.order.id,}
+            if not self.request.is_ajax:
+                return HttpResponseRedirect(reverse('edit_order', kwargs={'id': order_item.order.id}))
             result = {'id': order_item.id, 
                       'quantity': order_item.quantity,}
             status = 200
         else:
+            if not self.request.is_ajax:
+                return HttpResponse(status=500)
             result = {'fields': form.errors}
             status = 409
         return HttpResponse(simplejson.dumps(result), 
                             status=status, 
                             mimetype='application/json')
-        
-class DeleteOrderItemView(AdminTemplateView):
-    def is_ajax(self, request):
-        return 'X-Requested-With' in request.META and request.META['X-Requested-With'] == 'XMLHttpRequest'
 
+    
+class DeleteOrderItemView(AdminTemplateView):
     def post(self, request, id, *args, **kwargs):
         try:
             order_item = OrderItem.objects.get(id=id)
         except OrderItem.DoesNotExist:
             raise Http404()
         id = order_item.item_id
+        event = Event(user=request.user,
+                      notify=True)
+        event.save()
+        event.dynamic_properties['event'] = {'type': 'order_item_delete',
+                                             'status': {'was': order_item.quantity},
+                                             'order_id': order_item.order.id,}
         order_item.delete()
-        if not self.is_ajax(request):
+        if not self.request.is_ajax:
             return HttpResponseRedirect(reverse('edit_order', args=[id])) 
         return HttpResponse(simplejson.dumps([]), 
                             status=200, 
                             mimetype='application/json')
 
-class StatusOrderView(AdminTemplateView):
-    def is_ajax(self, request):
-        return 'X-Requested-With' in request.META and request.META['X-Requested-With'] == 'XMLHttpRequest'
 
+class StatusOrderView(AdminTemplateView):
     def post(self, request, id, *args, **kwargs):
         try:
             order = Order.objects.get(id=id)
@@ -99,9 +121,17 @@ class StatusOrderView(AdminTemplateView):
         status = int(request.POST['status'])
         if not status in dict(STATUSES):
             return HttpResponse(status=403)
+        previous_status = order.status
         order.status = status
         order.save()
-        if not self.is_ajax(request):
+        event = Event(user=request.user,
+                      notify=True)
+        event.save()
+        event.dynamic_properties['event'] = {'type': 'order_status_changed',
+                                             'status': {'was': previous_status,
+                                                        'now': status},
+                                             'order_id': order.id,}
+        if not self.request.is_ajax:
             return HttpResponseRedirect(reverse('edit_order', args=[order.id])) 
         return HttpResponse(simplejson.dumps([]), 
                             status=200, 

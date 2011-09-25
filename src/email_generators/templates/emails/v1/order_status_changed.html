@@ -1,0 +1,8 @@
+{% extends 'emails/base.html' %}
+{% load i18n %}{% load url from future %}
+{% block content %}
+<p>
+{% trans 'Status of your order' %} <a href="http://{{ HOST_NAME }}{% url 'view_order' id=order.id %}"
+{% trans 'changed to' %} <strong>{{ order.text_status }}</strong>.
+</p>
+{% endblock %}

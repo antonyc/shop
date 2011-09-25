@@ -8,6 +8,7 @@ from administration.images.views import UploadItemImageView, DeleteItemImageView
 from administration.logistics.views import ListOrdersView, EditOrderItemView,\
     EditOrderView, StatusOrderView, DeleteOrderItemView
 from administration.admin_pages.views import EditPageView, ListPagesView
+from administration.site_configuration.views import ShowSettingsView, ParseMenuText
 
 urlpatterns = patterns('',
     url(r'items/$', ListItemsView.as_view(), name='list_items'),
@@ -32,4 +33,6 @@ urlpatterns = patterns('',
     url(r'deliveries/(?P<id>\d+)/edit/$', EditDeliveryView.as_view(), name='edit_delivery'),
     url(r'deliveries/add/$', EditDeliveryView.as_view(), name='add_delivery'),
     url(r'deliveries/$', ListDeliveriesView.as_view(), name='show_deliveries'),
+    url(r'settings/$', ShowSettingsView.as_view(), name='show_settings'),
+    url(r'interactive_parser/$', ParseMenuText.as_view(), name='interactive_parser'),
 )

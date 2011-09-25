@@ -28,7 +28,7 @@ class ViewMixin(object):
 
 class ListCategoriesView(AdminListView):
     model = Category
-    queryset = Category.objects.all().order_by('-created_at')
+    queryset = Category.objects.order_by('lft')
     paginate_by = 50
     allow_empty = True
 

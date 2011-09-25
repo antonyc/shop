@@ -61,6 +61,7 @@ class Item(models.Model):
     def __unicode__(self):
         print u"%s: %s" % (self.id or 'None', self.name[:40] or 'None')
 
+
 def gen_thumbnail(field, thumbnail_size):
     thumb_path = os.path.join(settings.MEDIA_ROOT,
                               os.path.dirname(field.name),

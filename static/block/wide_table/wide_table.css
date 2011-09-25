@@ -1,0 +1,14 @@
+.block-wide_table{
+    width: 100%;
+}
+
+.block-wide_table__empty{
+    height: 60px;
+    background-color: #efefef;
+    padding-top: 40px;
+}
+
+.block-wide_table__empty div{
+    margin: 0 auto;
+    width: 200px;
+}
