@@ -35,4 +35,5 @@ urlpatterns = patterns('',
     url(r'deliveries/$', ListDeliveriesView.as_view(), name='show_deliveries'),
     url(r'settings/$', ShowSettingsView.as_view(), name='show_settings'),
     url(r'interactive_parser/$', ParseMenuText.as_view(), name='interactive_parser'),
+    url(r'users/', include('administration.users.urls')),
 )

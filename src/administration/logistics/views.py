@@ -48,6 +48,15 @@ class EditOrderView(AdminTemplateView):
             raise Http404()
         params['order'] = order
         params['delete_status'] = DELETED
+        statuses = dict(STATUSES)
+        del statuses[order.status]
+        if DELETED in statuses:
+            del statuses[DELETED]
+        status_keys = statuses.keys()
+        status_keys.sort()
+        params['statuses'] = []
+        for key in status_keys:
+            params['statuses'].append((key, statuses[key]))
         return self.render_to_response(params)
 
 

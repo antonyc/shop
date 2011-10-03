@@ -1,0 +1,12 @@
+{% load i18n %}<p>{% blocktrans with full_name=user.get_profile.full_name %}Greetings, {{ full_name }}.{% endblocktrans %}
+    {% trans 'You have registered at our shop.' %}</p>
+
+<p>
+If you ever need to login with password and email, save this letter.
+    </p>
+<ul>
+    <li>{{ user.username }}</li>
+    <li>{{ password }}</li>
+</ul>
+
+<p>{% blocktrans %}Visit us at{% endblocktrans %} <a href="{{ site_url }}">{{ hostname }}</a> </p>

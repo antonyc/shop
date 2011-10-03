@@ -26,9 +26,13 @@ class BaseTestCase(TestCase):
         self.setUpUsers()
         self.client.login(username='zver', password='1')
 
-
     def setUpUsers(self):
         self.user = User.objects.create_superuser('chapson', 'mrdark@yandex.ru', '1')
+
+        profile = self.user.get_profile()
+        profile.first_name = "Anton"
+        profile.last_name = "Chaporgin"
+        profile.save()
         self.user1 = User.objects.create_superuser('zver', 'anton@yandex.ru', '1')
         profile = self.user1.get_profile()
         profile.first_name = "Roman"
@@ -36,7 +40,7 @@ class BaseTestCase(TestCase):
         profile.save()
         self.common_user = User.objects.create_user('common', 'chapson@yandex.ru.ru', '1')
         profile = self.common_user.get_profile()
-        profile.first_name = "Coommon"
+        profile.first_name = "Common"
         profile.last_name = "User"
         profile.save()
         

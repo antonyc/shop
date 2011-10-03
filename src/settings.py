@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'geocoding',
     'email_generators',
     'business_events',
+    'compress',
     'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -213,4 +214,21 @@ THUMBNAIL_SIZE = THUMBNAILS['common']
 LOGINZA_DEFAULT_PROVIDERS_SET = 'google,facebook,vkontakte,twitter'
 LOGINZA_AMNESIA_PATHS = ('/accounts/final_step/','/accounts/login/')
 
+COMPRESS = True
+
+from deployment import list_of_files
+
 from local_settings import *
+
+COMPRESS_JS = {
+    'all': {
+        'source_filenames': list_of_files(STATIC_ROOT, 'js'),
+        'output_filename': 'js/all.js'
+    }
+}
+COMPRESS_CSS = {
+    'screen': {
+        'source_filenames': list_of_files(STATIC_ROOT, 'css'),
+        'output_filename': 'css/screen.css'
+    }
+}

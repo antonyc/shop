@@ -8,4 +8,6 @@
     width: 170px;
     float: left;
     padding: 0 5px;
+    height: 220px;
+    overflow: hidden;
 }

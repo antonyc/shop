@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-{% load url from future %}{% load i18n %}{% load util_tags %}
+{% load url from future %}{% load i18n %}{% load util_tags %}{% load compressed %}
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}{% trans 'Storefront' %}{% endblock %}</title>
@@ -38,7 +38,6 @@
             {% endfor %}
         </span>
         <span class="{% class_block 'simple_cart' %}" onclick="return {price: {{ simple_cart_total_price|floatformat:0 }}, items: {{ simple_cart_item_quantity }}}">{% trans 'In total:' %} <span class="{% class_block 'simple_cart__quantity' %}">{{ simple_cart_item_quantity }}</span> {% trans 'for' %} <span class="{% class_block 'simple_cart__price' %}">{{ simple_cart_total_price|floatformat:0 }}</span> <a href="{% url 'cart_show' %}">{% trans 'checkout' %}</a></span>
-
     </div>
 	{% block contents %}{% endblock %}
 </div>

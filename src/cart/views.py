@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from itertools import ifilter
+import math
 from administration.deliveries.views import AddressForm
 from business_events.models import Event
 from loginza.decorators import login_required
@@ -68,7 +69,7 @@ class CartQuantityView(BaseTemplateView):
         for item in cart['items']:
             price += item['price']*item['quantity']
 
-        cart['price'] = cart['total_price'] = price
+        cart['price'] = cart['total_price'] = round(price, 2)
         
         request.session.save()
         content = {'cart': {'items': []},

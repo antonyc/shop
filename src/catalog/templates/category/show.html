@@ -13,25 +13,6 @@
     <table>
         <tr>
         <td>
-            <div class="{% class_block 'catalog_category' %}">
-                <ul>
-                {% for cat in parent_categories %}
-                    {% if cat.has_items %}
-                    <li>{% include 'category/category_item.html' with category=cat %}
-                        <ul>
-                        {% for child in cat.children.all %}
-                            {% if child.has_items %}
-                            <li>{% include 'category/category_item.html' with category=child %}</li>
-                            {% endif %}
-                        {% endfor %}
-                        </ul>
-                    </li>
-                    {% endif %}
-                {% endfor %}
-                </ul>
-            </div>
-        </td>
-        <td>
     {% for crumb in breadcrumbs %}
         <a href="{{ crumb.url }}">{{ crumb.text }}</a>
     {% endfor %}
@@ -76,6 +57,25 @@
     </ul>
     </div>
             </td>
+        <td>
+            <div class="{% class_block 'catalog_category' %}">
+                <ul>
+                {% for cat in parent_categories %}
+                    {% if cat.has_items %}
+                    <li>{% include 'category/category_item.html' with category=cat %}
+                        <ul>
+                        {% for child in cat.children.all %}
+                            {% if child.has_items %}
+                            <li>{% include 'category/category_item.html' with category=child %}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </td>
         </tr>
     </table>
 {% endblock %}

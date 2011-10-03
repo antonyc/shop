@@ -1,0 +1,8 @@
+{% extends 'administration_base.html' %}{% load i18n %}{% load order_tags %}{% load url from future %}{% load humanize %}
+{% block contents %}
+<h1>{{ obj.get_profile.full_name }}</h1>
+<form action="" method="post">{% csrf_token %}
+    <ul>{{ form.as_ul }}</ul>
+    <input type="submit" value="{% trans 'submit' %}" />
+</form>
+{% endblock %}

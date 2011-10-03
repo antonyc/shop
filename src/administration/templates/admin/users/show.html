@@ -1,0 +1,31 @@
+{% extends 'administration_base.html' %}{% load i18n %}{% load order_tags %}{% load url from future %}{% load humanize %}
+{% block contents %}
+<h1>{{ obj.get_profile.full_name }}</h1>
+    <a href="{% url 'edit_user' id=obj.id %}">{% trans 'edit' %}</a>
+    {% if has_orders %}
+        <div>
+            <h2>{% trans 'Orders' %}</h2>
+            <ul>
+            {% for order in orders %}
+                <li><a href="{% url 'view_order' id=order.id %}">{{ order|order_status }}</a>, {% trans 'was created at:' %} {{ order.created_at|naturalday }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <div>
+        {% if obj.is_staff or obj.is_superuser %}{{ obj.get_profile.res_first_name }}
+            {% if obj.is_staff %}{% trans 'is a staff member' %}{% endif %}{% if obj.is_superuser %},
+                {% trans 'is superuser' %}{% endif %}.
+        {% endif %}
+        {% if obj.groups.all.count > 0 %}
+            <ul>
+            {% for group in obj.groups.all %}
+                <li>{{ group }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            {% trans 'Is not a member of any group' %}.
+        {% endif %}
+        {% trans 'Joined us' %} <span title="{{ obj.get_profile.created_at }}">{{ obj.get_profile.created_at|naturalday }}</span>
+    </div>
+{% endblock %}

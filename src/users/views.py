@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+from django.template.loader import render_to_string
 import urllib2, logging, traceback
 import hashlib, datetime
 from django.utils import simplejson
@@ -9,6 +10,9 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext
+from business_events.models import Event
+from utils import email_name
+from utils.base_view import BaseTemplateView
 from utils.strings import translit
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -57,10 +61,12 @@ def complete_registration(request):
         while True:
             try:
                 User.objects.get(username=nickname)
-                nickname = '%s_%s' % (username, cnt)
-                cnt += 1
             except User.DoesNotExist:
                 return nickname
+            else:
+                nickname = '%s_%s' % (username, cnt)
+                cnt += 1
+                
     def generate_password(user):
         return hashlib.md5(user.username + user.email + str(datetime.datetime.now())).hexdigest()[:7]
 
@@ -73,12 +79,12 @@ def complete_registration(request):
                                from_email=settings.SERVER_EMAIL,)
         message.send(True)
     if request.user.is_authenticated():
-        return http.HttpResponseForbidden(u'Вы попали сюда по ошибке')
+        return http.HttpResponseForbidden(ugettext("You got here by mistake"))
     try:
         identity_id = request.session.get('users_complete_reg_id', None)
         user_map = models.UserMap.objects.select_related('user','identity').get(identity__id=identity_id, verified=False)
     except models.UserMap.DoesNotExist:
-        return http.HttpResponseForbidden(u'Вы попали сюда по ошибке')
+        return http.HttpResponseForbidden(ugettext("You got here by mistake"))
     if request.method == 'POST':
         form = forms.CompleteReg(user_map.user.id, request.POST)
         if form.is_valid():
@@ -97,7 +103,23 @@ def complete_registration(request):
 
             user = auth.authenticate(user_map=user_map)
             auth.login(request, user)
-
+            user.first_name = user.get_profile().res_first_name
+            user.last_name = user.get_profile().res_last_name
+            user.save()
+            event = Event(user=user,
+                          notify=True)
+            event.save()
+            event.dynamic_properties['event'] = {'type': 'new_user',
+                                                 'username': user.username,
+                                                 'user_id': user.id}
+            params = {'password': password,
+                      'user': user,
+                      'site_url': "http://%s/" % settings.HOST_NAME,
+                      'hostname': settings.HOST_NAME}
+            body = render_to_string('accounts/email/registration_complete.html', params)
+            EmailMessage(from_email=settings.SERVER_EMAIL,
+                         to=(user.email,),
+                         body=body).send()
             messages.info(request, u'Добро пожаловать!')
 #            del request.session['users_complete_reg_id']
             return redirect(_return_path(request))
@@ -111,7 +133,7 @@ def complete_registration(request):
                               )
 
 
-class LoginView(TemplateView):
+class LoginView(BaseTemplateView):
     template_name = 'accounts/user_login.html'
     def get(self, request, *args, **kwargs):
         params = {'host_name': settings.HOST_NAME,
@@ -144,7 +166,7 @@ class LoginView(TemplateView):
 #                  'request': request,}
 #        return self.render_to_response(params)
 
-class LogoutView(TemplateView):
+class LogoutView(BaseTemplateView):
     def get(self, request, *args, **kwargs):
         logout(request)
         next = request.GET.get('next', '/')

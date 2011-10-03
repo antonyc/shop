@@ -20,18 +20,19 @@
 	<div>
 	<div class="b-authentication" onclick="return {}">
 		{% if request.user.is_authenticated %}
-			{% trans 'Вы' %} {{ request.user.email }}
+			{% trans 'You are' %} {{ request.user.email }}
 			<a href="{% url 'user_logout' %}">{% trans 'logout' %}</a>
 		{% endif %}
 	</div>
 	<div class="{% class_block 'admin_head' %}">
         <ul class="{% class_block 'admin_head__menu' %}">
             <li><a href="{% url 'list_orders' %}">{% trans 'Orders' %}</a></li>
-            <li><a href="{% url 'list_items' %}">{% trans 'Items' %}</a></li>
-            <li><a href="{% url 'list_categories' %}">{% trans 'Categories' %}</a></li>
-            <li><a href="{% url 'list_pages' %}">{% trans 'Pages' %}</a></li>
-            <li><a href="{% url 'show_deliveries' %}">{% trans 'Deliveries' %}</a></li>
-            <li><a href="{% url 'show_settings' %}">{% trans 'Settings' %}</a></li>
+            <li><a href="{% url 'list_items' %}">{% trans 'items' %}</a></li>
+            <li><a href="{% url 'list_categories' %}">{% trans 'categories' %}</a></li>
+            <li><a href="{% url 'list_pages' %}">{% trans 'pages' %}</a></li>
+            <li><a href="{% url 'show_deliveries' %}">{% trans 'deliveries' %}</a></li>
+            <li><a href="{% url 'show_settings' %}">{% trans 'settings' %}</a></li>
+            <li><a href="{% url 'list_users' %}">{% trans 'users' %}</a></li>
         </ul>
 	</div>
 	

@@ -24,7 +24,7 @@ class DeleteItemTest(TestCase):
     def test_post(self):
         result = self.client.post('/administration/items/%d/delete/' % self.item.id)
         self.failUnlessEqual(result.status_code, 302, "This is a correct request, which redirects")
-        self.failUnlessEqual(Item.objects.filter(id=self.item.id).count(), 0, "Must have deleted item")
+        self.failUnlessEqual(Item.public_objects.filter(id=self.item.id).count(), 0, "Must have deleted item")
         
 DESCRIPTION_1 = u"""
 Покупайте этот <ul>телефон</ul>.

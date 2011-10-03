@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 # Create your models here.
 from django.utils.simplejson import loads
+from orders.models import Order
 
 def resolve_first_name(identity):
     data = loads(identity.data or '{}')
@@ -36,8 +37,18 @@ class LoginzaDataResolution(object):
             profile.save()
         return getattr(profile, self.property, None)
 
+
+def orders(user):
+    print Order.objects.filter(user=user)
+    return Order.public_objects.filter(user=user)
+
+
+def has_orders(user):
+    return orders(user).exists()
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
+    created_at = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=50, null=True)
     last_name = models.CharField(max_length=50, null=True)
 

@@ -22,7 +22,7 @@ class Category(MPTTModel):
     def all_items(self):
         ids = map(lambda value: value[0],
                   self.get_descendants(True).values_list('id'))
-        return Item.objects.filter(categories__in=ids)
+        return Item.public_objects.filter(categories__in=ids)
 
     @property
     def has_items(self):

@@ -2,6 +2,8 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from pymongo import Connection, errors
+from base64 import encodestring
+
 
 def is_staff(u):
     return u.is_staff or u.is_superuser
@@ -99,3 +101,8 @@ class SiteSettings(object):
         return unicode(list(self.collection.find())[:20])
 
 site_settings = SiteSettings()
+
+
+def email_name(name, email):
+    name = encodestring(unicode(name).encode('UTF-8'))[:-1].replace("\n", '')
+    return '=?utf-8?B?%s?= <%s>' % (name, email),

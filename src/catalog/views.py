@@ -36,7 +36,9 @@ class ShowCategoryView(BaseTemplateView):
     template_name = 'category/show.html'
     paginate_by = 20
     count_visits = True
+
     def get(self, request, *args, **kwargs):
+        from django.utils import translation
         url = kwargs.pop('url', None)
         parents = Category.objects.filter(parent=None)
         if url is not None:

@@ -1,6 +1,7 @@
+from utils import email_name
+
 __author__ = 'chapson'
 from django.conf import settings
-from base64 import encodestring
 
 
 class BaseGenerator(object):
@@ -17,5 +18,4 @@ class BaseGenerator(object):
         return result
 
     def email_name(self, name, email):
-        name = encodestring(unicode(name).encode('UTF-8'))[:-1].replace("\n", '')
-        return '=?utf-8?B?%s?= <%s>' % (name, email),
+        return email_name(name, email)
