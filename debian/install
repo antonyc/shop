@@ -1,0 +1,7 @@
+src usr/lib/amadika/shop
+bin/amadika_shop_starter.sh usr/bin
+locale usr/share/amadika/shop
+static usr/share/amadika/shop
+debian/conf/nginx.conf etc/amadika/shop
+debian/conf/nginx.production /etc/nginx/sites-enabled
+debian/conf/fastcgi_params /etc/nginx

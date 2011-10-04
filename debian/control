@@ -1,0 +1,20 @@
+Source: amadika-shop
+Section: web
+Priority: extra
+Maintainer: Chaporgin Anton <chaporginanton@yandex.ru>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://git.debian.org/collab-maint/amadika-shop.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/amadika-shop.git;a=summary
+
+Package: amadika-shop
+Architecture: all
+Depends: python (>= 2.7), python-django (>= 1.3), python-flup,
+ python-pymongo, mongodb-10gen, 
+ python-mysqldb, mysql-server,
+ nginx,
+ ${misc:Depends}
+Description: A robust eCommerce web application
+ Amadika Shop is a django based web application considering security and speed
+ to be the main aim of development
