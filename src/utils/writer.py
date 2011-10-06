@@ -9,7 +9,7 @@ except:
 
 from mwlib import parser
 from mwlib import advtree
-from mwlib import xmltreecleaner
+import xmltreecleaner
 from mwlib import writerbase
 
 
