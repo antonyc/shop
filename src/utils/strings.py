@@ -1,29 +1,18 @@
 # -*- coding: utf-8 -*-
-
+import re
 from utils import policy
 from django.db import models
-from string import maketrans
 from mwlib.uparser import parseString
-from mwlib.parser.nodes import ArticleLink
-from mwlib.xhtmlwriter import MWXHTMLWriter as Writer
-#from pages.models import Page
-from catalog.models import Item
+from writer import MWXHTMLWriter as Writer
 from django.core.urlresolvers import reverse
 try:
     import xml.etree.ElementTree as ET
 except:
     from elementtree import ElementTree as ET
 from BeautifulSoup import BeautifulStoneSoup
-from django.utils.log import NullHandler
-from mwlib.xhtmlwriter import log
-log = NullHandler()
 from mwlib.dummydb import DummyDB
 from xml.dom import minidom
-import StringIO
-from django.utils.encoding import smart_unicode
-import trans
-import re
-    
+
 input = u"""
 =h1=
 
