@@ -1,3 +1,9 @@
+amadika-shop (0.1-4) unstable; urgency=low
+
+  * packaging 
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Thu, 06 Oct 2011 22:16:25 +0400
+
 amadika-shop (0.1-3) unstable; urgency=low
 
   * missing xhtmlwriter 
