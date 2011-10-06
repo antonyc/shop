@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 from django.core.management import execute_manager
+import os
+import sys
 import imp
+if os.path.exists('/etc/amadika/shop'):
+    sys.path.append('/etc/amadika/shop')
+ 
 try:
     imp.find_module('settings') # Assumed to be in the same directory.
 except ImportError:

@@ -2,13 +2,14 @@
 from collections import namedtuple
 
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+HOST_NAME = 'shop.amadika.ru'
 SERVER_EMAIL = 'shop@amadika.ru'
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    # ('Anton Chaporgin', 'chaporginanton@yandex.ru'),
 )
 
 MANAGERS = ADMINS
@@ -54,18 +55,18 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/usr/share/amadika/shop/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/usr/share/amadika/shop/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -218,7 +219,15 @@ COMPRESS = True
 
 from deployment import list_of_files
 
-from local_settings import *
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+try:
+    from secret_settings import *
+except ImportError:
+    pass
 
 COMPRESS_JS = {
     'all': {

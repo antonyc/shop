@@ -29,7 +29,6 @@ case "$1" in
         for DIR in $VAR_DIR; do
             chown -R $SERVER_USER:$SERVER_GROUP $DIR
         done
-        sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py compilemessages
         sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py synccompress
         sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py syncdb --migrate
         /usr/bin/amadika_shop_starter.sh restart
