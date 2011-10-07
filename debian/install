@@ -1,5 +1,5 @@
 src/* usr/lib/amadika/shop
-bin/amadika_shop_starter.sh usr/bin
+bin/amadika_shop_starter.sh etc/init.d/amadika_shop
 locale usr/share/amadika/shop
 static usr/share/amadika/shop
 debian/conf/nginx.conf etc/amadika/shop
