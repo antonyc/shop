@@ -32,7 +32,7 @@ case "$1" in
         done
         sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py synccompress
         sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py syncdb --migrate
-        update.rc amadika_shop defaults
+        update-rc.d amadika_shop defaults
         /etc/init.d/amadika_shop restart
         /etc/init.d/nginx reload
     ;;
