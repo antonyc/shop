@@ -1,6 +1,7 @@
 # Django settings for shop project.
 from collections import namedtuple
 
+ROOT_PATH = '/usr/lib/amadika/shop'
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -174,15 +175,14 @@ LOGGING = {
         'console': {
             'level':'DEBUG',
             'class':'logging.StreamHandler',
-            'formatter': 'default'
         },
         'default': {
-            'class': 'logging.SysLogHandler'
+            'class': 'logging.StreamHandler'
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins', 'default'],
+            'handlers': ['mail_admins'],
             'level': 'INFO',
             'propagate': True,
         },
@@ -192,13 +192,13 @@ LOGGING = {
             'propagate': 0,
         },
         'django': {
-            'handlers': ['console'],
+            'handlers': [],
             'propagate': True,
             'level': 'ERROR',
         },
     },
     'root': {
-        'handlers': ['default'],
+        'handlers': [],
         'level': 'INFO',
     }
 
