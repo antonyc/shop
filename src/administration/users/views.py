@@ -10,7 +10,6 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy
-from validate import Validator
 from administration.views import AdminListView, AdminTemplateView
 from django.contrib.auth.models import User, AnonymousUser
 from users.models import has_orders, orders

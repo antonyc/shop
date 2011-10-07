@@ -16,7 +16,7 @@ Depends: python (>= 2.7), python-django (>= 1.3), python-flup,
  python-imaging, python-django-south,
  python-pip, python-lxml,
  libgeos-c1,
- nginx,
+ nginx, python-flup,
  ${misc:Depends}
 Description: A robust eCommerce web application
  Amadika Shop is a django based web application considering security and speed
