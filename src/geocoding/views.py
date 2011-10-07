@@ -4,10 +4,12 @@ from django.http import Http404, HttpResponse
 from django.db import models
 from django.utils import simplejson
 from urlparse import urlparse
-from local_settings import HOST_NAME
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from geocoding.models import Geoalternate, Geomodel, GeoPlaceType
+
+HOST_NAME = settings.HOST_NAME
 
 MAX_AUTOCOMPLETE_RESULTS = 10
 

@@ -11,7 +11,7 @@ Homepage: <insert the upstream URL, if relevant>
 Package: amadika-shop
 Architecture: all
 Depends: python (>= 2.7), python-django (>= 1.3),
- python-pymongo, mongodb-10gen, 
+ mongodb-10gen, 
  python-mysqldb, mysql-server, 
  python-imaging, python-django-south,
  python-pip, python-lxml,
