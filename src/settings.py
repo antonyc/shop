@@ -235,7 +235,7 @@ except ImportError:
 COMPRESS_JS = {
     'all': {
         'source_filenames': list_of_files(STATIC_ROOT, 'js'),
-        'output_filename': 'js/all.js'
+        'output_filename': 'all.js'
     }
 }
 COMPRESS_CSS = {
