@@ -1,6 +1,11 @@
 server {
   listen 80;
   server_name shop.amadika.ru;
-
+  location /static {
+       root /usr/share/amadika/shop;
+  }
+  location /media {
+       root /usr/share/amadika/shop;
+  }
   include /etc/amadika/shop/nginx.conf;
 }

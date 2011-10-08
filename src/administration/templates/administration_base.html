@@ -1,20 +1,15 @@
 {% load util_tags %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {% load url from future %}
 {% load i18n %}
-<html xmlns="http://www.w3.org/1999/xhtml"><head>{% load i18n %}{% load url from future %}
+<html xmlns="http://www.w3.org/1999/xhtml"><head>{% load i18n %}{% load url from future %}{% load compressed %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}{% trans 'store warehouse' %}{% endblock %}</title>
+    {% compressed_css 'screen' %}
     <script type="text/javascript" src="http://yandex.st/jquery/1.5.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.16.custom.min.js"></script>
     <script src="http://api-maps.yandex.ru/1.1/index.xml?key=ADMMbU4BAAAAA_iqHgMAes1ZOmqz_0hTPrJj_q1OW_tMKEEAAAAAAAAAAAApj2OvgPA7gmVnYXgxkKW-IJn6iw==&modules=pmap" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}{% load_block_file 'no_second_submit' 'no_second_submit.js' %}"></script>
-    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'mocklink' 'mocklink.css' %}" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'admin_head' 'admin_head.css' %}" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/custom-theme/jquery-ui-1.8.16.custom.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css" />
+    {% compressed_js 'all' %}
     <style type="text/css">.ui-widget{font-size: 0.9em;}</style>
-    {% block script %}{% endblock %}
-    {% block css %}{% endblock %}
 </head>
 <body>
 	<div>

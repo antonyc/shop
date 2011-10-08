@@ -16,6 +16,8 @@ Depends: python (>= 2.7), python-django (>= 1.3),
  python-imaging, python-django-south,
  python-pip, python-lxml,
  libgeos-c1, python-gdal, libgdal1-1.6.0,
+ csstidy,
+ g++, perl, python, python-dev, python-setuptools, python-imaging, re2c,
  nginx, python-flup,
  ${misc:Depends}
 Description: A robust eCommerce web application
