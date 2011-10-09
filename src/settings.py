@@ -48,7 +48,7 @@ TIME_ZONE = 'America/Chicago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-#SITE_ID = 1
+SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -126,10 +126,11 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-#    'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'django.contrib.messages',
     'django.contrib.humanize',
@@ -220,7 +221,7 @@ LOGINZA_DEFAULT_PROVIDERS_SET = 'google,facebook,vkontakte,twitter'
 LOGINZA_AMNESIA_PATHS = ('/accounts/final_step/','/accounts/login/')
 
 COMPRESS = True
-
+COMPRESS = False
 from deployment import list_of_files
 
 try:
@@ -241,7 +242,11 @@ COMPRESS_JS = {
 }
 COMPRESS_CSS = {
     'screen': {
-        'source_filenames': list_of_files(STATIC_ROOT, 'css'),
+        'source_filenames': list_of_files(STATIC_ROOT, 'css', skip_apps=['admin']),
         'output_filename': 'css/screen.css'
+    },
+    'private': {
+        'source_filenames': list_of_files(STATIC_ROOT, 'css'),
+        'output_filename': 'css/private.css'
     }
 }

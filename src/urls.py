@@ -28,8 +28,8 @@ if settings.DEBUG:
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
         }))
-     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-     urlpatterns += staticfiles_urlpatterns()
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()
 #    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += patterns('',

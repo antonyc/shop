@@ -22,7 +22,7 @@ VAR_DIR=/usr/share/amadika/shop
 
 case "$1" in
     configure)
-        pip install beautifulsoup mwlib django_dynamic_fixture django_mptt pymongo -q
+        pip install beautifulsoup mwlib django_dynamic_fixture django_mptt pymongo trans -q
         rm -f /etc/nginx/sites-enabled/default
         locale-gen ru_RU.utf8
         find /usr/lib/amadika/shop/ -type f -name "*.pyc" -delete

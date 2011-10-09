@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import trans
 from utils import policy
 from django.db import models
 from mwlib.uparser import parseString
