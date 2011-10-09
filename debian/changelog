@@ -1,3 +1,9 @@
+amadika-shop (0.1-7) unstable; urgency=low
+
+  * pack static before debianizing
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Sun, 09 Oct 2011 18:45:05 +0400
+
 amadika-shop (0.1-6) unstable; urgency=low
 
   * compression mechanism
