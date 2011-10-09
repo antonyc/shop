@@ -1,3 +1,9 @@
+amadika-shop (0.1-10) unstable; urgency=low
+
+  * no admin app 
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Mon, 10 Oct 2011 00:33:55 +0400
+
 amadika-shop (0.1-9) unstable; urgency=low
 
   * packaging
