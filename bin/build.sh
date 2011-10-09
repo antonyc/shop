@@ -9,9 +9,9 @@ BRANCH=$(git branch|grep \*| sed 's/\* //g')
 
 echo "Building branch ${BRANCH}..."
 
-rm -rf .build
-make .build
-cd .build
+rm -rf ./.build
+mkdir ./.build
+cd ./.build
 
 git clone -b $BRANCH /home/chapson/amadika/amadika-shop-0.1 $FOLDER_NAME
 cd $FOLDER_NAME
