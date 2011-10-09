@@ -19,9 +19,11 @@ set -e
 
 case "$1" in
     remove|upgrade|deconfigure)
+      /etc/init.d/amadika_shop stop
     ;;
 
     failed-upgrade)
+      /etc/init.d/amadika_shop start
     ;;
 
     *)

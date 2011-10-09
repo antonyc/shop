@@ -20,6 +20,7 @@ case "$1" in
   stop) 
     if [ -f /var/run/amadika/shop/run.pid ]; then
       kill -9 `cat /var/run/amadika/shop/run.pid` 
+      rm /var/run/amadika/shop/run.pid
     fi
     ;;
   restart)
