@@ -14,13 +14,17 @@ mkdir ./.build
 cd ./.build
 
 git clone -b $BRANCH /home/chapson/amadika/amadika-shop-0.1 $FOLDER_NAME
+TARNAME=amadika-shop
 cd $FOLDER_NAME
 
 cp -f src/local_settings.py.example src/local_settings.py
 src/manage.py collectstatic --noinput -v0
 src/manage.py synccompress --force -v0
 rm dj/local_settings.py
-
-debuild --no-lintian --no-tgz-check
+find . -name "*.pyc" -delete
+cd ..
+tar --exclude=debian -czf ${TARNAME}_0.1.orig.tar.gz $FOLDER_NAME
+cd $FOLDER_NAME
+debuild --no-lintian
 
 cd ..
