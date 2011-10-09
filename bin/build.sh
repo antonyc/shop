@@ -20,7 +20,7 @@ cd $FOLDER_NAME
 cp -f src/local_settings.py.example src/local_settings.py
 src/manage.py collectstatic --noinput -v0
 src/manage.py synccompress --force -v0
-rm dj/local_settings.py
+rm src/local_settings.py
 find . -name "*.pyc" -delete
 cd ..
 tar --exclude=debian -czf ${TARNAME}_0.1.orig.tar.gz $FOLDER_NAME
