@@ -18,7 +18,9 @@ case "$1" in
     sudo -u www-data /usr/lib/amadika/shop/manage.py runfcgi method=prefork socket=/var/run/amadika/shop/fcgi.sock pidfile=/var/run/amadika/shop/run.pid 
     ;;
   stop) 
-    kill -9 `cat /var/run/amadika/shop/run.pid` 
+    if [ -f /var/run/amadika/shop/run.pid ]; then
+      kill -9 `cat /var/run/amadika/shop/run.pid` 
+    fi
     ;;
   restart)
     $0 stop
