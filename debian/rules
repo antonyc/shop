@@ -17,5 +17,5 @@ export DH_VERBOSE=1
 build::
 	dh_clearvcs
 
-#%:
-#	dh $@ 
+%:
+	dh $@ 
