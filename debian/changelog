@@ -1,3 +1,9 @@
+amadika-shop (0.1-8) unstable; urgency=low
+
+  * packaging
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Sun, 09 Oct 2011 21:52:51 +0400
+
 amadika-shop (0.1-7) unstable; urgency=low
 
   * pack static before debianizing
