@@ -1,4 +1,4 @@
 build:
-    @bin/build.sh
+	@bin/build.sh
 
 .PHONY: build
