@@ -25,6 +25,6 @@ find . -name "*.pyc" -delete
 cd ..
 tar --exclude=debian -czf ${TARNAME}_0.1.orig.tar.gz $FOLDER_NAME
 cd $FOLDER_NAME
-debuild --no-lintian
+debuild --no-lintian 
 
 cd ..
