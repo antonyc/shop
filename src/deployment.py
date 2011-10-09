@@ -2,7 +2,7 @@ __author__ = 'chapson'
 import os
 import re
 
-def list_of_files(root_dir, extension='js'):
+def list_of_files(root_dir, extension='js', skip_apps=None):
     regexp = re.compile(r'.*\.%s$' % extension)
     result = []
     dirs = os.walk(root_dir)
