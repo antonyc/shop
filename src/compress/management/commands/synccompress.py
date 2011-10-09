@@ -1,7 +1,11 @@
+import os
+import stat
 from django.core.management.base import NoArgsCommand
 from optparse import make_option
 
 from django.conf import settings
+
+typical_permission = stat.S_IRGRP + stat.S_IRUSR + stat.S_IWUSR + stat.S_IXUSR + stat.S_IXGRP + stat.S_IROTH + stat.S_IXOTH
 
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
@@ -29,6 +33,9 @@ class Command(NoArgsCommand):
 
             if force or u:
                 filter_css(css, verbosity)
+                os.chmod(os.path.join(settings.STATIC_ROOT,
+                                      css['output_filename']),
+                         typical_permission)
 
             if (force or u) or verbosity >= 2:
                 print
@@ -45,6 +52,9 @@ class Command(NoArgsCommand):
 
             if force or u:
                 filter_js(js, verbosity)
+                os.chmod(os.path.join(settings.STATIC_ROOT,
+                                      js['output_filename']),
+                         typical_permission)
 
             if (force or u) or verbosity >= 2:
                 print

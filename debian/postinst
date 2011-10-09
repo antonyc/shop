@@ -30,8 +30,9 @@ case "$1" in
         for DIR in $VAR_DIR; do
             chown -R $SERVER_USER:$SERVER_GROUP $DIR
         done
-        sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py synccompress
-        sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py syncdb --migrate
+        sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py collectstatic -v0 --noinput
+        sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py synccompress -v0 --force
+        sudo -u $SERVER_USER /usr/lib/amadika/shop/manage.py syncdb --migrate -v0
         update-rc.d amadika_shop defaults
         /etc/init.d/amadika_shop restart
         /etc/init.d/nginx reload

@@ -19,13 +19,19 @@ urlpatterns = patterns('',
     url(r'^orders/', include('orders.urls')),
     url(r'^cart/', include('cart.urls')),
     url(r'^geocoding/', include('geocoding.urls')),
-    url(r'^$', ShowCategoryView.as_view())
 )
 
 
 if settings.DEBUG:
+#    from django.conf.urls.static import static
     urlpatterns += patterns('',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
-        }),
-   )
+        }))
+     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+     urlpatterns += staticfiles_urlpatterns()
+#    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += patterns('',
+    url(r'^$', ShowCategoryView.as_view())
+)
