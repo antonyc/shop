@@ -1,3 +1,9 @@
+amadika-shop (0.1-6) unstable; urgency=low
+
+  * compression mechanism
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Sun, 09 Oct 2011 13:58:20 +0400
+
 amadika-shop (0.1-5) unstable; urgency=low
 
   * packaging
