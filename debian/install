@@ -1,5 +1,6 @@
 src/* usr/lib/amadika/shop
-bin/amadika_shop etc/init.d
+init.d/amadika_shop etc/init.d
+static /usr/share/amadika/shop
 locale usr/share/amadika/shop
 debian/conf/nginx.conf etc/amadika/shop
 debian/conf/nginx.production /etc/nginx/sites-enabled
