@@ -221,7 +221,6 @@ LOGINZA_DEFAULT_PROVIDERS_SET = 'google,facebook,vkontakte,twitter'
 LOGINZA_AMNESIA_PATHS = ('/accounts/final_step/','/accounts/login/')
 
 COMPRESS = True
-COMPRESS = False
 from deployment import list_of_files
 
 try:
@@ -234,6 +233,8 @@ try:
 except ImportError:
     pass
 
+#print list_of_files(STATIC_ROOT, 'js')
+
 COMPRESS_JS = {
     'all': {
         'source_filenames': list_of_files(STATIC_ROOT, 'js'),
@@ -242,7 +243,7 @@ COMPRESS_JS = {
 }
 COMPRESS_CSS = {
     'screen': {
-        'source_filenames': list_of_files(STATIC_ROOT, 'css', skip_apps=['admin']),
+        'source_filenames': list_of_files(STATIC_ROOT, 'css'),
         'output_filename': 'css/screen.css'
     },
     'private': {

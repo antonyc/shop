@@ -27,7 +27,7 @@ jQuery(function(){
                 left : position.x,
                 top :  position.y,
                 position: 'absolute'
-            })
+            });
         };
         this.openBalloon = function() {};
         function getElement(){
@@ -40,7 +40,7 @@ jQuery(function(){
         }
         this.toString = function(){ return 'MapPoint ' + getElement(); }
         return this;
-    }
+    };
     var placeOnMap = function(map, Event, geoPoint, container, editable){
         if(map.alreadyHasMyPoint) {
             return map.alreadyHasMyPoint;
@@ -106,7 +106,7 @@ jQuery(function(){
             map_visible = !map_visible;
             _this._doAnimateMap(map_visible);
             return false;
-        })
+        });
         _this.initializeMap = function(){
             if(mapIsActive) return;
             map_block.css('height', '400px');
@@ -129,7 +129,7 @@ jQuery(function(){
                 placeOnMap(map, null, new YMaps.GeoPoint(point.lon, point.lat), _this, editable);
             }
             mapIsActive = true;
-        }
+        };
         _this.prepareInputs = function(point){
             _this.input_lon = $('<input type="hidden" name="address-lon" />');
             _this.input_lat = $('<input type="hidden" name="address-lat" />');
@@ -138,7 +138,7 @@ jQuery(function(){
             if(point != null){
                 _this.input_lon.val(point.lon);
                 _this.input_lat.val(point.lat);
-            }
-        }
-    })
-})
+            };
+        };
+    });
+});

@@ -40,4 +40,4 @@ jQuery(function() {
             return false;
         })
     })
-})
+});

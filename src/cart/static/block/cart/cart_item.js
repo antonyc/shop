@@ -5,11 +5,11 @@ jQuery(function() {
             type: 'post',
             dataType: 'json',
             error: function(data) {
-                flash.error(data.message)
+                flash.error(data.message);
             },
             success: callback
-        })
-    }
+        });
+    };
 
     $('.block-cart_item').each(function() {
         var _this = jQuery(this),
@@ -54,7 +54,7 @@ jQuery(function() {
             })
             pendingQuantityChange = setTimeout(func, 1500);
 
-        })
+        });
         $('.block-cart_item__quantity',_this).prepend(minus);
         $('.block-cart_item__quantity',_this).append(plus);
 
@@ -75,8 +75,8 @@ jQuery(function() {
                 error: function(){
                     flash.error('Failed to remove')
                 }
-            })
+            });
         })
         del.append(remove);
     });
-})
+});

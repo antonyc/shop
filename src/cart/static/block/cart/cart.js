@@ -30,7 +30,7 @@ jQuery(function(){
             }
         );
         }
-    }
+    };
     $('.block-cart').each(function(){
         var _this = jQuery(this),
             params = _this.attr('onclick')(),
@@ -39,16 +39,16 @@ jQuery(function(){
             var form = $(this);
             $('input', form).attr('disabled', 'disabled');
             form.hide();
-        }
+        };
         address_form.enable_all = function(){
             var form = $(this);
             $('input', form).removeAttr('disabled');
             form.show();
-        }
+        };
 
         $('.block-delivery__with_no_address input[type=radio]', this).click(function(){
             address_form.enable_all();
-        })
+        });
         $('.block-delivery__with_address input[type=radio]', this).click(function(){
             address_form.disable_all();
         });
@@ -63,7 +63,7 @@ jQuery(function(){
                     nearest.addClass('block-delivery__nearest');
                 }})
 //            console.log('get nearest from', position.coords)
-        }
+        };
         resolveUserPosition(this.getNearestPoint);
-    })
+    });
 });

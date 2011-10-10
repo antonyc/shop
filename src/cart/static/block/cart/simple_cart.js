@@ -4,12 +4,12 @@ simpleCart.update = function(data) {
 
     for (var i = 0; i < l; i++) {
         this.subscribers[i].updateCart(data);
-    }
-}
+    };
+};
 simpleCart.subscribers = [];
 simpleCart.subscribe = function(subscriber) {
     this.subscribers[this.subscribers.length] = subscriber;
-}
+};
 
 jQuery(function() {
     $('.block-simple_cart').each(function() {
@@ -23,15 +23,15 @@ jQuery(function() {
             if (price_block) {
                 price = data.total_price;
                 price_block.text(price);
-            }
+            };
             if (quantity_block && data.cart && data.cart.items) {
                 var quantity = 0, length = data.cart.items.length;
                 for(var i=0;i<length;i++){
                     quantity += data.cart.items[i].quantity
-                }
+                };
                 quantity_block.text(quantity)
-            }
-        }
+            };
+        };
         simpleCart.subscribe(_this);
-    })
+    });
 });
