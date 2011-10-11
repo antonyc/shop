@@ -34,7 +34,7 @@
         {% endfor %}
         </ul>
     </div>
-        <h1>{{ item.name }}</h1>
+        <h1 class="{% class_block 'clear' %}">{{ item.name }}</h1>
         {% trans 'Your price' %} <span class="{% class_block 'item__price' %}">{% decorate_currency item.price %}</span>
         <div class="{% class_block 'item_add_to_cart' %}" onclick="return {quantity: {{ quantity }}}">
             <form method="POST" action="{% url 'cart_item_quantity' url=item.url %}">{% csrf_token %}

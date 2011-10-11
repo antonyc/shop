@@ -1,4 +1,7 @@
 build:
 	@bin/build.sh
 
-.PHONY: build
+static:
+	@bin/collect.sh
+
+.PHONY: build static

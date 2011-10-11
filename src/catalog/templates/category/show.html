@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'catalog' 'catalog_category.css' %}" />
 {% endblock %}
 {% block contents %}
-    <table>
+    <table class="{% class_block 'show_category' %}">
         <tr>
-        <td>
+        <td class="{% class_block 'show_category__items' %}">
     {% for crumb in breadcrumbs %}
         <a href="{{ crumb.url }}">{{ crumb.text }}</a>
     {% endfor %}
