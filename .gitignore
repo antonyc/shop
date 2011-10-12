@@ -8,3 +8,5 @@ nbproject/*
 
 /.idea*
 /src/geonames/data
+/.build*
+/static*

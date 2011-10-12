@@ -239,6 +239,10 @@ COMPRESS_JS = {
     'all': {
         'source_filenames': list_of_files(STATIC_ROOT, 'js'),
         'output_filename': 'all.js'
+    },
+    'galleriffic': {
+        'source_filenames': (os.path.join(STATIC_ROOT, 'js/jquery.gallerific.js'),),
+        'output_filename': 'galleriffic.js'
     }
 }
 COMPRESS_CSS = {
