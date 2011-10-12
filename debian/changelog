@@ -1,3 +1,9 @@
+amadika-shop (0.1-12) unstable; urgency=low
+
+  * make static better
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Wed, 12 Oct 2011 23:24:16 +0400
+
 amadika-shop (0.1-11) unstable; urgency=low
 
   * it compresses static nicely
