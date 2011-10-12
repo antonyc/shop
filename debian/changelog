@@ -1,3 +1,9 @@
+amadika-shop (0.1-11) unstable; urgency=low
+
+  * it compresses static nicely
+
+ -- Chaporgin Anton <chaporginanton@yandex.ru>  Wed, 12 Oct 2011 21:54:20 +0400
+
 amadika-shop (0.1-10) unstable; urgency=low
 
   * no admin app 
