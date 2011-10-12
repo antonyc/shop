@@ -18,8 +18,7 @@ TARNAME=amadika-shop
 cd $FOLDER_NAME
 
 cp -f src/local_settings.py.example src/local_settings.py
-src/manage.py collectstatic --noinput -v0
-src/manage.py synccompress --force -v0
+make static
 rm src/local_settings.py
 find . -name "*.pyc" -delete
 cd ..

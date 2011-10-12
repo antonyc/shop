@@ -1,4 +1,5 @@
 # Django settings for shop project.
+import os
 from collections import namedtuple
 
 ROOT_PATH = '/usr/lib/amadika/shop'

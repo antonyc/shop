@@ -7,14 +7,9 @@ ADMINS = (
 
 import os
 ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
 UPLOAD_PATH = 'user_uploads'
 MEDIA_ROOT = '/home/chapson/shop_upload'
 MEDIA_URL = '/media/'
-
-STATICFILES_DIRS = (
-#    os.path.join(ROOT_PATH, 'static'),
-)
 
 HOST_NAME = 'shop.amadika.ru:8080'
 
@@ -31,6 +26,10 @@ MONGO_DATABASES={'default':{'NAME': 'shop',
 LOCALE_PATHS = (os.path.join(ROOT_PATH, 'locale'), )
 
 STATIC_ROOT = os.path.join(ROOT_PATH, 'static')
+
+STATICFILES_DIRS = [
+#    os.path.join(ROOT_PATH, 'static'),
+]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
