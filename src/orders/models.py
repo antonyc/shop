@@ -129,6 +129,8 @@ class OrderPropertiesManager(MongoManager):
         return text.get('country', text.get('country__text', False))
 
 class Order(models.Model):
+    ORDER_STATUSES = OrderStatuses
+
     user = models.ForeignKey(User, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUSES, default=NEW)

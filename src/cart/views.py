@@ -52,7 +52,7 @@ class CartQuantityView(BaseTemplateView):
                          'id': item.id,
                          'quantity': 0, 
                          'added_at': now,
-                         'price': item.price,
+                         'price': round(item.price, 2),
                          }
             cart['items'].append(cart_item)
         if action != 0:
@@ -69,12 +69,12 @@ class CartQuantityView(BaseTemplateView):
         for item in cart['items']:
             price += item['price']*item['quantity']
 
-        cart['price'] = cart['total_price'] = round(price, 2)
+        cart['price'] = cart['total_price'] = price
         
         request.session.save()
         content = {'cart': {'items': []},
-                   'price': price,
-                   'total_price': price}
+                   'price': "%.2f" % price,
+                   'total_price': "%.2f" % price,}
         for item in cart['items']:
             content['cart']['items'].append({'url': item['url'],
                                              'quantity': item['quantity'],

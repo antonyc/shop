@@ -36,7 +36,11 @@
                 {% endif %}
                 {% for item in items %}
                     <tr class="{% class_block 'cart_item' %}"
-                        onclick="return {id: {{ item.obj.id }}, url: '{% url 'cart_item_quantity' url=item.obj.url %}', quantity: {{ item.quantity }}, token: '{{ csrf_token }}'}">
+                        onclick="return {id: {{ item.obj.id }},
+                                url: '{% url 'cart_item_quantity' url=item.obj.url %}',
+                                quantity: {{ item.quantity }},
+                                token: '{{ csrf_token }}',
+                                i18n: {remove: '{% trans 'cartRemove' %}'} }">
                         <td>
                             {% if item.obj.has_images %}
                                 <image src="{% get_item_main_image item.obj %}" alt="{{ item.obj.name }}"/>
@@ -60,19 +64,21 @@
             </table>
             <h2>{% trans 'Delivery' %}</h2>
             {% if errors.delivery %}
-                {% trans 'There is a problem with delivery' %}
-                <ul>
+                <div class="{% class_block 'errors' %}">
+                <span>{% trans 'There is a problem with delivery' %}</span>
+                <ul class="{% class_block 'errors__list' %}">
                     {% for error in errors.delivery %}
                         <li>{{ error }}</li>
                     {% endfor %}
                 </ul>
+                </div>
             {% endif %}
             {% if delivery_types.shopper %}
                 <h3>{% trans 'Customer pick-up' %}</h3>
                 <ul class="{% class_block 'delivery__type_shopper' %} {% class_block 'delivery__with_address' %}">
                 {% for delivery in delivery_types.shopper %}
-                    <li class="{% class_block 'delivery__with_address' %}_{{ delivery.id }}">
-                        <input maxlength="2" type="radio" value="{{ delivery.id }}"
+                    <li class="{% class_block 'delivery_option' %} {% class_block 'delivery__with_address' %}_{{ delivery.id }}">
+                        <input class="{% class_block 'delivery_option__input' %}" type="radio" value="{{ delivery.id }}"
                                {% ifequal delivery_chosen delivery.id %}checked=""{% endifequal %}
                                id="delivery_id_{{ delivery.id }}" name="delivery_id"/>
 
@@ -85,7 +91,9 @@
                 <h3>{% trans 'Courier' %}</h3>
                 <ul class="{% class_block 'delivery__with_no_address' %}">
                     {% for delivery in delivery_types.courier %}
-                        <li><input type="radio" value="{{ delivery.id }}"
+                        <li class="{% class_block 'delivery_option' %}"><input
+                                class="{% class_block 'delivery_option__input' %}" 
+                                type="radio" value="{{ delivery.id }}"
                                    {% ifequal delivery_chosen delivery.id %}checked=""
                                    {% endifequal %}id="delivery_id_{{ delivery.id }}"
                                    name="delivery_id"/> {% include 'cart/simple_delivery.html' %}</li>
@@ -96,7 +104,9 @@
                 <h3>{% trans 'By mail' %}</h3>
                 <ul class="{% class_block 'delivery__with_no_address' %}">
                 {% for delivery in delivery_types.mail %}
-                    <li><input type="radio" value="{{ delivery.id }}"
+                    <li class="{% class_block 'delivery_option' %}"><input
+                            class="{% class_block 'delivery_option__input' %}" w
+                            type="radio" value="{{ delivery.id }}"
                                {% ifequal delivery_chosen delivery.id %}checked=""{% endifequal %}
                                id="delivery_id_{{ delivery.id }}"
                                name="delivery_id"/> {% include 'cart/simple_delivery.html' %}</li>
@@ -107,7 +117,9 @@
                 <h2>{% trans 'Address' %}</h2>
 
                 <div class="{% class_block 'delivery_address' %}" onclick="return {}">
+                    <ul>
                     {{ address_form.as_ul }}
+                    </ul>
                 </div>
                 <h2>{% trans 'Comment' %}</h2>
                 <textarea class="{% class_block 'delivery__comment' %}" name="comment"></textarea>

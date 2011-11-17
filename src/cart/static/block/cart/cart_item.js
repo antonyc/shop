@@ -13,7 +13,8 @@ jQuery(function() {
 
     $('.block-cart_item').each(function() {
         var _this = jQuery(this),
-            params = _this.attr('onclick')();
+            params = _this.attr('onclick')(),
+            i18n = params.i18n || {};
         var pendingQuantityChange, func;
         // setting + - buttons
         var input = $('.block-cart_item__quantity input', this);
@@ -60,7 +61,7 @@ jQuery(function() {
 
         // setting "delete" button
         var del = $('.block-cart_item__remove', this);
-        var remove = $('<span class="block-mocklink">'+'remove'+'</a>');
+        var remove = $('<span class="block-mocklink">' + i18n.remove + '</a>');
         remove.click(function(){
             if(pendingQuantityChange) clearTimeout(pendingQuantityChange);
             $.ajax({url: params.url,

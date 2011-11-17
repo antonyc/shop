@@ -1,0 +1,11 @@
+.block-delivery_address li{
+    margin: 2px 0;
+    list-style: none;
+}
+
+.block-delivery_address label{
+    width: 150px;
+    display: block;
+    float: left;
+    border-bottom: 1px dotted #AAAAAA;
+}

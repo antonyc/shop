@@ -26,3 +26,11 @@
 .block-cart_item__quantity input{
     width: 20px;
 }
+
+.block-simple_cart{
+    float: right;
+}
+
+.block-simple_cart__empty{
+    display: none;
+}

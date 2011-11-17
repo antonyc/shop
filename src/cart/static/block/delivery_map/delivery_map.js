@@ -1,5 +1,7 @@
+var YMaps;
+
 jQuery(function(){
-    if(!YMaps) {console.log('Yandex Maps are not available'); return;}
+    if(YMaps == undefined) {console.log('Yandex Maps are not available'); return;}
     var MapPoint = function (geoPoint, editable) {
         var map, _this = this,
             offset = new YMaps.Point(-10, -29);

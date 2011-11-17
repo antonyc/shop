@@ -2,20 +2,34 @@
     width: 800px;
 }
 
-table td{
+
+
+.body input, .body textarea{
+    border-width: 1px;
+    border-color: #AAAAAA;
+    border-style: solid;
+}
+
+.body table td{
     vertical-align: top;
 }
 
-h1{
+.body h1{
     clear: both;
     font-size: 1em;
 }
 
-.js-visible{
+.body h3{
+    clear: both;
+    padding: 2px 0;
+    margin: 2px 0;
+}
+
+.body .js-visible{
     display: none;
 }
 
-.spinner{
+.body .spinner{
     display: none;
 }
 
@@ -31,24 +45,25 @@ h1{
     margin: 0
 }
 
-.ui-widget {
+.body .ui-widget {
     font-size: 0.9em;
 }
 
-td {
+.body td {
     vertical-align: top;
 }
 
-h1, h2, h3, h4 {
+.body h1, .body h2, .body h3, .body h4 {
     font-weight: bold;
+    display: block;
 }
 
-h1 {
+.body h1 {
     font-size: 1.8em;
     padding: 13px 0;
 }
 
-h2 {
+.body h2 {
     font-size: 1.3em;
     padding: 10px 0;
 }

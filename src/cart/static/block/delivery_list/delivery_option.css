@@ -1,0 +1,9 @@
+.block-delivery_option__input{
+    margin: 2px;
+    display: block;
+    float: left;
+}
+
+.block-delivery_option{
+    clear: both;
+}

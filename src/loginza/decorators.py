@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
+from urllib import quote
 from django import http
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.core.urlresolvers import reverse
 from django.utils.decorators import available_attrs
 from django.utils.functional import wraps
 from django.utils.http import urlquote
@@ -50,7 +52,10 @@ def _user_anonymous_callback(request):
         abs_url = 'http://%s' % domain
 
         back_url = referer.replace(abs_url, '')
-        response = http.HttpResponseRedirect(back_url if request.path != back_url else '/')
+        if back_url != request.path:
+            back_url += '?next=' + quote(request.path)
+        response = http.HttpResponseRedirect(back_url if request.path != back_url else reverse('user_login'))
+#        response = http.HttpResponseRedirect(reverse('user_login'))
 
     return response
 

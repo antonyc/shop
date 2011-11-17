@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from utils import site_settings
 from utils.menu import build_menu, parse_menu
-
+from orders.models import Order
 
 class BaseTemplateView(TemplateView):
     count_visits = False
@@ -32,6 +32,15 @@ class BaseTemplateView(TemplateView):
             context['simple_cart_item_quantity'] = quantity
             menu = site_settings['top_menu'] or {}
             context['top_menu'] = build_menu(menu.get('parsed', {}))
+            if self.request.user.is_authenticated:
+                statuses = (Order.ORDER_STATUSES.new, Order.ORDER_STATUSES.processed)
+                if self.request.user.is_authenticated():
+                    orders = Order.objects.filter(user=self.request.user, status__in=statuses).order_by('-created_at')[0:1]
+                else:
+                    orders = []
+                if orders:
+                    context['latest_order'] = orders[0]
+
         return super(BaseTemplateView, self).render_to_response(context, **response_kwargs)
 
     def redirect_to_referrer(self):
