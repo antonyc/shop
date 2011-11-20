@@ -19,6 +19,13 @@
     font-size: 1em;
 }
 
+.body h2{
+    clear: both;
+    font-size: 1.2em;
+    padding: 2px 0 4px;
+    margin-bottom: 4px;
+}
+
 .body h3{
     clear: both;
     padding: 2px 0;
@@ -29,7 +36,7 @@
     display: none;
 }
 
-.body .spinner{
+.block-spinner{
     display: none;
 }
 
