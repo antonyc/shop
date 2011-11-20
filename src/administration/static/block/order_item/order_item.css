@@ -1,0 +1,17 @@
+.block-edit_order_item__quantity{
+    width: 400px;
+    display: inline-block;
+}
+
+.block-edit_order_item__delete{
+    width: 100px;
+    float: right;
+}
+
+.block-edit_order_item{
+    width: 700px;
+}
+
+.block-edit_order_item__quantity input{
+    border: 1px solid #AAAAAA;
+}
