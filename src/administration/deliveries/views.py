@@ -15,6 +15,7 @@ from orders.models import Delivery, delivery_types, status_choices
 from django import forms
 from administration.views import AdminListView, AdminTemplateView
 from utils.base_view import get_address_text
+from utils.forms import AmadikaForm
 
 class ListDeliveriesView(AdminListView):
     template_name = 'catalog/delivery/list.html'
@@ -23,13 +24,13 @@ class ListDeliveriesView(AdminListView):
     paginate_by = 50
     allow_empty = True
 
-class EditForm(forms.Form):
+class EditForm(AmadikaForm):
     name = fields.CharField(max_length=255, required=False, label=ugettext("Name"))
     description = fields.CharField(max_length=255, required=True, label=ugettext('Description'))
     type = fields.ChoiceField(choices=delivery_types, required=True, label=ugettext("Type"))
     price = fields.FloatField(required=True, initial=0, label=ugettext("Price"))
 
-class AddressForm(forms.Form):
+class AddressForm(AmadikaForm):
     country__text = fields.CharField(max_length=50, label=ugettext_lazy("Country"))
     country = fields.IntegerField(widget=fields.HiddenInput)
     city__text = fields.CharField(max_length=50, label=ugettext_lazy("City"))

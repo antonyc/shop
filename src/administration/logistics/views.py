@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse
 from django.forms.models import ModelForm
 from django.utils import simplejson
 from administration.views import AdminTemplateView
+from utils.forms import AmadikaModelForm
 
 
 class ListOrdersView(AdminTemplateView):
@@ -60,7 +61,7 @@ class EditOrderView(AdminTemplateView):
         return self.render_to_response(params)
 
 
-class OrderItemForm(ModelForm):
+class OrderItemForm(AmadikaModelForm):
     class Meta:
         model = OrderItem
         fields = ('quantity',)

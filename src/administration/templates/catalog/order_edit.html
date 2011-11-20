@@ -6,6 +6,7 @@
 {% block contents %}
     <h2>{% trans 'Order' %}</h2>
     {% trans 'Author' %} {{ order.user }}, {% trans 'status is' %} {{ order.text_status }}.
+    
     <a href="{% url 'view_order' id=order.id %}">{% trans 'comment order' %}</a>
     <ul>
         {% for order_item in order.orderitem_set.all %}
@@ -16,6 +17,7 @@
                                                              value="{{ order_item.quantity }}"/></label>
                         <input type="submit" value="{% trans 'change' %}"/>
                     </form>
+                    
                 </div>
 
                 <div class="{% class_block 'edit_order_item__delete' %}">
@@ -30,7 +32,7 @@
         <form action="{% url 'order_status' id=order.id  %}" method="POST">{% csrf_token %}
             <input type="hidden" value="{{ delete_status }}" name="status"/>
             <input type="submit" value="{% trans 'delete order' %}"/>
-            <span class="spinner"><img src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
+            <span class="{% class_block 'spinner' %}"><img src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
         </form>
     </div>
     <div class="{% class_block 'no_second_submit' %}">
@@ -43,7 +45,7 @@
                 </select>
             </label>
             <input type="submit" value="{% trans 'change status' %}"/>
-            <span class="spinner"><img src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
+            <span class="{% class_block 'spinner' %}"><img src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
         </form>
     </div>
 {% endblock %}

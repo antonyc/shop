@@ -19,6 +19,6 @@
         </label></li>
     </ul>
     <input type="submit" value="{% trans 'change settings' %}" />
-        <span class="spinner"><img class="spinner" src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
+        <span class="{% class_block 'spinner' %}"><img class="spinner" src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
     </form>
 </div>{% endblock %}

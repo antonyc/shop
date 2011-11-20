@@ -9,18 +9,22 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}{% load_block_file 'delivery_list' 'delivery_list.css' %}" />
 {% endblock %}
 {% block contents %}
-<form action="" method="POST">
-{% csrf_token %}
-<fieldset>
-    <legend>{% trans 'New delivery' %}</legend>
-    <ul>
-    {{ form.as_ul }}
-    </ul>
-    <h2>{% trans 'Address' %}</h2>
-    {% delivery_address delivery 'editable' %}
-    {% trans 'Click map to add point which users will see at checkout' %}. {% trans 'Drag the point to its place' %}. {% trans 'Click on it again to delete it permanently' %}.
-    {% delivery_map delivery 'editable' 0 %}
-    <input type="submit" value="{%   trans 'send' %}" />
-</fieldset>
-</form>
+<div class="{% class_block "admin_form" %}">
+    <form action="" method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <legend>{% trans 'Delivery' %}</legend>
+        <ul>
+        {{ form.as_ul }}
+        </ul>
+        <h2>{% trans 'Address' %}</h2>
+        {% delivery_address delivery 'editable' %}
+        {% trans 'Click map to add point which users will see at checkout' %}. {% trans 'Drag the point to its place' %}. {% trans 'Click on it again to delete it permanently' %}.
+        {% delivery_map delivery 'editable' 0 %}
+        <div class="{% class_block "form__submit" %}">
+        <input type="submit" value="{%   trans 'send' %}" />
+            </div>
+    </fieldset>
+    </form>
+</div>
 {% endblock %}

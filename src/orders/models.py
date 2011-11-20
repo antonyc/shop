@@ -98,18 +98,20 @@ def get_address(obj):
     if description: result['description'] = description
     return result
 
-statuses = "deleted cancelled new processed delivered".split(" ")
+statuses = "deleted cancelled new confirmed processed delivered".split(" ")
 DELETED = 0
 CANCELLED = 2
 NEW = 3
+CONFIRMED = 5
 PROCESSED = 6
 DELIVERED = 9
-statuses_tuple = (DELETED, CANCELLED, NEW, PROCESSED, DELIVERED)
+statuses_tuple = (DELETED, CANCELLED, NEW, CONFIRMED, PROCESSED, DELIVERED)
 OrderStatuses = namedtuple('OrderStatuses', " ".join(statuses))._make(statuses_tuple)
 
 STATUSES = ((DELETED, ugettext_lazy('deleted')),
             (CANCELLED, ugettext_lazy('cancelled')),
             (NEW, ugettext_lazy('new')),
+            (CONFIRMED, ugettext_lazy('confirmed')),
             (PROCESSED, ugettext_lazy('processed')),
             (DELIVERED, ugettext_lazy('delivered')),)
 

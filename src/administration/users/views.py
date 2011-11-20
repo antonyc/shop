@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy
 from administration.views import AdminListView, AdminTemplateView
 from django.contrib.auth.models import User, AnonymousUser
 from users.models import has_orders, orders
+from utils.forms import AmadikaForm
 
 
 class ListUsers(AdminListView):
@@ -65,7 +66,7 @@ def unique_field_validator(field_name, model, skip=None):
     return unique_user_validator
 
 
-class EditForm(forms.Form):
+class EditForm(AmadikaForm):
     username = forms.CharField(max_length=255, label=ugettext_lazy("Username (Login)"), required=True)
     email = forms.EmailField(max_length=255, required=True, label=ugettext_lazy("User email"))
     first_name = forms.CharField(max_length=255, label=ugettext_lazy("First name"))

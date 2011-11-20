@@ -7,6 +7,7 @@ Created on 31.07.2011
 from catalog.models import Item, Category
 from django.utils.translation import ugettext
 from django.forms import Form, fields
+from utils.forms import AmadikaForm
 from django.forms.widgets import Textarea
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template.defaulttags import url
@@ -38,7 +39,7 @@ def categories_choices(no=None):
                  Category.objects.all().exclude(id=no))
     return result
 
-class EditForm(Form):
+class EditForm(AmadikaForm):
     name = fields.CharField(max_length=255, label=ugettext("Name"))
     parent = fields.ChoiceField(choices=(),
                                          label=ugettext("Parent category"), 

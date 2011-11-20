@@ -11,11 +11,12 @@ from pages.models import Page, RedirectPage
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.forms.models import ModelForm
+from utils.forms import AmadikaModelForm
 from utils.strings import parse_markup
 from administration.views import AdminTemplateView, AdminListView
 from administration.admin_pages.tests.parser import BODY_LINKED
 
-class PageForm(ModelForm):
+class PageForm(AmadikaModelForm):
     class Meta:
         model = Page
         fields = ('title', 'body', )

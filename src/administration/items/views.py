@@ -11,6 +11,7 @@ from django.forms.widgets import Textarea
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template.defaulttags import url
 from django.core.urlresolvers import reverse
+from utils.forms import AmadikaForm
 from utils.strings import translit, parse_markup
 from administration.categories.views import categories_choices
 from administration.images.views import ItemImageForm
@@ -36,7 +37,7 @@ class ListItemsView(AdminListView):
 
 
 
-class EditForm(Form):
+class EditForm(AmadikaForm):
     name = fields.CharField(max_length=255, label=ugettext("Name"))
     description = fields.Field(widget=Textarea, required=True, label=ugettext("Description"))
     categories = fields.MultipleChoiceField(choices=(), 

@@ -125,7 +125,7 @@
                 <textarea class="{% class_block 'delivery__comment' %}" name="comment"></textarea>
             </div>
         </div>
-        <input type="submit" value="{% trans 'create order' %}"/><span class="spinner"><img src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
+        <input type="submit" value="{% trans 'create order' %}"/><span class="{% class_block 'spinner' %}"><img src="{{ STATIC_URL }}images/ajax-loader.gif"  alt="" /></span>
     </form>
     </div>
 {% endblock %}
