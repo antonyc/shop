@@ -43,7 +43,7 @@ jQuery(function() {
                     quantity += data.cart.items[i].quantity
                 };
 
-                quantity_block.text(quantity)
+                quantity_block.text(quantity + " " + data.count_items)
             };
         };
         simpleCart.subscribe(_this);

@@ -7,6 +7,7 @@ from orders.models import Delivery, DeliveryTypes, Order, OrderComment
 from utils.base_view import BaseTemplateView
 from utils.strings import parse_markup
 
+
 class OrderView(BaseTemplateView):
     def dispatch(self, *args, **kwargs):
         request = args[0]
@@ -31,6 +32,7 @@ class ShowOrderView(OrderView):
         self.params['comments'] = self.obj.ordercomment_set.all()
         self.params['comment_form'] = AddCommentForm()
         return self.render_to_response(self.params)
+
 
 class CommentOrderView(OrderView):
     def post(self, *args, **kwargs):

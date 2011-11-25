@@ -31,7 +31,7 @@
     </span>
         <span class="{% class_block 'simple_cart' %}"
                   onclick="return {price: {{ simple_cart_total_price|floatformat:0 }}, items: {{ simple_cart_item_quantity }}}"
-                ><span class="{% class_block 'simple_cart__not_empty' %}">{% trans 'In total:' %} <span
+                ><span class="{% class_block 'simple_cart__not_empty' %}"><!--{% trans 'In total:' %} --><span
                     class="{% class_block 'simple_cart__quantity' %}">{{ simple_cart_item_quantity }}</span> {% trans 'for' %} <span
                     class="{% class_block 'simple_cart__price' %}">{{ simple_cart_total_price|floatformat:0 }}</span> <a
                     href="{% url 'cart_show' %}">{% trans 'checkout' %}</a></span>

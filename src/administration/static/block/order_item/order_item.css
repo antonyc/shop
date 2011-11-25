@@ -3,6 +3,16 @@
     display: inline-block;
 }
 
+.block-edit_order_item__quantity input{
+    width: 200px;
+    display: block;
+}
+
+.block-edit_order_item__quantity label{
+    width: 200px;
+    float: left;
+}
+
 .block-edit_order_item__delete{
     width: 100px;
     float: right;

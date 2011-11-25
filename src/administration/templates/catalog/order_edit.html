@@ -10,11 +10,11 @@
     <a href="{% url 'view_order' id=order.id %}">{% trans 'comment order' %}</a>
     <ul>
         {% for order_item in order.orderitem_set.all %}
-            <li class="{% class_block 'edit_order_item' %}">{{ order_item.item.name }}
+            <li class="{% class_block 'edit_order_item' %}"><h3>{{ order_item.item.name }}</h3>
                 <div class="{% class_block 'edit_order_item__quantity' %}">
                     <form action="{% url 'edit_order_item' id=order_item.id %}" method="POST">{% csrf_token %}
-                        <label>{% trans 'quantity' %} <input type="text" name="quantity"
-                                                             value="{{ order_item.quantity }}"/></label>
+                        <label>{% trans 'quantity' %}</label>
+                        <input type="text" name="quantity" value="{{ order_item.quantity }}"/>
                         <input type="submit" value="{% trans 'change' %}"/>
                     </form>
                     

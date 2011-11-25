@@ -13,6 +13,10 @@
     width: 70px;
 }
 
+.block-cart_item__remove{
+    width: 180px;
+}
+
 .block-cart_item__quantity .minus, .block-cart_item__quantity .plus{
     padding: 0 5px;
     border: none;
@@ -29,6 +33,7 @@
 
 .block-simple_cart{
     float: right;
+    width: 250px;
 }
 
 .block-simple_cart__empty{

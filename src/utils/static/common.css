@@ -14,19 +14,20 @@
     vertical-align: top;
 }
 
-.body h1{
+.admin_content h1{
     clear: both;
     font-size: 1em;
 }
 
-.body h2{
+.admin_content h2{
     clear: both;
     font-size: 1.2em;
     padding: 2px 0 4px;
     margin-bottom: 4px;
+    font-weight: bold;
 }
 
-.body h3{
+.admin_content h3{
     clear: both;
     padding: 2px 0;
     margin: 2px 0;

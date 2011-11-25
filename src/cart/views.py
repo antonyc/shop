@@ -12,7 +12,7 @@ from utils.base_view import BaseTemplateView, set_cart, get_address_text
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from catalog.models import Item
 import datetime
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext, ngettext
 from orders.models import Delivery, Order, OrderItem, OrderStatuses
 
 def dump_item(item):
@@ -63,18 +63,20 @@ class CartQuantityView(BaseTemplateView):
             cart['items'].pop(index)
         else:
             cart_item['quantity'] = quantity
-           
+
         #PRICE
         price = 0
+        count_items = 0
         for item in cart['items']:
             price += item['price']*item['quantity']
+            count_items += item['quantity']
 
         cart['price'] = cart['total_price'] = price
         
         request.session.save()
         content = {'cart': {'items': []},
-                   'price': "%.2f" % price,
-                   'total_price': "%.2f" % price,}
+                   'price': "%.0f" % round(price, 0),
+                   'total_price': "%.0f" % round(price, 0),}
         for item in cart['items']:
             content['cart']['items'].append({'url': item['url'],
                                              'quantity': item['quantity'],
@@ -85,6 +87,7 @@ class CartQuantityView(BaseTemplateView):
             content = content.copy()
             content['message'] = ugettext('Item added successfully')
             content['show_quantity'] = cart_item['quantity']
+            content['count_items'] = ngettext("item", "items", count_items)
             return HttpResponse(simplejson.dumps(content),
                                 mimetype='application/json')
         else:

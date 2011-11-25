@@ -1,5 +1,7 @@
 jQuery(function() {
+    /* это блок отображающийся при оформлении заказа */
     function changeQuantity(params, quantity, callback) {
+        /* просто сделать AJAX запрос с заданными параметрами */
         $.ajax({url: params.url,
             data: {quantity: quantity, csrfmiddlewaretoken: params.token},
             type: 'post',
@@ -12,6 +14,7 @@ jQuery(function() {
     };
 
     $('.block-cart_item').each(function() {
+
         var _this = jQuery(this),
             params = _this.attr('onclick')(),
             i18n = params.i18n || {};
@@ -21,6 +24,8 @@ jQuery(function() {
         var minus = $('<span class="block-mocklink minus">-</span>'),
             plus = $('<span class="block-mocklink minus">+</span>');
 //        input.attr('disabled', 'disabled');
+        /* и минус и плюс создают отложенный вызов функции, которая делает AJAX
+        * запрос изменяя количество товара в корзине*/
         minus.click(function() {
             var val = input.val() - 0;
             if (val < 2) { return }
