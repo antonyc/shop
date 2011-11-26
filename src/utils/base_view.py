@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect
+from django.utils.translation import ngettext
 from django.views.generic.base import TemplateView
 from utils import site_settings
 from utils.menu import build_menu, parse_menu
@@ -23,13 +24,13 @@ class BaseTemplateView(TemplateView):
         if context is not None:
             context['request'] = self.request
             cart = set_cart(self.request.session)
+            context['cart'] = cart
             context['simple_cart_total_price'] = cart['total_price']
-            quantity = 0
-            for item in cart['items']:
-                quantity += int(item['quantity'])
+            count_items = reduce(lambda a, b: a + int(b['quantity']), cart['items'], 0)
+            context['simple_cart_item_count_items'] = ngettext("item", "items", count_items)
             if self.count_visits:
                 context['count_visits'] = self.page_visits_counter()
-            context['simple_cart_item_quantity'] = quantity
+            context['simple_cart_item_quantity'] = count_items
             menu = site_settings['top_menu'] or {}
             context['top_menu'] = build_menu(menu.get('parsed', {}))
             if self.request.user.is_authenticated:

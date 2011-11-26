@@ -39,7 +39,6 @@ class LoginzaDataResolution(object):
 
 
 def orders(user):
-    print Order.objects.filter(user=user)
     return Order.public_objects.filter(user=user)
 
 
@@ -57,6 +56,7 @@ class UserProfile(models.Model):
     res_ui_lang = LoginzaDataResolution('ui_lang')
 
     ui_lang = models.CharField(max_length=2, default="ru")
+    phone_number = models.CharField(max_length=16, null=True)
 
     @property
     def full_name(self):

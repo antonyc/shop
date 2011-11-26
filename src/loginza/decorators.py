@@ -51,10 +51,10 @@ def _user_anonymous_callback(request):
         domain = Site.objects.get_current().domain
         abs_url = 'http://%s' % domain
 
-        back_url = referer.replace(abs_url, '')
+        back_url = reverse('user_login')
         if back_url != request.path:
             back_url += '?next=' + quote(request.path)
-        response = http.HttpResponseRedirect(back_url if request.path != back_url else reverse('user_login'))
+        response = http.HttpResponseRedirect(back_url)
 #        response = http.HttpResponseRedirect(reverse('user_login'))
 
     return response

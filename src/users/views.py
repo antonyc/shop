@@ -89,7 +89,7 @@ def complete_registration(request):
         form = forms.CompleteReg(user_map.user.id, request.POST)
         if form.is_valid():
             data = simplejson.loads(user_map.identity.data)
-            
+
             user_map.user.username = generate_username(data)
             user_map.user.email = form.cleaned_data['email']
             password = generate_password(user_map.user)
@@ -106,6 +106,11 @@ def complete_registration(request):
             user.first_name = user.get_profile().res_first_name
             user.last_name = user.get_profile().res_last_name
             user.save()
+
+            profile = user.get_profile()
+            profile.phone_number = form.cleaned_data['phone_number']
+            profile.save()
+
             event = Event(user=user,
                           notify=True)
             event.save()
