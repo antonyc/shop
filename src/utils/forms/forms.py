@@ -55,7 +55,6 @@ def _html_output(self, normal_row, error_row, row_ender, help_text_html, errors_
                 help_text = help_text_html % force_unicode(field.help_text)
             else:
                 help_text = u''
-            print self.error_class
             output.append(normal_row % {
                 'errors': force_unicode(bf_errors),
                 'label': force_unicode(label),

@@ -21,3 +21,7 @@ flash = new function() {
         this._render(message, timeout, 'error');
     }
 };
+
+jQuery('.am-flash').mouseover(function(){
+    jQuery('li', this).fadeOut();
+});
