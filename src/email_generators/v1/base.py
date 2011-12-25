@@ -14,7 +14,6 @@ class BaseGenerator(object):
             print e.dynamic_properties.fetchDocument()
             if e.dynamic_properties.fetchDocument().get('event', {}).get('type', None) ==  _type:
                 result.append(e)
-        print result
         return result
 
     def email_name(self, name, email):
