@@ -135,6 +135,7 @@ class Order(models.Model):
 
     user = models.ForeignKey(User, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    till = models.DateTimeField(null=False)
     status = models.IntegerField(choices=STATUSES, default=NEW)
     delivery = models.ForeignKey(Delivery, blank=False)
     

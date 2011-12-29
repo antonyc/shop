@@ -9,6 +9,7 @@ class BaseGenerator(object):
         return []
 
     def events_by_type(self, events, _type):
+        """  filter list of events be given type """
         result = []
         for e in events:
             print e.dynamic_properties.fetchDocument()

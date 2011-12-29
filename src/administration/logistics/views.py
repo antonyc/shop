@@ -82,7 +82,7 @@ class EditOrderItemView(AdminTemplateView):
             event = Event(user=request.user,
                           notify=True)
             event.save()
-            event.dynamic_properties['event'] = {'type': 'order_item_change',
+            event.dynamic_properties['event'] = {'type': Event.EVENT_TYPES.order_item_change,
                                                  'status': {'was': previous['quantity'],
                                                             'now': order_item.quantity},
                                                  'order_id': order_item.order.id,}
