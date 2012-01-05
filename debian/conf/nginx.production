@@ -1,6 +1,6 @@
 server {
   listen 80;
-  server_name shop.amadika.ru;
+  server_name amadika.ru;
   location /static {
        root /usr/share/amadika/shop;
   }

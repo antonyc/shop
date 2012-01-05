@@ -7,7 +7,7 @@ ROOT_PATH = '/usr/lib/amadika/shop'
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-HOST_NAME = 'shop.amadika.ru'
+HOST_NAME = 'amadika.ru'
 SERVER_EMAIL = 'shop@amadika.ru'
 
 ADMINS = (
