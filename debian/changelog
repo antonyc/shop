@@ -1,3 +1,15 @@
+amadika-shop (0.1-14) unstable; urgency=low
+
+  * Allow libgdal to be 1.7.0
+  * Specified version for mwlib
+  * Changed YaMaps key
+  * Changed key in admin
+  * Changes settings to have LOCALE_PATHS variable
+  * Generate email with content type HTML after user has been registered`
+  * Made default admin page - list_pages
+
+ -- Chaporgin Anton <chapson@yandex-team.ru>  Sat, 07 Jan 2012 11:01:27 +0400
+
 amadika-shop (0.1-13) unstable; urgency=low
 
   * Create superuser if not exists
