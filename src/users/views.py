@@ -71,6 +71,7 @@ def complete_registration(request):
         return hashlib.md5(user.username + user.email + str(datetime.datetime.now())).hexdigest()[:7]
 
     def send_email(user, password):
+        return
         message = EmailMessage(subject=ugettext("Registration complete"),
                                body=ugettext("You can login with \"%(username)s\" and password: %(password)s") % 
                                 {'username': user.username,
@@ -122,9 +123,11 @@ def complete_registration(request):
                       'site_url': "http://%s/" % settings.HOST_NAME,
                       'hostname': settings.HOST_NAME}
             body = render_to_string('accounts/email/registration_complete.html', params)
-            EmailMessage(from_email=settings.SERVER_EMAIL,
+            message = EmailMessage(from_email=settings.SERVER_EMAIL,
                          to=(user.email,),
-                         body=body).send()
+                         body=body)
+            message.content_subtype = 'html'
+            message.send()
             messages.info(request, u'Добро пожаловать!')
 #            del request.session['users_complete_reg_id']
             return redirect(_return_path(request))
