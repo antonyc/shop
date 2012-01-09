@@ -96,11 +96,9 @@ def make_images(body):
         images = PageImage.objects.filter(id__in=image_ids)
         if len(images) == 1:
             i = images[0]
-            result = images_container % ("<img src=\"" + \
+            return images_container % ("<img src=\"" + \
                    gen_thumbnail(i.image, settings.THUMBNAILS['large']) + \
                    "\" alt=\"" + i.alt + "\" />")
-            print result
-            return result
         image_html = "\n".join(map(lambda i: image_block_template % {
             'image_block': javascript_block('page_images__image'),
             'href': gen_thumbnail(i.image, settings.THUMBNAILS['large']),
