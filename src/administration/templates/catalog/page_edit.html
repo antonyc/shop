@@ -35,9 +35,9 @@
         <ul>
         {% for image in images %}
         <li><div class="">
-            {% trans 'administration.pages:PageImage id to insert' %} {{ image.id }}<br />
-            <a href="{{ image.url }}"><img src="{{ image.thumbnail }}" alt="{{ image.alt }}" /></a>
-            <form action="{% url 'delete_page_image' id=image.id %}" method="POST">
+            {% trans 'administration.pages:PageImage id to insert' %} {{ image.object.id }}<br />
+            <a href="{{ image.largeurl }}"><img src="{{ image.url }}" alt="{{ image.object.alt }}" /></a>
+            <form action="{% url 'delete_page_image' id=image.object.id %}" method="POST">
                 {% csrf_token %}
                 <input type="submit" value="{% trans 'delete' %}" />
             </form>

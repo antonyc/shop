@@ -13,6 +13,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.forms.models import ModelForm
 from utils.forms import AmadikaModelForm
+from utils.images import gen_thumbnail
 from utils.strings import parse_markup
 from administration.views import AdminTemplateView, AdminListView
 from administration.admin_pages.tests.parser import BODY_LINKED
@@ -34,7 +35,13 @@ class EditPageView(AdminTemplateView):
                 page = Page.objects.get(id=id)
             except Page.DoesNotExist:
                 raise Http404()
-            self.params["images"] = page.pageimage_set.all()
+            images = []
+            for image in page.pageimage_set.all():
+                images.append({'url': gen_thumbnail(image.image, settings.THUMBNAILS['common']),
+                               'largeurl': gen_thumbnail(image.image, settings.THUMBNAILS['large']),
+                               'object': image,
+                               })
+            self.params["images"] = images
         form = PageForm(instance=page)
         self.params['form'] = form
         self.params['page'] = page
