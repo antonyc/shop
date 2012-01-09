@@ -1,3 +1,9 @@
+amadika-shop (0.1-17) unstable; urgency=low
+
+  * Changed algorithm to show PageImage
+
+ -- Chaporgin Anton <chapson@yandex-team.ru>  Mon, 09 Jan 2012 16:03:24 +0400
+
 amadika-shop (0.1-16) unstable; urgency=low
 
   * Forgot time_to_return and form
