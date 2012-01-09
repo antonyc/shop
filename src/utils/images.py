@@ -61,4 +61,4 @@ def gen_thumbnail(field, thumbnail_size):
         fp = open(thumb_path, 'w')
         image.save(fp, 'JPEG', quality=90)
         fp.close()
-    return settings.MEDIA_URL + thumb_path[len(settings.MEDIA_ROOT)+1:]
+    return settings.MEDIA_URL + thumb_path[len(settings.MEDIA_ROOT):]
