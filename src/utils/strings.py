@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import re
 import trans
+from .images import gen_thumbnail
 from utils import policy
 from django.db import models
+from django.conf import settings
 from mwlib.uparser import parseString
+from utils.policy import javascript_block
 from writer import MWXHTMLWriter as Writer
 from django.core.urlresolvers import reverse
 try:
@@ -73,6 +76,44 @@ class MyWriter(Writer):
         tree[0].text = tree[0].text.strip()
         return tree
 
+images_reg = re.compile("<<images\s*([\d,? ?]+)\s*>>")
+images_container = "<div class=\"" + javascript_block('page_container_images') + "\">%s</div>"""
+image_template = """<div class="%(blockname)s">
+<ul class="thumbs noscript">%(images)s</ul>
+</div>
+<div class="block-page_images__clear_fix"></div>
+"""
+image_block_template = """<li>
+<a class="thumb %(image_block)s" href="%(href)s">
+<img src="%(imagesrc)s" alt="%(imagealt)s" /></a>
+</li>
+"""
+def make_images(body):
+    def replacer(match):
+        ids = match.groups()[0].split(",")
+        image_ids = map(lambda x: x.strip(), ids)
+        from pages.models import PageImage
+        images = PageImage.objects.filter(id__in=image_ids)
+        if len(images) == 1:
+            i = images[0]
+            result = images_container % ("<img src=\"" + \
+                   gen_thumbnail(i.image, settings.THUMBNAILS['large']) + \
+                   "\" alt=\"" + i.alt + "\" />")
+            print result
+            return result
+        image_html = "\n".join(map(lambda i: image_block_template % {
+            'image_block': javascript_block('page_images__image'),
+            'href': gen_thumbnail(i.image, settings.THUMBNAILS['large']),
+            'imagesrc': gen_thumbnail(i.image, settings.THUMBNAILS['bigger']),
+            'imagealt': i.alt,
+        }, images))
+        result = images_container % ''
+        result += image_template % {'blockname': javascript_block('page_images'),
+                                 'images': image_html,
+                                 }
+        return result
+    return re.sub(images_reg, replacer, body)
+
 def parse_markup(body, title='Some article', strip_title=False, **kwargs):
     db = DummyDB()
     if body.endswith(chr(13)+chr(10)):
@@ -89,7 +130,9 @@ def parse_markup(body, title='Some article', strip_title=False, **kwargs):
             parse.childNodes[0].removeChild(h1)
             res = parse.toxml()
             result = res[res.find('?>')+2:]
-    return unicode(BeautifulStoneSoup(result, convertEntities=BeautifulStoneSoup.HTML_ENTITIES))
+    body = unicode(BeautifulStoneSoup(result, convertEntities=BeautifulStoneSoup.HTML_ENTITIES))
+    body = make_images(body)
+    return body
 
 replacement_regexp = re.compile(r'(\W+)', re.IGNORECASE)
 

@@ -17,7 +17,7 @@ filters = {'top_menu': parse_menu}
 
 class ParseMenuText(AdminTemplateView):
     def get(self, request, *args, **kwargs):
-        if not request.is_ajax:
+        if not request.is_ajax():
             return HttpResponse(status=500)
         menu = parse_menu(request.GET.get('text', ''))
         return HttpResponse(", ".join(build_menu(menu['parsed'])))

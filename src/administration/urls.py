@@ -7,7 +7,8 @@ from administration.categories.views import ListCategoriesView, EditCategoryView
 from administration.images.views import UploadItemImageView, DeleteItemImageView
 from administration.logistics.views import ListOrdersView, EditOrderItemView,\
     EditOrderView, StatusOrderView, DeleteOrderItemView
-from administration.admin_pages.views import EditPageView, ListPagesView
+from administration.admin_pages.views import EditPageView, ListPagesView, UploadPageImageView, \
+    DeletePageImageView
 from administration.site_configuration.views import ShowSettingsView, ParseMenuText
 
 urlpatterns = patterns('',
@@ -20,7 +21,7 @@ urlpatterns = patterns('',
     url(r'categories/add/$', EditCategoryView.as_view(), name='add_category'),
     url(r'categories/(?P<id>\d+)/delete/$', DeleteCategoryView.as_view(), name='delete_category'),    
     url(r'items/(?P<id>\d+)/images/add/$', UploadItemImageView.as_view(), name='upload_item_image'),
-    url(r'images/(?P<id>\d+)/delete/$', DeleteItemImageView.as_view(), name='delete_item_image'),
+    url(r'items/images/(?P<id>\d+)/delete/$', DeleteItemImageView.as_view(), name='delete_item_image'),
     url(r'orders/$', ListOrdersView.as_view(), name='list_orders'),
     url(r'orders/(?P<id>\d+)/edit/$', EditOrderView.as_view(), name='edit_order'),
     url(r'orders/item/(?P<id>\d+)/edit/$', EditOrderItemView.as_view(), name='edit_order_item'),
@@ -28,6 +29,8 @@ urlpatterns = patterns('',
     url(r'orders/(?P<id>\d+)/status/$', StatusOrderView.as_view(), name='order_status'),
     url(r'pages/add/$', EditPageView.as_view(), name='add_page'),
     url(r'pages/(?P<id>\d+)/edit/$', EditPageView.as_view(), name='edit_page'),
+    url(r'pages/(?P<id>\d+)/images/add/$', UploadPageImageView.as_view(), name='upload_page_image'),
+    url(r'pages/images/(?P<id>\d+)/delete/$', DeletePageImageView.as_view(), name='delete_page_image'),
     url(r'pages/$', ListPagesView.as_view(), name='list_pages'),
     url(r'deliveries/(?P<id>\d+)/delete/$', DeleteDeliveryView.as_view(), name='delete_delivery'),
     url(r'deliveries/(?P<id>\d+)/edit/$', EditDeliveryView.as_view(), name='edit_delivery'),

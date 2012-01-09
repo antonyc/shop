@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from business_events.models import Event
 from catalog.models import Item
@@ -19,6 +20,7 @@ class CartSaveTest(BaseTestCase):
         self.setUpDelivery()
         self.setUpItems()
         self.url = reverse('cart_show')
+        self.order_till = datetime.now() + timedelta(days=6)
         self.correct_post = {'cart_item_id_' + str(self.jewelry.id): 2,
                              'cart_item_id_' + str(self.toy.id): 5,
                              'delivery_id': self.delivery.id,
@@ -28,7 +30,8 @@ class CartSaveTest(BaseTestCase):
                              'address-city': self.irkutsk.geonameid,
                              'address-street': u"Пугачева",
                              'address-building': u"4",
-                             "comment": comment
+                             "comment": comment,
+                             "till": self.order_till.strftime("%Y-%m-%d"),
         }
 
     def test_save(self):
@@ -38,6 +41,7 @@ class CartSaveTest(BaseTestCase):
         self.failUnlessEqual(response.status_code, 302, "This request must redirect to order page")
         self.failUnlessEqual(counter.count(), before + 1, "Must create 1 Order")
         order = counter.order_by('-id')[0]
+        self.assertEqual(order.till.strftime("%Y-%m-%d"), self.order_till.strftime("%Y-%m-%d"))
         self.failUnlessEqual(order.orderitem_set.all().count(), 2, "Order must have 2 items")
         self.failUnlessEqual(order.delivery, self.delivery, "Delivery must be correct")
         order_jewelry = order.orderitem_set.get(item=self.jewelry)
@@ -86,6 +90,14 @@ class CartSaveTest(BaseTestCase):
         response = self.client.post(self.url, post)
         self.failUnlessEqual(response.status_code, 200, "This request must show errors")
         self.failUnlessEqual(counter.count(), before, "Must not create order")
+
+        post = self.correct_post.copy()
+        del post['till']
+        before = counter.count()
+        response = self.client.post(self.url, post)
+        self.failUnlessEqual(response.status_code, 200, "This request must show errors")
+        self.failUnlessEqual(counter.count(), before, "Must not create order")
+
 
     def test_erroneous_data(self):
         counter = Order.objects.filter(user=self.user1)

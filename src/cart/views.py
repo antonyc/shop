@@ -149,6 +149,16 @@ class ShowCartView(BaseTemplateView):
                     delivery = Delivery.public_objects.get(id=delivery_id)
                 except Delivery.DoesNotExist:
                     errors['delivery'].append(ugettext("No such delivery '%s'") % delivery_id)
+            if not post.get("till"):
+                errors['till'].append(ugettext("cart.show:Parameter till is required"))
+            else:
+                try:
+                    till = datetime.datetime.strptime(post["till"], "%Y-%m-%d")
+                except ValueError:
+                    errors['till'].append(ugettext("cart.show:Cannot parse till"))
+                else:
+                    if till < datetime.datetime.now():
+                        errors['till'].append(ugettext("cart.show:Till cannot be in past"))
             return errors
         order_items = []
         post = self.request.POST
@@ -159,13 +169,17 @@ class ShowCartView(BaseTemplateView):
         except Delivery.DoesNotExist:
             if not errors.get('delivery'):
                 errors['delivery'].append(ugettext("Such delivery does not exist"))
+
         if errors:
             self.params['errors'] = errors
             self.prepare_cart_params()
             if self.request.is_ajax:
                 return HttpResponse(simplejson.dumps(errors), mimetype='application/json')
             return self.render_to_response(self.params)
-        order = Order(delivery=delivery, user=self.request.user)
+        till = datetime.datetime.strptime(post["till"], "%Y-%m-%d")
+        order = Order(delivery=delivery,
+                      user=self.request.user,
+                      till=till)
         order.save()
         for item in order_items:
             order_item = OrderItem(item=item, quantity=post['cart_item_id_'+str(item.id)], price=item.price)

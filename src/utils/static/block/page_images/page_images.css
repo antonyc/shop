@@ -1,0 +1,38 @@
+.block-page_images__image{
+    display: block;
+    width: 150px;
+    overflow: hidden;
+}
+
+.block-page_images__image img{
+    display: block;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.block-page_images li{
+    display: block;
+    float: left;
+    width: 158px;
+}
+
+.block-page_images__clear_fix{
+    clear: both;
+}
+
+.block-page_container_images{
+    width: 750px;
+    height: 600px;
+    margin: 0 auto;
+
+}
+
+.block-page_container_images .image-wrapper{
+    
+}
+
+.block-page_images {
+    margin-top: 5px;
+    margin-left: 25px;
+}

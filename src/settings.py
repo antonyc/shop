@@ -213,10 +213,12 @@ LOGGING = {
 ImageSize = namedtuple('ImageSize', 'width height')
 
 
-THUMBNAILS = {'big': ImageSize._make((400, 400)),
+THUMBNAILS = {'large': ImageSize._make((750, 600)),
+              'big': ImageSize._make((400, 400)),
               'bigger': ImageSize._make((150, 150)),
               'common': ImageSize._make((110, 110,)),
               'small': ImageSize._make((60, 60))}
+
 THUMBNAIL_SIZE = THUMBNAILS['common']
 
 LOGINZA_DEFAULT_PROVIDERS_SET = 'google,facebook,vkontakte,twitter'

@@ -35,6 +35,8 @@ jQuery(function(){
         var _this = jQuery(this),
             params = _this.attr('onclick')(),
             address_form = $('.block-address_form', this);
+        jQuery("input[name=till]").datepicker({dateFormat: 'yy-mm-dd',
+            numberOfMonths: 2}).attr('readonly', 'readonly');
         address_form.disable_all = function(){
             var form = $(this);
             $('input', form).attr('disabled', 'disabled');

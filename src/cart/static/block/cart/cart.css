@@ -9,6 +9,10 @@
     font-weight: bold;
 }
 
+.block-cart__till{
+    cursor: pointer;
+}
+
 .block-cart_item__quantity{
     width: 70px;
 }

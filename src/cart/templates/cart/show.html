@@ -62,6 +62,15 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% if errors.till %}
+                {% trans 'cart.show:ProblemWith' %}
+                <ul>
+                    {% for error in errors.till %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <label>{% trans 'cart.show:For how long would you like to take this thing?' %}<input class="{% class_block 'cart' %}__till" type="text" name="till" /></label>
             <h2>{% trans 'Delivery' %}</h2>
             {% if errors.delivery %}
                 <div class="{% class_block 'errors' %}">

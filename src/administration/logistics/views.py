@@ -86,13 +86,13 @@ class EditOrderItemView(AdminTemplateView):
                                                  'status': {'was': previous['quantity'],
                                                             'now': order_item.quantity},
                                                  'order_id': order_item.order.id,}
-            if not self.request.is_ajax:
+            if not self.request.is_ajax():
                 return HttpResponseRedirect(reverse('edit_order', kwargs={'id': order_item.order.id}))
             result = {'id': order_item.id, 
                       'quantity': order_item.quantity,}
             status = 200
         else:
-            if not self.request.is_ajax:
+            if not self.request.is_ajax():
                 return HttpResponse(status=500)
             result = {'fields': form.errors}
             status = 409
@@ -115,7 +115,7 @@ class DeleteOrderItemView(AdminTemplateView):
                                              'status': {'was': order_item.quantity},
                                              'order_id': order_item.order.id,}
         order_item.delete()
-        if not self.request.is_ajax:
+        if not self.request.is_ajax():
             return HttpResponseRedirect(reverse('edit_order', args=[id])) 
         return HttpResponse(simplejson.dumps([]), 
                             status=200, 
@@ -141,7 +141,7 @@ class StatusOrderView(AdminTemplateView):
                                              'status': {'was': previous_status,
                                                         'now': status},
                                              'order_id': order.id,}
-        if not self.request.is_ajax:
+        if not self.request.is_ajax():
             return HttpResponseRedirect(reverse('edit_order', args=[order.id])) 
         return HttpResponse(simplejson.dumps([]), 
                             status=200, 

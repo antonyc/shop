@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from utils.strings import translit
+from utils.images import Thumbnail
 
 class Page(models.Model):
     author = models.ForeignKey(User, blank=False)
@@ -13,7 +16,7 @@ class Page(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_user = models.CharField(max_length=255, blank=False)
-    
+
     def make_url(self):
         self.url = None
         translitted_title = translit(self.title).lower()
@@ -30,7 +33,16 @@ class Page(models.Model):
     
     def __unicode__(self):
         return u'%s: %s' % (self.url[:50], self.title[:20])
-    
+
+
+class PageImage(models.Model):
+    alt = models.CharField(max_length=255, blank=False)
+    image = models.ImageField(upload_to=os.path.join(settings.UPLOAD_PATH, 'page_image'))
+    created_at = models.DateTimeField(auto_now_add=True)
+    page = models.ForeignKey(Page, blank=True, null=True)
+
+    thumbnail = Thumbnail()
+
 class RedirectPage(models.Model):
     from_url = models.CharField(max_length=254, blank=False, unique=True)
     to_page = models.ForeignKey(Page, blank=False)

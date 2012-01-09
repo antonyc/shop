@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 
 def is_desired_notification(event, order):
     document = event.dynamic_properties.fetchDocument()
-    if (document.get('order') or {}).get('id') == order.id:
+    if (document.get('event') or {}).get('order_id') == order.id:
         if event.event_type == Event.EVENT_TYPES.time_to_return:
             return True
     return False
@@ -27,7 +27,7 @@ generates event 'time_to_return' if it does not exist yet"""
             # now create the event, it's missing
             event = Event(notify=True)
             event.save()
-            event.dynamic_properties["event"] = {"type": Event.EVENT_TYPES.time_to_return}
-            event.dynamic_properties["order"] = {"id": order.id}
+            event.dynamic_properties["event"] = {"type": Event.EVENT_TYPES.time_to_return,
+                                                 "order_id": order.id}
             if verbosity > 0:
                 print "created event for order", order.id

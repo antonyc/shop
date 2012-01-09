@@ -13,6 +13,7 @@ class FindOrdersToReturnTest(BaseTestCase):
         self.setUpOrders()
 
     def test_management_command(self):
+        """ check that event "time_to_return" is created """
         self.zver_order.till = datetime.now() - timedelta(seconds=10)
         self.zver_order.status = Order.ORDER_STATUSES.delivered
         self.zver_order.save()

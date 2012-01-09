@@ -33,7 +33,7 @@ class ItemImageDeleteTest(TestCase):
         self.failUnlessEqual(before_images + 1, after_images, "Must have added images")
         image = ItemImage.objects.filter(item=self.item)[before_images]
         before_images = ItemImage.objects.filter(item=self.item).count()
-        result = self.client.post('/administration/images/%d/delete/' % image.id, {})
+        result = self.client.post('/administration/items/images/%d/delete/' % image.id, {})
         self.failUnlessEqual(result.status_code, 302, "This is a correct request which redirects")
         after_images = ItemImage.objects.filter(item=self.item).count()
         self.failUnlessEqual(before_images - 1, after_images, "Must have deleted one item")

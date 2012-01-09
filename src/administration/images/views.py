@@ -35,7 +35,7 @@ class UploadItemImageView(AdminTemplateView):
                              instance=ItemImage(item=item))
         if form.is_valid():
             item_image = form.save()
-            if 'X-Requested-With' not in request.META or request.META['X-Requested-With'] != 'XMLHttpRequest':
+            if not request.is_ajax():
                 return HttpResponseRedirect(reverse('edit_item', args=[item.id])) 
             result = {'id': item_image.id, 
                       'item_id': item_image.item.id,

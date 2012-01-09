@@ -4,7 +4,7 @@ __author__ = 'chapson'
 
 from django.conf import settings
 from catalog.models import Item, ItemImage
-from catalog.models import gen_thumbnail
+from utils.images import gen_thumbnail
 from django.utils import translation
 from django.utils.translation import ugettext
 from geocoding.models import Geomodel
