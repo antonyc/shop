@@ -1,3 +1,10 @@
+amadika-shop (0.1-15) unstable; urgency=low
+
+  * Added <<images >> tag to pages and a lot more
+  * Hide cart
+
+ -- Chaporgin Anton <chapson@yandex-team.ru>  Mon, 09 Jan 2012 11:15:33 +0400
+
 amadika-shop (0.1-14) unstable; urgency=low
 
   * Allow libgdal to be 1.7.0
