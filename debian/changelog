@@ -1,3 +1,11 @@
+amadika-shop (0.1-18) unstable; urgency=low
+
+  * fixed error with generating path
+  * forgot a print
+  * Robots txt support
+
+ -- Chaporgin Anton <chapson@yandex-team.ru>  Tue, 10 Jan 2012 09:13:34 +0400
+
 amadika-shop (0.1-17) unstable; urgency=low
 
   * Changed algorithm to show PageImage
