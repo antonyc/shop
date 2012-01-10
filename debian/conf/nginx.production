@@ -8,7 +8,7 @@ server {
        root /usr/share/amadika/shop;
   }
   location /robots.txt {
-       root /usr/share/amadika/shop/robots.txt;
+       root /usr/share/amadika/shop;
   }
   include /etc/amadika/shop/nginx.conf;
 }
