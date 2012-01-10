@@ -2,6 +2,10 @@
     width: 800px;
 }
 
+.mwx-article{
+    
+}
+
 .mwx-paragraph:first-line{
     padding-left: 1em;
 }
@@ -77,6 +81,8 @@
 .body h1 {
     font-size: 1.8em;
     padding: 13px 0;
+    font-family: Helvetica;
+    text-align: center;
 }
 
 .body h2 {
