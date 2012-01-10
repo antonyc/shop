@@ -1,3 +1,9 @@
+amadika-shop (0.1-19) unstable; urgency=low
+
+  * fixed an error
+
+ -- Chaporgin Anton <chapson@yandex-team.ru>  Tue, 10 Jan 2012 17:00:13 +0400
+
 amadika-shop (0.1-18) unstable; urgency=low
 
   * fixed error with generating path
