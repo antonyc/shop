@@ -2,6 +2,9 @@
     width: 800px;
 }
 
+.mwx.paragraph{
+    padding-bottom: 1em;
+}
 
 
 .body input, .body textarea{
