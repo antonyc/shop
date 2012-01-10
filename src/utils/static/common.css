@@ -2,8 +2,13 @@
     width: 800px;
 }
 
+.mwx.paragraph:first-line{
+    padding-left: 1em;
+}
+
 .mwx.paragraph{
     padding-bottom: 1em;
+    line-height: 1.1em;
 }
 
 
