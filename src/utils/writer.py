@@ -162,14 +162,14 @@ class MWXHTMLWriter(object):
 
     def xwriteBook(self, obj):
         e = ET.Element("div")
-        e.set("class", "mwx.collection")
+        e.set("class", "mwx-collection")
         return e # do not return an empty top level element
 
     def xwriteArticle(self, a):
         # add article name as first section heading
         #print "in write Article", a
         e = ET.Element("div")
-        e.set("class", "mwx.article")
+        e.set("class", "mwx-article")
         h = ET.SubElement(e, "h1")
         h.text = a.caption
         self.writeChildren(a, e)
@@ -181,7 +181,7 @@ class MWXHTMLWriter(object):
 
     def xwriteChapter(self, obj):
         e = ET.Element("div")
-        e.set("class", "mwx.chapter")
+        e.set("class", "mwx-chapter")
         h = ET.SubElement(e, "h1")
         self.write(obj.caption)
         return e
@@ -189,7 +189,7 @@ class MWXHTMLWriter(object):
 
     def xwriteSection(self, obj):
         e = ET.Element("div")
-        e.set("class", "mwx.section")
+        e.set("class", "mwx-section")
         level = 2 + obj.getLevel() # starting with h2
         h = ET.SubElement(e, "h%d" % level)
         self.write(obj.children[0], h)
@@ -225,21 +225,21 @@ class MWXHTMLWriter(object):
 
     def xwriteTimeline(self, obj):
         s = ET.Element("object")
-        s.set("class", "mwx.timeline")
+        s.set("class", "mwx-timeline")
         s.set("type", "application/mediawiki-timeline")
         s.set("src", "data:text/plain;charset=utf-8,%s" % obj.caption)
         em = ET.SubElement(s, "em")
-        em.set("class", "mwx.timeline.alternate")
+        em.set("class", "mwx-timeline.alternate")
         em.text = u"Timeline"
         return s
 
     def xwriteHiero(self, obj): # FIXME parser support
         s = ET.Element("object")
-        s.set("class", "mwx.hiero")
+        s.set("class", "mwx-hiero")
         s.set("type", "application/mediawiki-hiero")
         s.set("src", "data:text/plain;charset=utf-8,%s" % obj.caption)
         em = ET.SubElement(s, "em")
-        em.set("class", "mwx.hiero.alternate")
+        em.set("class", "mwx-hiero.alternate")
         em.text = u"Hiero"
         return s
 
@@ -254,7 +254,7 @@ class MWXHTMLWriter(object):
         see also: http://www.mozilla.org/projects/mathml/authoring.html
         """
         s = ET.Element("object")
-        s.set("class", "mwx.math")
+        s.set("class", "mwx-math")
         s.set("type", "application/x-latex")
         s.set("src", "data:text/plain;charset=utf-8,%s" % obj.caption)
         r = writerbase.renderMath(obj.caption, output_mode='mathml', render_engine='blahtexml')
@@ -274,7 +274,7 @@ class MWXHTMLWriter(object):
 
     def xwriteLink(self, obj): # FIXME (known|unknown)
         a = ET.Element("a", href=obj.url or "#")
-        a.set("class", "mwx.link.article")
+        a.set("class", "mwx-link-article")
         if not obj.children:
             a.text = obj.target
         return a
@@ -286,14 +286,14 @@ class MWXHTMLWriter(object):
 
     def xwriteURL(self, obj):
         a = ET.Element("a", href=obj.caption)
-        a.set("class", "mwx.link.external")
+        a.set("class", "mwx-link-external")
         if not obj.children:
             a.text = obj.caption
         return a
 
     def xwriteNamedURL(self, obj):
         a = ET.Element("a", href=obj.caption)
-        a.set("class", "mwx.link.external")
+        a.set("class", "mwx-link-external")
         if not obj.children:
             name = "[%s]" % self.namedLinkCount
             self.namedLinkCount += 1
@@ -303,7 +303,7 @@ class MWXHTMLWriter(object):
 
     def xwriteSpecialLink(self, obj): # whats that?
         a = ET.Element("a", href=obj.url or "#")
-        a.set("class", "mwx.link.special")
+        a.set("class", "mwx-link-special")
         if not obj.children:
             a.text = obj.target
         return a
@@ -313,7 +313,7 @@ class MWXHTMLWriter(object):
         if obj.caption or obj.align:
             #assert not obj.isInline() and not obj.thumb
             e = ET.Element("div")
-            e.set("class", "mwx.image.float")
+            e.set("class", "mwx-image.float")
             if obj.align:
                 e.set("align", obj.align)
             if obj.caption:
@@ -321,13 +321,13 @@ class MWXHTMLWriter(object):
         else:
             e = ET.Element("span")
             if obj.isInline():
-                e.set("class", "mwx.image.inline")
+                e.set("class", "mwx-image.inline")
             if obj.thumb:
-                e.set("class", "mwx.image.thumb")
+                e.set("class", "mwx-image.thumb")
 
         href ="Image:" + obj.target
         e = ET.SubElement(e, "a", href=href)
-        e.set("class", "mwx.link.image")
+        e.set("class", "mwx-link.image")
 
         # use a resolver which redirects to the real image
         # e.g. "http://anyhost/redir?img=IMAGENAME"
@@ -355,7 +355,7 @@ class MWXHTMLWriter(object):
 
     def xwriteGallery(self, obj):
         s = ET.Element("div")
-        s.set("class", "mwx.gallery")
+        s.set("class", "mwx-gallery")
         setVList(s, obj)
         return s
 
@@ -372,14 +372,14 @@ class MWXHTMLWriter(object):
         if not self.categorylinks:
             return
         ol = ET.Element("ol")
-        ol.set("class", "mwx.categorylinks")
+        ol.set("class", "mwx-categorylinks")
         for i,link in enumerate(self.categorylinks):
             if link.target in seen:
                 continue
             seen.add(link.target)
             li = ET.SubElement(ol, "li")
             a = ET.SubElement(li, "a", href=link.target)
-            a.set("class", "mwx.link.category")
+            a.set("class", "mwx-link.category")
             if not link.children:
                 a.text = link.target
             else:
@@ -397,11 +397,11 @@ class MWXHTMLWriter(object):
         if not self.languagelinks:
             return
         ol = ET.Element("ol")
-        ol.set("class", "mwx.languagelinks")
+        ol.set("class", "mwx-languagelinks")
         for i,link in enumerate(self.languagelinks):
             li = ET.SubElement(ol, "li")
             a = ET.SubElement(li, "a", href=link.target)
-            a.set("class", "mwx.link.interwiki")
+            a.set("class", "mwx-link.interwiki")
             if not link.children:
                 a.text = link.target
             else:
@@ -415,7 +415,7 @@ class MWXHTMLWriter(object):
         assert t is not None
         self.references.append(t)
         t =  ET.Element("sup")
-        t.set("class", "mwx.reference")
+        t.set("class", "mwx-reference")
         t.text = unicode( len(self.references))
         return SkipChildren(t)
 
@@ -424,7 +424,7 @@ class MWXHTMLWriter(object):
         if not self.references:
             return
         ol = ET.Element("ol")
-        ol.set("class", "mwx.references")
+        ol.set("class", "mwx-references")
         for i,ref in enumerate(self.references):
             li = ET.SubElement(ol, "li", id="cite_note-%s" % i)
             self.writeChildren(ref, parent=li)
@@ -494,7 +494,7 @@ class MWXHTMLWriter(object):
         this is a hack to let created documents pass the validation test.
         """
         e = ET.Element(self.paratag) # "div" or "p"
-        e.set("class", "mwx.paragraph")
+        e.set("class", "mwx-paragraph")
         return e
 
 
@@ -505,28 +505,28 @@ class MWXHTMLWriter(object):
 
     def xwriteOverline(self, s):
         e = ET.Element("span")
-        e.set("class", "mwx.style.overline")
+        e.set("class", "mwx-style-overline")
         return e
 
     def xwriteUnderline(self, s):
         e = ET.Element("span")
-        e.set("class", "mwx.style.underline")
+        e.set("class", "mwx-style-underline")
         return e
 
     def xwriteSource(self, s):
         # do we have a lang attribute here?
         e = ET.Element("code")
-        e.set("class", "mwx.source")
+        e.set("class", "mwx-source")
         return e
 
     def xwriteCenter(self, s):
         e = ET.Element("span")
-        e.set("class", "mwx.style.center")
+        e.set("class", "mwx-style-center")
         return e
 
     def xwriteStrike(self, s):
         e = ET.Element("span")
-        e.set("class", "mwx.style.strike")
+        e.set("class", "mwx-style.strike")
         return e
 
     def _xwriteBlockquote(self, s, klass):
@@ -537,11 +537,11 @@ class MWXHTMLWriter(object):
 
     def xwriteBlockquote(self, s):
         "margin to the left & right"
-        return self._xwriteBlockquote(s, klass="mwx.blockquote")
+        return self._xwriteBlockquote(s, klass="mwx-blockquote")
 
     def xwriteIndented(self, s):
         "margin to the left"
-        return self._xwriteBlockquote(s, klass="mwx.indented")
+        return self._xwriteBlockquote(s, klass="mwx-indented")
 
     def xwriteItem(self, item):
         return ET.Element("li")
