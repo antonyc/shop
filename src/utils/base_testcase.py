@@ -156,6 +156,6 @@ class BaseTestCase(TestCase):
                          order=self.zver_order,
                          quantity=4,
                          price=1.99)
-        
+
     def tearDown(self):
         utils.mongo_connection.drop_database('test_' + utils.mongo_settings['NAME'])
