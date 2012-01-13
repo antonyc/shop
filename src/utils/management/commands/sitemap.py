@@ -20,13 +20,12 @@ class Command(BaseCommand):
         make_option('--output','-o',
             action='store',
             type='string',
-            dest='filename',
+            dest='output',
             default='/usr/share/amadika/shop/media/sitemap.xml',
             help='Where to put the generated file'),
         )
 
     def handle(self, *args, **options):
-        print 'the options are', options
         self.verbosity = int(options.get('verbosity'))
         urlset = []
         self.pages(urlset, options.get('pages'))
@@ -42,7 +41,7 @@ class Command(BaseCommand):
             priority = 0
             lower_priority_window = now - timedelta(days=100)
             if page.updated_at > lower_priority_window:
-                priority = round((now - page.updated_at).days / 100.0, 2)
+                priority = round((page.updated_at - lower_priority_window).days / 100.0, 1)
             urlset.append({'location': '/' + page.url,
                            'lastmod': page.updated_at,
                            'changefreq': 'weekly',
