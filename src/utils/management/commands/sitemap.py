@@ -42,7 +42,7 @@ class Command(BaseCommand):
             lower_priority_window = now - timedelta(days=100)
             if page.updated_at > lower_priority_window:
                 priority = round((page.updated_at - lower_priority_window).days / 100.0, 1)
-            urlset.append({'location': '/' + page.url,
+            urlset.append({'location': '/page/' + page.url,
                            'lastmod': page.updated_at,
                            'changefreq': 'weekly',
                            'priority': priority})
