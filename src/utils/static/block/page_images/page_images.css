@@ -24,7 +24,6 @@
 .block-page_container_images{
     width: 750px;
     height: 600px;
-    margin: 0 auto;
 
 }
 
@@ -34,5 +33,4 @@
 
 .block-page_images {
     margin-top: 5px;
-    margin-left: 25px;
 }
