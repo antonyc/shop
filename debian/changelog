@@ -1,3 +1,11 @@
+amadika-shop (0.1-21) unstable; urgency=low
+
+  * changed algorithm to count priority
+  * A rude error in sitemap
+  * Added dog into page background
+
+ -- Chaporgin Anton <chapson@yandex-team.ru>  Wed, 18 Jan 2012 22:13:20 +0400
+
 amadika-shop (0.1-20) unstable; urgency=low
 
   * Added sitemap generation every 2 days
