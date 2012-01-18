@@ -1,5 +1,13 @@
 .body{
     width: 800px;
+    padding-left: 36px;
+    background-color: white;
+}
+
+body{
+    background-image: url('/static/images/bigshusha.jpg');
+    background-position: top right;
+    background-repeat: no-repeat;
 }
 
 .mwx-article{
@@ -79,13 +87,28 @@
 }
 
 .body h1 {
-    font-size: 1.8em;
-    padding: 13px 0;
-    font-family: Helvetica;
-    text-align: center;
+    font-size: 1.6em;
+    padding-bottom: 1em;
 }
 
 .body h2 {
-    font-size: 1.3em;
-    padding: 10px 0;
+    font-size: 1.2em;
+    padding-bottom: 1em;
+}
+
+.b-top-menu-wrapper{
+    background-color: black;
+    color: white;
+    font-family: Arial;
+    font-size: 14px;
+    padding: 5px 0 7px 36px;
+}
+
+.b-top-menu-wrapper a{
+    color: white;
+}
+
+.b-top-links{
+    padding: 3px 0;
+    margin-bottom: 1em;
 }

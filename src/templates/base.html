@@ -16,8 +16,7 @@
 <div class="am-flash">
     <ul class="am-flash__list"></ul>
 </div>
-<div class="body">
-    <div>
+<div class="b-top-menu-wrapper">
     <span class="b-authentication" onclick="return {}">
         {% if request.user.is_authenticated %}
             {% trans 'authenticationHello' %} {{ request.user.get_profile.full_name }}
@@ -40,8 +39,10 @@
             <span class="{% class_block 'simple_cart__empty' %}">{% trans "cartIsEmpty" %}</span>
         </span>
     {% endif %}
-    </div>
-    <div>
+</div>
+    
+<div class="body">
+    <div class="b-top-links">
         <span class="{% class_block 'top_menu' %}">
             {% for element in top_menu %}
                 <span>{{ element|safe }}</span>
