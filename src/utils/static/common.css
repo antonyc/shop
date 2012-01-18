@@ -2,9 +2,16 @@
     width: 800px;
     padding-left: 36px;
     background-color: white;
+    min-height: 200px;
 }
 
 body{
+    background-image: url('/static/images/snowbackground.jpg');
+    background-position: bottom right;
+    background-repeat: repeat-y;
+}
+
+.body-wrap{
     background-image: url('/static/images/bigshusha.jpg');
     background-position: top right;
     background-repeat: no-repeat;

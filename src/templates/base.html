@@ -13,6 +13,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}galleriffic.js" charset="utf-8"></script>
 </head>
 <body>
+<div class="body-wrap">
 <div class="am-flash">
     <ul class="am-flash__list"></ul>
 </div>
@@ -40,7 +41,6 @@
         </span>
     {% endif %}
 </div>
-    
 <div class="body">
     <div class="b-top-links">
         <span class="{% class_block 'top_menu' %}">
@@ -51,6 +51,7 @@
 
     </div>
     {% block contents %}{% endblock %}
+</div>
 </div>
 {% if count_visits %}{{ count_visits|safe }}{% endif %}
 </body>
