@@ -1,4 +1,5 @@
-# Django settings for shop project.
+# coding: utf-8
+
 import os
 from collections import namedtuple
 
@@ -238,7 +239,8 @@ try:
 except ImportError:
     pass
 
-#print list_of_files(STATIC_ROOT, 'js')
+# Это для отладки, если у вас вдруг не собирается статика.
+# print list_of_files(STATIC_ROOT, 'css')
 
 COMPRESS_JS = {
     'all': {
@@ -260,3 +262,4 @@ COMPRESS_CSS = {
         'output_filename': 'css/private.css'
     }
 }
+
