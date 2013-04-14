@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block contents %}
+    <ul>
+    {% for page in pages %}
+        <li></li><a href="{% url 'show_page' url=page.url %}">{{ page.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

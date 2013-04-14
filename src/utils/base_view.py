@@ -11,10 +11,10 @@ class BaseTemplateView(TemplateView):
     def dispatch(self, *args, **kwargs):
         self.params = {}
         self.request = args[0]
-        if self.request.META.get('HTTP_X_REQUESTED_WITH'):
-            self.request.is_ajax = True
-        else:
-            self.request.is_ajax = False
+        #if self.request.META.get('HTTP_X_REQUESTED_WITH'):
+        #    self.request.is_ajax = True
+        #else:
+        #    self.request.is_ajax = False
         return super(BaseTemplateView, self).dispatch(*args, **kwargs)
 
     def page_visits_counter(self):
@@ -65,6 +65,7 @@ def get_address_text(post):
     if not result.get('country__text') and result.get('country'):
         result['country'] = ''
     return result
+
 
 def set_cart(session, post=None):
     default_cart = {'items': [],
