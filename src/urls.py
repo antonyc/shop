@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 #from django.contrib import admin
-from catalog.views import ShowCategoryView
+from pages.views import ShowPagesView
 
 #admin.autodiscover()
 
@@ -33,5 +33,5 @@ if settings.DEBUG:
 #    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += patterns('',
-    url(r'^$', ShowCategoryView.as_view())
+    url(r'^$', ShowPagesView.as_view())
 )
