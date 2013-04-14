@@ -1,0 +1,7 @@
+{
+  "shell": "/bin/bash",
+  "groups": ["users", "sysadmin"],
+  "id": "vagrant",
+  "comment": "Developer user",
+  "ssh_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrB2ZnCTU8O1h31ch7gu2eo3SaKroyvsqkJrVwtGinjGXgUBijyTCEPRvmePLSOLJ/vM8uqDg0BEt5K6kYBTBiTd8/XqUFwtVDUf+N4UoSvMtvpNupwGrgAi6yGo4TMZZ/6rn8vzREORuDsUVbUP5izbxOR9tVT3oo9aCB/IreqK7REDuHSlW1I0lMktYj+tfNFVdcxzoTI8lBE7NbZQEB6tLWpwr8d3KJgbs9pFZIkIvoqkVZhP4B5+6bYdE8716WE3USkrwvHW/7W3n7vjPLOxMhCoR+b8qFV2OsVR2/FZvoBxBTwar/y1Wruri51R5EKy0ciB3tenfe7PPEerJ5 developer"
+}
