@@ -2,6 +2,7 @@ __author__ = 'chapson'
 import os
 import re
 
+
 def list_of_files(root_dir, extension='js'):
     regexp = re.compile(r'.*\.%s$' % extension)
     result = []
