@@ -8,14 +8,14 @@
 }
 
 body{
-    background-image: url('/static/images/snowbackground.jpg');
+    /*background-image: url('/static/images/snowbackground.jpg');*/
     background-position: bottom right;
     background-repeat: repeat-y;
-    background-color: #6795FF;
+    background-color: white;
 }
 
 .body-wrap{
-    background-image: url('/static/images/bigshusha.jpg');
+    /*background-image: url('/static/images/bigshusha.jpg');*/
     background-position: top right;
     background-repeat: no-repeat;
 }
