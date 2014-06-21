@@ -88,6 +88,9 @@ TEMPLATE_DIRS = (
 
 MEDIA_ROOT = '/Users/chapson/Documents/'
 
+# this must be a secret! But it's not yet.
+YADISK_API_TOKEN = '0175bbed447646c7aa7298d711f6c547'
+
 from mongoengine import connect
 connect('pets')
 

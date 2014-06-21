@@ -1,13 +1,18 @@
 # coding: utf-8
 
-import os
+import random
+import hashlib
+from urllib.parse import quote
 from datetime import datetime
 
+import requests
 from rest_framework.views import APIView, Response
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 from .models import Pet, Image
 from .serializers import PetCreationSerializer, ImagePath, PetSerializer
+from pets_core.views import AppView
 
 
 class PetsView(APIView):
@@ -116,12 +121,81 @@ class PetsListView(APIView):
             traceback.format_exc()
 
 
-class ImageUploadView(APIView):
+class ImageUploadView(AppView):
     def post(self, request):
         """
         Upload single image to yandex disk.
         """
         filename = list(request.FILES.keys())[0]
         uploaded_file = request.FILES[filename]
-        result = FileSystemStorage().save(uploaded_file.name, uploaded_file)
-        return Response(ImagePath({'path': 'file/1/' + result}).data)
+        fileid = upload_to_yadisk(uploaded_file)
+        return Response(ImagePath({'path': fileid}).data)
+
+
+class YaDiskUnexpectedError(Exception):
+    pass
+
+
+def check_folder_exists(folder_name):
+    url = 'https://cloud-api.yandex.net/v1/disk/resources?path={0}'.format(
+        quote(folder_name, safe='')
+    )
+    response = requests.get(url, timeout=3, headers=dict(
+        Authorization='OAuth ' + settings.YADISK_API_TOKEN
+    ))
+    if response.status_code == 404:
+        return False
+    elif response.status_code == 200:
+        return True
+    else:
+        raise YaDiskUnexpectedError('not ready for such status code', response.status_code)
+
+
+def create_folder(folder_name):
+    url = 'https://cloud-api.yandex.net/v1/disk/resources/?path={0}'.format(
+        quote(folder_name, safe='')
+    )
+    response = requests.put(url, timeout=3, headers=dict(
+        Authorization='OAuth ' + settings.YADISK_API_TOKEN
+    ))
+    if response.status_code != 201:
+        raise YaDiskUnexpectedError('Not created folder', response.status_code)
+
+
+def ensure_folder_exists(folder_name):
+    parts = folder_name.strip('/').split('/')
+    for i in range(len(parts)):
+        name = '/' + '/'.join(parts[:i + 1])
+        if not check_folder_exists(name):
+            create_folder(name)
+
+
+def upload_to_yadisk(uploaded_file):
+    folder = '/pets/photos/'
+    # TODO: do this only once
+    # ensure_folder_exists(folder)
+    # 40 is because YaDisk has limit on file length (I don't know exact value)
+    file_id = '{filename}_{date_uploaded}_{seed}'.format(
+        filename=uploaded_file.name,
+        date_uploaded=str(datetime.now().isoformat()),
+        seed=str(random.randint(1000, 9999)),
+    )[:40]
+    url = (
+        'https://cloud-api.yandex.net/v1/disk/'
+        'resources/upload?path={0}&overwrite=true'
+    ).format(quote(folder + 'sample'))
+    response = requests.get(url, timeout=3, headers=dict(
+        Authorization='OAuth ' + settings.YADISK_API_TOKEN
+    ))
+    if response.status_code != 200:
+        raise YaDiskUnexpectedError('failed to upload to YaDisk', response.status_code)
+    url = response.json()['href']
+    # тут имя файла некорректное
+    response = requests.put(url, timeout=10, files={
+        'file': (file_id, uploaded_file.file),
+    }, headers={
+        'Content-Type': 'application/octet-stream'
+    })
+    if response.status_code != 201:
+        raise YaDiskUnexpectedError('failed to upload to YaDisk', response.status_code)
+    return folder + file_id

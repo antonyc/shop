@@ -19,6 +19,7 @@ setup(
         'mongoengine==0.8',
         'pymongo==2.7',
         'Django==1.6.5',
+        'requests==2.3',
     ],
     py_modules=['sitecustomize']  # added additional single module from root 'src' folder
 )
