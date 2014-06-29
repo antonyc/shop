@@ -91,6 +91,7 @@ MEDIA_ROOT = '/Users/chapson/Documents/'
 # this must be a secret! But it's not yet.
 YADISK_API_TOKEN = '0175bbed447646c7aa7298d711f6c547'
 
+import os
 from mongoengine import connect
-connect('pets')
+connect(os.environ.get('MONGOHQ_URL') or 'pets')
 
