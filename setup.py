@@ -14,13 +14,5 @@ setup(
     # include_package_data=True,
     # zip_safe=True,
     version='0.1',
-    install_requires=[
-        'djangorestframework==2.3.13',
-        'mongoengine==0.8',
-        'pymongo==2.7',
-        'Django==1.6.5',
-        'requests==2.3',
-        'uwsgi==2.0.5',
-    ],
     # py_modules=['sitecustomize']  # added additional single module from root 'src' folder
 )
