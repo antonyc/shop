@@ -20,17 +20,17 @@ def data_files(dirname):
 
 
 setup(
-    name='wiki',
-    description='Yandex WIKI',
+    name='wiki-shop',
+    description='Amadika wiki-shop',
     author='Anton Chaporgin',
-    author_email='chapson@yandex-team.ru',
+    author_email='chapson@amadika.ru',
     packages=find_packages(),
     package_data={
-        'wiki': [filename[len('wiki/'):] for filename in data_files('wiki')],
+        'shop': [filename[len('shop/'):] for filename in data_files('shop')],
     },
     entry_points={
         'console_scripts': [
-            'wiki_manage = wiki.manage:management',
+            #'wiki_manage = shop.manage:management',
         ],
     },
 )
