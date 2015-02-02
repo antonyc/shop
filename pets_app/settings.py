@@ -58,14 +58,36 @@ WSGI_APPLICATION = 'pets_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+if os.environ.get('DATABASE_URL'):
+    import urlparse, pretend
+
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    database = pretend.stub(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+else:
+    database = pretend.stub(
+        database='wiki_shop',
+        user='chapson',
+        password='',
+        host='',
+        port=''
+    )
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'wiki_shop',
-        'USER': 'chapson',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'NAME': database.database,
+        'USER': database.user,
+        'PASSWORD': database.password,
+        'HOST': database.host,
+        'PORT': database.port,
         'TEST_CHARSET': 'utf8',
         'TEST_COLLATION': 'utf8_general_ci',
         'OPTIONS': {
