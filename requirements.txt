@@ -8,7 +8,8 @@ static==1.0.2
 pretend
 
 # format texts
-mwlib==0.12.14
+mwlib==0.15.14
+#mwlib==0.12.14
 beautifulsoup
 trans
 
