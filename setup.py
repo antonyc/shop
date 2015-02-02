@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='pets_application',
-    description='Backend for pets application',
+    name='wiki_shop',
+    description='WikiShop for Anyuta',
     long_description='',
-    author='Chaporgin Anton',
+    author='Anton Chaporgin',
     author_email='mrdark@list.ru',
     packages=find_packages(),
     package_dir={'': ''},

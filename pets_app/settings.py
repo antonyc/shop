@@ -36,8 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pets_core',
-    'pets',
+    'bootstrap3',
+    'pages_core',
+    'pages_admin',
+    'pages_public',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,13 +55,22 @@ ROOT_URLCONF = 'pets_app.urls'
 
 WSGI_APPLICATION = 'pets_app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.dummy'
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'wiki_shop',
+        'USER': 'chapson',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+        'TEST_CHARSET': 'utf8',
+        'TEST_COLLATION': 'utf8_general_ci',
+        'OPTIONS': {
+            #'init_command': 'SET storage_engine=INNODB; SET names utf8;'
+        },
     }
 }
 
@@ -87,11 +98,3 @@ TEMPLATE_DIRS = (
 )
 
 MEDIA_ROOT = '/Users/chapson/Documents/'
-
-# this must be a secret! But it's not yet.
-YADISK_API_TOKEN = '0175bbed447646c7aa7298d711f6c547'
-
-import os
-from mongoengine import connect
-connect(os.environ.get('MONGOHQ_URL') or 'pets')
-

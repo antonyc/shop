@@ -1,0 +1,9 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+{% block bootstrap3_content %}
+    <div class="container">
+        <h1>{% block title %}(no title){% endblock %}</h1>
+        <div class="actions">{% block extra_actions %}{% endblock %}</div>
+        {% block content %}(no content){% endblock %}
+    </div>
+
+{% endblock %}

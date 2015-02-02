@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% block extra_actions %}
+    <a href="{% url 'admin:page_list' %}">{% trans 'page_list' %}</a>
+    <a href="{% url 'admin:page_create' %}">{% trans 'page_create' %}</a>
+{% endblock %}

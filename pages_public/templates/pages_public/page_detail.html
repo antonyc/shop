@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+    {{ object.formatted_body|safe }}
+{% endblock %}

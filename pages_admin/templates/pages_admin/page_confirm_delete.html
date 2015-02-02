@@ -1,0 +1,15 @@
+{% extends 'pages_admin/common.html' %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% block title %}{% trans 'page' %}{% endblock %}
+{% block content %}
+    {% trans 'Really delete' %} "{{ object }}"?
+<form action="" method="post" class="form">
+    {% csrf_token %}
+    {% buttons %}
+        <button type="submit" class="btn btn-danger">
+            Delete
+        </button>
+    {% endbuttons %}
+</form>
+{% endblock %}

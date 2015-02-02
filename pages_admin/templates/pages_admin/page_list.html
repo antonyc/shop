@@ -1,0 +1,19 @@
+{% extends 'pages_admin/common.html' %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% block title %}{% trans 'page list' %}{% endblock %}
+{% block content %}
+<ul>
+{% for page in object_list %}
+    <li>
+        <a href="{% url 'admin:page_update' pk=page.id %}">{{ page }}</a>
+        <a href="{% url 'admin:page_delete' pk=page.id %}">{% trans 'page_delete' %}</a>
+        <a href="{% url 'pages:view' pk=page.id %}">{% trans 'page_view' %}</a>
+    </li>
+{% endfor %}
+</ul>
+{% if is_paginated %}
+    {% bootstrap_pagination bootstrap_page url="/pagination?page=1&flop=flip" extra="q=foo" size="small" %}
+    {% bootstrap_pagination bootstrap_page url="/pagination?page=1" size="large" %}
+{% endif %}
+{% endblock %}
