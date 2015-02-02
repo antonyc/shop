@@ -53,3 +53,13 @@ coverage.xml
 docs/_build/
 
 .idea
+
+src/local_settings.py
+src/.settings
+
+nbproject/*
+
+/.idea*
+/src/geonames/data
+/.build*
+/static*
